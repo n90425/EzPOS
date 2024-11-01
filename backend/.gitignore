@@ -1,4 +1,3 @@
-
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -37,6 +36,7 @@ build/
 *.properties
 
 =======
+
 # Compiled class file
 *.class
 
@@ -62,4 +62,24 @@ build/
 hs_err_pid*
 replay_pid*
 
+# Node modules
 /node_modules
+/frontend/build/
+/frontend/dist/
+/frontend/.cache/
+
+# OS-specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# db 쿼리문
+*.sql

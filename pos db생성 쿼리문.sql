@@ -5,8 +5,8 @@ CREATE TABLE `Category` (
   `is_visible` char(1) NOT NULL DEFAULT 'Y',
   PRIMARY KEY (`category_id`),
   KEY `fk_category_self` (`category_id2`),
-  CONSTRAINT `fk_category_self` FOREIGN KEY (`category_id2`) REFERENCES `Category` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+  CONSTRAINT `fk_category_self` FOREIGN KEY (`category_id2`) REFERENCES `Category` (`category_id`)  ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Dining` (
   `Table_no` int NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE `Dining` (
   `y_position` int NOT NULL,
   `table_color` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Table_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Menu` (
   `menu_id` int NOT NULL AUTO_INCREMENT,
@@ -28,7 +28,7 @@ CREATE TABLE `Menu` (
   PRIMARY KEY (`menu_id`),
   KEY `fk_category_id` (`category_id`),
   CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `Category` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Menu_status` (
   `menu_status_num` int NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE `Menu_status` (
   PRIMARY KEY (`menu_status_num`,`menu_id`),
   KEY `fk_menu_id` (`menu_id`),
   CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `Menu` (`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Order` (
   `order_no` varchar(13) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE `Order` (
   PRIMARY KEY (`order_no`),
   KEY `fk_table_no` (`table_no`),
   CONSTRAINT `fk_table_no` FOREIGN KEY (`table_no`) REFERENCES `Dining` (`Table_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Order_detail` (
   `ord_detail_no` int NOT NULL AUTO_INCREMENT,
@@ -68,7 +68,7 @@ CREATE TABLE `Order_detail` (
   KEY `fk_order_detail_menu_id` (`menu_id`),
   CONSTRAINT `fk_order_detail_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `Menu` (`menu_id`),
   CONSTRAINT `fk_order_no` FOREIGN KEY (`order_no`) REFERENCES `Order` (`order_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Pay` (
   `pay_no` binary(16) NOT NULL DEFAULT (uuid_to_bin(uuid())),
@@ -92,5 +92,5 @@ CREATE TABLE `Pay` (
   PRIMARY KEY (`pay_no`,`pay_seqnum`),
   KEY `fk_order_no_pay` (`order_no`),
   CONSTRAINT `fk_order_no_pay` FOREIGN KEY (`order_no`) REFERENCES `Order` (`order_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

@@ -2,6 +2,8 @@ package com.finalproject.possystem.category.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,37 +11,44 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@Table(name= "category")
 @Entity
-@Table(name = "`category`")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private Integer categoryid;
+    private Integer categoryId;
 
-    @Column(name = "category_id2", insertable = false, updatable = false)
-    private Integer categoryid2; // 부모 카테고리 ID (null일 경우 상위 카테고리)
-
-    @Column(name = "category_name")
     private String categoryname;
 
-    @Column(name = "is_visible")
-    private char isvisible;
+    private Character isvisible = 'Y';
 
     // 상위 카테고리와의 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "category_id2") // 상위 카테고리 참조
+    @ManyToOne /* 이 필드를 실제로 사용할때 데이터를 로드 */
+    @JoinColumn(name = "parent") /* 조인 컬럼*/
+    @OnDelete(action = OnDeleteAction.CASCADE) /* 상위 카테고라기 삭제되면 자식 카테고리도 삭제*/
+    @ToString.Exclude
     private Category parent;
 
     // 하위 카테고리와의 관계 설정
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true) // 하위 카테고리
-    private List<Category> subCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "parent",  cascade = CascadeType.ALL, fetch = FetchType.EAGER) // 카테고리 ID = 하위카테고리
+    private List<Category> children = new ArrayList<>();
 
-    public Category(Integer categoryid, Integer categoryid2, String categoryname, char isvisible) {
-        this.categoryid = categoryid;
-        this.categoryid2 = categoryid2;
+
+    public Category(String categoryname) {
         this.categoryname = categoryname;
-        this.isvisible = isvisible;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryId=" + categoryId +
+                ", categoryname='" + categoryname + '\'' +
+                ", isvisible=" + isvisible +
+                ", parent=" + (parent != null ? parent.getCategoryId() : "null") +
+                ", children=" + children +
+                '}';
     }
 }

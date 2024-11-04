@@ -8,11 +8,15 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    //categoryId로 category엔티티 조회
     Category findByCategoryId(Integer categoryId);
 
+    //categoryname으로 category엔티티 리스트 조회
     List<Category> findCategoryByCategoryname(String categoryname);
 
+    //부모 category로 자식category리스트 조회
     List<Category> findByParent(Category parent);
 
-
+    // 대분류만 조회
+    List<Category> findByParentIsNull();
 }

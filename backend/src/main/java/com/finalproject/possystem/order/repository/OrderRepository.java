@@ -13,12 +13,19 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
     /* SELECT * FROM ORDER WHERE ORDER_NO =: ORDER_NO */
+    /* READ */
     Order findByOrderNo(String orderNo);
 
-
+    /* DELETE */
     /* DELETE FROM ORDER WHERE ORDER_NO =: ORDER_NO */
     int deleteByOrderNo(String orderNo);
 
+    /* INSERT */
+    /* INSERT INTO FROM ORDER VALUES ()*/
+
+
+
+    /* UPDATE */
 
 
     /*

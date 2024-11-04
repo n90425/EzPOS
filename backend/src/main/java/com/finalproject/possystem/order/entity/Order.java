@@ -15,23 +15,26 @@ import java.time.LocalDateTime;
 @Entity
 public class Order {
     @Id
-    @Column(name="order_no")
+    @Column(name = "orderNo")
     private String orderNo;
 
 //    @Column(name="table_no")
 //    private int tableNo;
 
     @OneToOne
-    @JoinColumn(name="table_no", referencedColumnName = "table_no", nullable = false)
+    @JoinColumn(name="tableNo", referencedColumnName = "tableNo", nullable = false)
     private Dining dining;
 
-    @Column(name="order_time")
+    @Column(name = "orderTime")
     private LocalDateTime orderTime;
-    @Column(name="order_pay_status")
+
+    @Column(name = "orderPayStatus")
     private String orderPayStatus;
-    @Column(name="order_amount")
+
+    @Column(name = "orderAmount")
     private Double orderAmount;
-    @Column(name="order_vat")
+
+    @Column(name = "orderVat")
     private Double orderVat;
 
     public Order(String orderNo, Dining dining, LocalDateTime orderTime, String orderPayStatus, Double orderAmount, Double orderVat) {

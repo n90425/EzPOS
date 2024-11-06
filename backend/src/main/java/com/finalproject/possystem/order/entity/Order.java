@@ -19,7 +19,7 @@ public class Order {
     private String orderNo;
 
     @OneToOne
-    @JoinColumn(name="tableNo", referencedColumnName = "tableNo", nullable = false)
+    @JoinColumn(name="`tableNo`", referencedColumnName = "`tableNo`", nullable = false)
     private Dining dining;
 
     @Column(name = "orderTime")

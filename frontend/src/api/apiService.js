@@ -5,7 +5,7 @@ import axiosInstance from "./axiosInstance";
 export const getMappingData = async () => {
     try {
         // http://localhost:8080/api/endpoint 로 요청이 들어감
-        const res = await axiosInstance.get('/api/endpoint');
+        const res = await axiosInstance.get('/api/order');
 
         // back의 get매핑된 data를 가져온다
         return res.data;

@@ -19,6 +19,7 @@ public class OrderController {
 
     @GetMapping("/order")
     public List<Order> getOrder(){
+        System.out.println(orderService.allOrder());
         return orderService.allOrder();
     }
 

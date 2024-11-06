@@ -18,9 +18,6 @@ public class Order {
     @Column(name = "orderNo")
     private String orderNo;
 
-//    @Column(name="table_no")
-//    private int tableNo;
-
     @OneToOne
     @JoinColumn(name="tableNo", referencedColumnName = "tableNo", nullable = false)
     private Dining dining;

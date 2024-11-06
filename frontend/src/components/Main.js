@@ -16,8 +16,8 @@ function Main() {
     { name: '마감 정산', path: '/closing-settlement' },
     { name: '영업 준비금', path: '/operating-fund' },
     { name: '고객 조회', path: '/customer-inquiry' },
-    { name: '주문 내역', path: '/order-history' },
-    { name: '담당자', path: '/person-in-charge' },
+    { name: '주문 내역', path: '/order' },
+    { name: '담당자', path: '/manager' },
     { name: '종료', path: '/exit' },
   ];
 

@@ -15,7 +15,7 @@ import lombok.*;
 @Entity
 public class Dining {
     @Id
-    @Column(name="table_no")
+    @Column(name="tableNo")
     private Integer tableNo;
     private int x_position;
     private int y_position;

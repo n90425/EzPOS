@@ -1,10 +1,7 @@
 package com.finalproject.possystem.table.entity;
 
 import com.finalproject.possystem.order.entity.Order;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -12,20 +9,17 @@ import lombok.*;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name="dining")
 @Entity
 public class Dining {
     @Id
-    @Column(name="tableNo")
+    @Column(name="`tableNo`")
     private Integer tableNo;
-    private int x_position;
-    private int y_position;
-    private String table_color;
-
-
-    public Dining(Integer tableNo, int x_position, int y_position, String table_color) {
-        this.tableNo = tableNo;
-        this.x_position = x_position;
-        this.y_position = y_position;
-        this.table_color = table_color;
-    }
+    @Column(name = "xPosition")
+    private int xPosition;
+    @Column(name = "yPosition")
+    private int yPosition;
+    @Column(name = "tableColor")
+    private String tableColor;
 }

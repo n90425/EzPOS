@@ -1,14 +1,27 @@
 package com.finalproject.possystem.order.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name="order_detail")
 @Entity
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ord_detail_no;
+    private Integer ordDetailNo;
+    private String orderNo;
+    private Integer menuId;
+    private String ordAddNo;
+    private Integer unitPrice;
+    private Integer quantity;
+    private Integer totalAmount;
+    private LocalDateTime itemOrderTime;
 }

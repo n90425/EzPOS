@@ -30,19 +30,19 @@ class OrderRepositoryTest {
     private DiningRepository diningRepo;
 
 
+    String datePart = now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
     @Transactional
     @Rollback(false)
     public void testDate(){
         int numOrders = 10;
-        String datePart = now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
         for(int i=0; i<numOrders; i++){
             String orderNo = datePart + "-" + String.format("%06d", i);
             Dining dining = new Dining();
             dining.setTableNo(i);
-            dining.setX_position(100);
-            dining.setY_position(100);
-            dining.setTable_color("Green"+i);
+            dining.setXPosition(100);
+            dining.setYPosition(100);
+            dining.setTableColor("Green"+i);
             diningRepo.save(dining);
 
             LocalDateTime orderTime = now();
@@ -81,12 +81,14 @@ class OrderRepositoryTest {
         Dining dining2 = new Dining(13,200,300,"Red");
         diningRepo.save(dining2); // Dining 객체를 먼저 저장
 
+
+
         /* 1번주문 추가 */
-        Order order = new Order("20241103-000001", dining, now(), "pending", 10000.00, 1000.00);
+        Order order = new Order(datePart+"-000001", dining, now(), "pending", 10000.00, 1000.00);
         orderRepo.save(order);
 
         /* 2번주문 추가 */
-        Order order2 = new Order("20241103-000002", dining2, now(), "pending", 10000.00, 1000.00);
+        Order order2 = new Order(datePart+"-000002", dining2, now(), "pending", 10000.00, 1000.00);
         orderRepo.save(order2);
 
         /* 총주문은 2개 1번주문과 2번주문이 같은지 비교 */
@@ -116,11 +118,11 @@ class OrderRepositoryTest {
 
         /* 데이터 10개 insert후 count */
         testDate();
-        Order order = orderRepo.findByOrderNo("20241103-000000");
+        Order order = orderRepo.findByOrderNo(datePart+"-000000");
         assertTrue(orderRepo.count()==10);
 
         /* 0번고객을 select 후 order2에 저장, order와 order2가 동일한 주문인지 확인 */
-        Order order2 = new Order("20241103-000000", dining, now(), "pending", 10000.00, 1000.00);
+        Order order2 = new Order(datePart+"-000000", dining, now(), "pending", 10000.00, 1000.00);
         assertTrue(order.getOrderNo().equals(order2.getOrderNo()));
 
         /* 0번 주문삭제 총 남은 주문은 9개 */
@@ -140,12 +142,12 @@ class OrderRepositoryTest {
         assertTrue(orderRepo.count()==10);
 
         /* 데이터 1개 지운후 count는 9 */
-        assertTrue(orderRepo.deleteByOrderNo("20241103-000000")==1);
+        assertTrue(orderRepo.deleteByOrderNo(datePart+"-000000")==1);
         assertTrue(orderRepo.count()==9);
 
 
         /* 지운데이터가 null인지 확인 */
-        Optional<Order> order = orderRepo.findById("20241103-000000");
+        Optional<Order> order = orderRepo.findById(datePart+"-000000");
         assertTrue(!order.isPresent());
     }
 }

@@ -10,7 +10,7 @@ function Order() {
     { id: 2, name: '메뉴 2', price: 2000 },
     { id: 3, name: '메뉴 3', price: 3000 },
     { id: 4, name: '메뉴 4', price: 4000 },
-    { id: 5, name: '메뉴 5', price: 5000 },
+    { id: 5, name: '메뉴 5', price: 5000 }
   ];
 
   const [selectedItems, setSelectedItems] = useState([]);

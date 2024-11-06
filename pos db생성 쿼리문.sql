@@ -41,33 +41,38 @@ CREATE TABLE `Menu_status` (
   CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `Menu` (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `Order` (
-  `order_no` varchar(13) NOT NULL,
-  `table_no` int NOT NULL,
-  `order_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `order_pay_status` varchar(20) NOT NULL,
-  `order_amount` decimal(10,2) NOT NULL,
-  `order_vat` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`order_no`),
-  KEY `fk_table_no` (`table_no`),
-  CONSTRAINT `fk_table_no` FOREIGN KEY (`table_no`) REFERENCES `Dining` (`Table_no`)
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+     orderNo        varchar(255)                       NOT NULL,
+     tableNo        int                                NOT NULL,
+     orderTime      datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+     orderPayStatus varchar(255)                       NULL,
+     orderAmount    double                             NULL,
+     orderVat       double
+         NULL,
+     table_no       int                                NOT NULL,
+     PRIMARY KEY (orderNo),
+     KEY fk_table_no (tableNo),
+     CONSTRAINT fk_tableNo FOREIGN KEY (tableNo) REFERENCES dining (tableNo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `Order_detail` (
-  `ord_detail_no` int NOT NULL AUTO_INCREMENT,
-  `order_no` varchar(13) NOT NULL,
-  `menu_id` int NOT NULL,
-  `ord_add_no` varchar(4) NOT NULL,
-  `unit_price` int NOT NULL,
+DROP TABLE IF EXISTS order_detail;
+CREATE TABLE `order_detail` (
+  `ordDetailNo` int NOT NULL AUTO_INCREMENT,
+  `orderNo` varchar(255) NOT NULL,
+  `menuId` int NOT NULL,
+  `ordAddNo` varchar(4) NOT NULL,
+  `unitPrice` int NOT NULL,
   `quantity` int NOT NULL,
-  `total_amount` int NOT NULL,
-  `item_order_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ord_detail_no`),
-  UNIQUE KEY `ord_detail_no` (`ord_detail_no`,`order_no`),
-  KEY `fk_order_no` (`order_no`),
-  KEY `fk_order_detail_menu_id` (`menu_id`),
-  CONSTRAINT `fk_order_detail_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `Menu` (`menu_id`),
-  CONSTRAINT `fk_order_no` FOREIGN KEY (`order_no`) REFERENCES `Order` (`order_no`)
+  `totalAmount` int NOT NULL,
+  `itemOrderTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ordDetailNo`),
+  UNIQUE KEY `ord_detail_no` (`ordDetailNo`,`orderNo`),
+  KEY `fk_order_no` (`orderNo`),
+  KEY `fk_order_detail_menuId` (`menuId`),
+  CONSTRAINT `fk_order_detail_menu_id` FOREIGN KEY (`menuId`) REFERENCES `menu` (`menuId`),
+  CONSTRAINT `fk_orderNo` FOREIGN KEY (`orderNo`) REFERENCES `order` (`orderNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Pay` (

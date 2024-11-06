@@ -1,14 +1,17 @@
 import './App.css';
 import React from 'react';
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Component from './components/ApiComponent';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Main from './components/Main';  // 메인 페이지
+import Tables from './components/Tables';  // 테이블 페이지
+import Order from './components/Order';  // 주문 페이지
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<h1>홈페이지</h1>}/>
-        <Route path="/data" element={<Component/>}/>
+        <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
+        <Route path="/tables" element={<Tables />} /> {/* 테이블 페이지 */}
+        <Route path="/table/:tableId" element={<Order />} /> {/* 테이블 ID에 따른 주문 페이지 */}
       </Routes>
     </Router>
   );

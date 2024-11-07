@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @ToString
 @Setter
@@ -41,6 +42,12 @@ public class Order {
         this.orderPayStatus = orderPayStatus;
         this.orderAmount = orderAmount;
         this.orderVat = orderVat;
+    }
+
+    /* 주문시간 yyyy-mm-dd AM/PM hh:mm:ss 포맷 */
+    public String getOrderDateFormatter(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
+        return this.orderTime.format(formatter);
     }
 
 }

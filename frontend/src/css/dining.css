@@ -1,0 +1,44 @@
+.dining-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    background-color: #D1D6DB;
+}
+
+.no-table {
+    color: #0F1216;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.dining-no-table-header {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.create-table-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.create-table-button:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+.table-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+}

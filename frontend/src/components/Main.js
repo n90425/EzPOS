@@ -18,6 +18,7 @@ function Main() {
     { name: '고객 조회', path: '/customer-inquiry' },
     { name: '주문 내역', path: '/order' },
     { name: '담당자', path: '/manager' },
+    { name: '상품관리', path: '/product-management' },
     { name: '종료', path: '/exit' },
   ];
 

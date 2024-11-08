@@ -28,8 +28,8 @@ public class DiningService {
     }
 
     /* 테이블을 생성하는 메서드 */
-    public Dining newTable(Dining dining){
-        return diningRepo.save(dining);
+    public List<Dining> newTable(List<Dining> dining){
+        return diningRepo.saveAll(dining);
     }
 
     /* 하나의 테이블을 삭제 */

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import getfetch from "../api/fetch";
-import "../css/dining.css";
+import getfetch from "../../api/fetch";
+import "./dining.css";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;

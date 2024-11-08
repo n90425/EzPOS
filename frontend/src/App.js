@@ -1,12 +1,13 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Main from './components/Main';  // 메인 페이지
-import Tables from './components/Tables';  // 테이블 페이지
-import Order from './components/Order';  // 주문 페이지
-import OrderList from './components/OrderList'; // 주문
-import Dining from "./components/Dining"; // 테이블
-import EditDining from "./components/EditDining" // 테이블수정
+import Main from './components/Main.js';  // 메인 페이지
+import Tables from './components/Tables.js';  // 테이블 페이지
+import Order from './components/Order/Order.js';  // 주문 페이지
+import OrderList from './components/Order/OrderList.js'; // 주문
+import Dining from "./components/Dining/Dining.js"; // 테이블
+import EditDining from "./components/Dining/EditDining.js" // 테이블수정
+import NewDining from "./components/Dining/NewDining.js" // 테이블추가
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/table/:tableId" element={<Order />} /> {/* 테이블 ID에 따른 주문 페이지 */}
         <Route path="/order" element={<OrderList/>}/> {/* 주문내역 */}
         <Route path="/dining" element={<Dining/>}/> {/* 테이블가져오기 */}
-        {/* <Route path="/editDining" element={<EditDining/>}/>  */}
+        <Route path="/editDining" element={<EditDining/>}/> {/*테이블수정하기*/}
+        <Route path="/newDining" element={<NewDining/>}/> {/*테이블수정하기*/}
       </Routes>
     </Router>
   );

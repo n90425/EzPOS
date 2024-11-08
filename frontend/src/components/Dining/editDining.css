@@ -1,0 +1,111 @@
+.dining-editor-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+}
+
+.save-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tab-navigation {
+    display: flex;
+    background-color: #ddd;
+    padding: 10px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #eee;
+    border: none;
+}
+
+.tab.active {
+    background-color: white;
+    font-weight: bold;
+}
+
+.editor-main {
+    display: flex;
+    height: 100%;
+}
+
+.grid-area {
+    flex: 2;
+    background-image: linear-gradient(#ddd 1px, transparent 1px), linear-gradient(90deg, #ddd 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.grid-area.light {
+    background-color: #f9f9f9;
+}
+
+.grid-area.dark {
+    background-color: #333;
+}
+
+.editor-sidebar {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+}
+
+.add-table-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.add-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.sidebar-options {
+    width: 100%;
+}
+
+.background-button, .text-size-button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+}
+
+.selected {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}

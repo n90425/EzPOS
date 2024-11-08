@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import getfetch from "../api/fetch"
-import "../css/orderList.css"
+import getfetch from "../../api/fetch"
+import "./orderList.css"
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 

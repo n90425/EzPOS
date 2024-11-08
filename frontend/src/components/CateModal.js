@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import "../css/catemodal.css";
 
 
 function CategoryModal({ isOpen, onClose, onSave }){

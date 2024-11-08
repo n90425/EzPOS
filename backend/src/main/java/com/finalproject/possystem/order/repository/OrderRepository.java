@@ -25,9 +25,4 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     /* 선택주문 삭제 */
     int deleteByOrderNo(String orderNo);
 
-
-
-    /* UPDATE */
-
-
 }

@@ -17,6 +17,8 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+
+    /* 전체주문조회 */
     @GetMapping("/order")
     public List<Order> getOrder(){
         System.out.println(orderService.allOrder());

@@ -1,11 +1,12 @@
 import React from 'react';
+import "../css/catehead.css";
 
-function Header() {
+function Header( { onAddCategory }) {
     return (
-        <div className="geader">
-            <div className="status">현황 4</div>
+        <div className="header">
+            <div className="status">현황</div>
             <button>순서 편집</button>
-            <button className="add-category">+ 카테고리 추가</button>
+            <button onClick={onAddCategory} className="add-category">+ 카테고리 추가</button>
         </div>
     )
 }

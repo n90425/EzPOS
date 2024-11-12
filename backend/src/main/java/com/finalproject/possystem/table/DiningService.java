@@ -44,8 +44,8 @@ public class DiningService {
         if(dining == null) return null;
 
         dining.setTableColor(table.getTableColor());
-        dining.setXPosition(table.getXPosition());
-        dining.setYPosition(table.getYPosition());
+        dining.setyPosition(table.getxPosition());
+        dining.setyPosition(table.getyPosition());
         return diningRepo.save(dining);
     }
 

@@ -7,7 +7,6 @@ import Order from './components/Order/Order.js';  // 주문 페이지
 import OrderList from './components/Order/OrderList.js'; // 주문
 import Dining from "./components/Dining/Dining.js"; // 테이블
 import EditDining from "./components/Dining/EditDining.js" // 테이블수정
-import NewDining from "./components/Dining/NewDining.js" // 테이블추가
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
         <Route path="/order" element={<OrderList/>}/> {/* 주문내역 */}
         <Route path="/dining" element={<Dining/>}/> {/* 테이블가져오기 */}
         <Route path="/editDining" element={<EditDining/>}/> {/*테이블수정하기*/}
-        <Route path="/newDining" element={<NewDining/>}/> {/*테이블수정하기*/}
       </Routes>
     </Router>
   );

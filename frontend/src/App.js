@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css'; 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Main from './components/Main.js';  // 메인 페이지
 import Tables from './components/Tables.js';  // 테이블 페이지

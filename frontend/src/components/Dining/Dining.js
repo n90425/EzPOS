@@ -23,15 +23,38 @@ function Dining() {
         getTables();
     }, []);
 
+    // 테이블만들기 이동 navi
     const tableNavi = useNavigate();
     const handleCreateTable = () => {
         tableNavi("/editDining");
     };
 
+    function SettingsDropDown(){
+        const [isOpen, setIsOpen] = useState(false);
+
+        const toggleDropdown = () => {
+            setIsOpen(!isOpen);
+        }
+    }
+
     return (
         <div className="dining-container">
+            <div className="top-bar">
+                <button className="top-bar-button">자리이동</button>
+                <button className="top-bar-button">합석</button>
+                <button className="top-bar-button">단체 손님 관리</button>
+                <button className="top-bar-button">재출력</button>
+                <button className="top-bar-button settings">
+                    <i className="fas fa-cog"></i>
+                </button>
+                {isOpen && (
+                    <div className=""></div>
+                )}
+            </div>
+
+
             {isLoading ? ( // 로딩 중일 때 로딩 메시지 표시
-                <p></p>
+                <p></p> 
             ) : tables === null || tables.length === 0 ? ( // 데이터가 없을 때 안내 메시지 표시
                 <div className="no-table">
                     <p className="dining-no-table-header">아직 등록된 테이블이 없어요</p>
@@ -39,12 +62,22 @@ function Dining() {
                     <button className="create-table-button" onClick={handleCreateTable}>테이블 만들기</button>
                 </div>
             ) : (
-                
                 <div className="table-list">
-                    {tables.map(table => (
-                        <li key={table.tableNo}>
-                            {table.tableNo}
-                        </li>
+                    {tables.map((table)=> (
+                        <div
+                            key={table.tableNo}
+                            className="table-item"
+                            style={{
+                                left: `${table.xPosition}px`,
+                                top: `${table.yPosition}px`,
+                                width: `${table.width}px`,
+                                height: `${table.height}px`,
+                                backgroundColor: table.tableColor,
+                                position: "absolute",
+                            }}
+                        >
+                            <div className="table-number">{table.tableNo}</div>
+                        </div>
                     ))}
                 </div>
             )}

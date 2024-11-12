@@ -4,10 +4,7 @@ import com.finalproject.possystem.table.DiningService;
 import com.finalproject.possystem.table.entity.Dining;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,9 @@ public class DiningController {
         return diningService.getTable();
     }
 
-    @PostMapping("/editDining")
-    public Dining newTable(Dining dining){
+    @PostMapping("/saveDining")
+    public List<Dining> saveDining(@RequestBody List<Dining> dining){
+        System.out.println(dining);
         return diningService.newTable(dining);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -40,8 +41,10 @@ class OrderRepositoryTest {
             String orderNo = datePart + "-" + String.format("%06d", i);
             Dining dining = new Dining();
             dining.setTableNo(i);
-            dining.setXPosition(100);
-            dining.setYPosition(100);
+            dining.setxPosition(BigDecimal.valueOf(100.00));
+            dining.setyPosition(BigDecimal.valueOf(100.00));
+            dining.setWidth(BigDecimal.valueOf(100.00));
+            dining.setHeight(BigDecimal.valueOf(120.00));
             dining.setTableColor("Green"+i);
             diningRepo.save(dining);
 
@@ -75,10 +78,11 @@ class OrderRepositoryTest {
         orderRepo.deleteAll();
         assertTrue(orderRepo.count()==0);
 
-        Dining dining = new Dining(12,200,300,"Red");
+        Dining dining = new Dining(12, new BigDecimal("200.00"), new BigDecimal("300.0"), "Red", new BigDecimal("100.00"), new BigDecimal("100.00"));
+
         diningRepo.save(dining); // Dining 객체를 먼저 저장
 
-        Dining dining2 = new Dining(13,200,300,"Red");
+        Dining dining2 = new Dining(13,new BigDecimal("200.00"),new BigDecimal("300.0"),"Red", new BigDecimal("100.00"),new BigDecimal("100.00"));
         diningRepo.save(dining2); // Dining 객체를 먼저 저장
 
 
@@ -114,7 +118,7 @@ class OrderRepositoryTest {
         orderRepo.deleteAll();
         assertTrue(orderRepo.count()==0);
 
-        Dining dining = new Dining(2,200,300,"Red");
+        Dining dining = new Dining(12, new BigDecimal("200.00"), new BigDecimal("300.0"), "Red", new BigDecimal("100.00"), new BigDecimal("100.00"));
 
         /* 데이터 10개 insert후 count */
         testDate();

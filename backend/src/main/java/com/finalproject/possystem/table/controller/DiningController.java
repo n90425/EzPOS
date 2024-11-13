@@ -20,9 +20,10 @@ public class DiningController {
         return diningService.getTable();
     }
 
+    
+    /* 사용자가 테이블 위치 편집후 저장 */
     @PostMapping("/saveDining")
     public List<Dining> saveDining(@RequestBody List<Dining> dining){
-        System.out.println(dining);
         return diningService.newTable(dining);
     }
 }

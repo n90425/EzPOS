@@ -39,6 +39,7 @@ function Dining() {
                     <button className="create-table-button" onClick={handleCreateTable}>테이블 만들기</button>
                 </div>
             ) : (
+                
                 <div className="table-list">
                     {tables.map(table => (
                         <li key={table.tableNo}>

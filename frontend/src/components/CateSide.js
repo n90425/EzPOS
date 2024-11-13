@@ -6,7 +6,7 @@ function Sidebar() {
         <div className="sidebar">
             <h3>상품관리</h3>
             <ul>
-                <li>상품</li>
+                {/*<li onClick={product}>상품</li>  {/*상품등록 모달*/}
                 <li>옵션</li>
                 <li className="active">카테고리</li>
                 <li>할인</li>

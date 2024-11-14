@@ -47,7 +47,7 @@ function Dining() {
                 <button className="top-bar-button settings">
                     <i className="fas fa-cog"></i>
                 </button>
-                {isOpen && (
+                {SettingsDropDown.isOpen && (
                     <div className=""></div>
                 )}
             </div>

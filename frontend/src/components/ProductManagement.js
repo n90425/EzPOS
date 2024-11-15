@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/CateSide';
-import Cate from './Category';
+import Category from '../components/Category';
 import "../css/product.css";
 
 function ProductManagement() {
-    const [showCategoryManagement, setShowCategoryManagement] = useState(false); // 카테고리 관리 화면 표시 상태
+    const [showCategoryManagement, setShowCategoryManagement] = useState(false);
+    const [categories, setCategories] = useState([]); // 상태 선언
 
     return (
         <div className="product-management">
-            <Sidebar onCategoryClick={() => setShowCategoryManagement(true)} /> {/* 카테고리 클릭 시 상태 업데이트 */}
+            <Sidebar onCategoryClick={() => setShowCategoryManagement(true)} />
             <div className="main-content">
-                {showCategoryManagement && <Cate />} {/* 카테고리 상태가 true일 때만 Cate 렌더링 */}
+                {showCategoryManagement && (
+                    <Category
+                        categories={categories}
+                        setCategories={setCategories} // setCategories를 prop으로 전달
+                    />
+                )}
             </div>
         </div>
     );

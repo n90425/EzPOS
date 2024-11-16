@@ -19,6 +19,7 @@ function Main() {
     { name: '주문 내역', path: '/order' },
     { name: '테이블 생성', path: '/dining' },
     { name: '담당자', path: '/manager' },
+    { name: '상품관리', path: '/product-management' },
     { name: '종료', path: '/exit' },
   ];
 

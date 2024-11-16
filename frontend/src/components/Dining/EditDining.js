@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { TableContext } from "./TableContext";
 import TableOptionsModal from "./TableOptionsModal";
 import axios from "axios";
@@ -204,7 +204,7 @@ function EditDining() {
                             bounds=".grid-area"
                             onStop={(e, data) => updateTablePosition(index, data.x, data.y)}>
                             <div
-                                className="table-item"
+                                className={`table-item ${settings.textSize}`}
                                 style={{
                                     position: "absolute",
                                     width: table.width,

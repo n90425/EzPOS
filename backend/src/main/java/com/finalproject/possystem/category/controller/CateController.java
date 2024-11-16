@@ -16,12 +16,14 @@ public class CateController {
     @Autowired
     private CategoryService categoryService;
 
+    /* 카테고리 최상위 목록 가져오기 */
+    /* 부모가없는 null인것만 가져온다 */
     @GetMapping("/category")
     public List<Category> getcategory(){
-
         System.out.println(categoryService.getAllMainCategory());
-
         return categoryService.getAllMainCategory();
     }
+
+    /* 새로운카테고리 post mapping 만드세용 */
 
 }

@@ -8,7 +8,7 @@ function CategoryList({ categories, toggleVisibility }) {
             <ul>
                 {categories.length > 0 ? (
                     categories.map((category, index) => (
-                        <li key={index}>
+                        <li key={category.categoryId}> {/* < key={index}> 다니수정*/}
                             <span>{category.categoryname}</span>
                             <label className="switch">
                                 <input

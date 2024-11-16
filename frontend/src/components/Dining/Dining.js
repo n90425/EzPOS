@@ -41,7 +41,7 @@ function Dining() {
                                 position: "absolute",
                             }}
                         >
-                            <div className="table-number">{table.tableNo}</div>
+                            <div className="table-number">테이블 {table.tableNo}</div>
                         </div>
                     ))}
                 </div>

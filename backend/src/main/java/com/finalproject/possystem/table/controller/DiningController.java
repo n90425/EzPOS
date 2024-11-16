@@ -21,7 +21,6 @@ public class DiningController {
 
     @GetMapping("/dining")
     public List<Dining> getDining(){
-        System.out.println(diningService.getTable());
         return diningService.getTable();
     }
 
@@ -29,7 +28,6 @@ public class DiningController {
     /* 사용자가 테이블 위치 편집후 저장 */
     @PostMapping("/saveDining")
     public Dining saveDining(@RequestBody Dining dining){
-        System.out.println(dining);
         return diningService.saveTable(dining);
     }
 

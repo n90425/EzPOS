@@ -92,6 +92,8 @@ public class OrderService {
     }
 
 
+
+
     /* 결제로 넘길까..? 주문 합계 */
     public BigDecimal daysum(LocalDate orderTime, String type, DayOfWeek dayOfWeek){
         QOrder order = QOrder.order;

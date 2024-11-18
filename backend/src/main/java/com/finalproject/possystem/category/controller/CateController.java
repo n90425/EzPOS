@@ -3,10 +3,8 @@ package com.finalproject.possystem.category.controller;
 import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,15 @@ public class CateController {
     }
 
     /* 새로운카테고리 post mapping 만드세용 */
+    @PostMapping("/category")
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+        Category createdCategory  = categoryService.categoryInsert(category);
+        return ResponseEntity.ok(createdCategory );
+    }
 
+    // 특정 부모 ID의 자식 카테고리 반환
+    @GetMapping("/{parentId}/subcategories")
+    public List<Category> getSubCategories(@PathVariable Integer parentId) {
+        return categoryService.getSubCategoryByParent(parentId);
+    }
 }

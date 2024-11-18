@@ -25,9 +25,20 @@ public class CategoryService {
     }
 
     /*category insert*/
-    public Category categoryInsert(Category category){
-        return categoryRepository.save(category);
+//    public Category categoryInsert(Category category){
+//        return categoryRepository.save(category);
+//    }
+
+    // 카테고리 추가
+    public Category categoryInsert(Category category) {
+        // 부모 설정이 있는 경우 처리
+        if (category.getParent() != null) {
+            Category parent = categoryRepository.findById(category.getParent().getCategoryId()).orElse(null);
+            category.setParent(parent);
+        }
+        return categoryRepository.save(category); // ID 자동 증가
     }
+
 
     /*category update*/
     public Category categoryUpdate(Category category) {

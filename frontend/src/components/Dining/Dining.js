@@ -38,6 +38,7 @@ function Dining() {
                                 width: `${table.width}px`,
                                 height: `${table.height}px`,
                                 backgroundColor: table.tableColor,
+                                border: table.tableColor, // 되나안되나 화면으로 확인해야함
                                 position: "absolute",
                             }}
                         >

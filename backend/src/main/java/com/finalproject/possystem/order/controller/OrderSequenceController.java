@@ -24,6 +24,7 @@ public class OrderSequenceController {
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("영업 시작중 오류가 발생하였습니다");
         }
     }
@@ -43,6 +44,7 @@ public class OrderSequenceController {
     @GetMapping("/current")
     public ResponseEntity<OrderSequence> currentOrderSequence() {
         try {
+            /* 오늘날짜와 일치하는 id 찾기 */
             OrderSequence orderSequence = orderSequenceService.getOrderSequenceToday()
                     .orElseThrow(()-> new IllegalStateException("오늘의 영업 상태를 찾을수 없습니다"));
             return ResponseEntity.ok(orderSequence);

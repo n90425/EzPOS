@@ -7,6 +7,7 @@ import com.finalproject.possystem.order.repository.OrderSequenceRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,6 +46,7 @@ public class OrderSequenceService {
     }
 
     /* 영업이 시작됨 */
+    @Transactional
     public void startOpen() {
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> exist = getOrderSequenceToday();
@@ -76,6 +78,7 @@ public class OrderSequenceService {
     }
 
     /* 영업이 마감됨 */
+    @Transactional
     public void close() {
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> exist = getOrderSequenceToday();

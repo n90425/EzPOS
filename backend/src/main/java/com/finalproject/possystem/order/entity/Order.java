@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static java.time.LocalTime.now;
+
 @ToString
 @Setter
 @Getter
@@ -34,6 +36,7 @@ public class Order {
 
     @Column(name = "orderVat")
     private Double orderVat;
+
 
     public Order(String orderNo, Dining dining, LocalDateTime orderTime, String orderPayStatus, Double orderAmount, Double orderVat) {
         this.orderNo = orderNo;

@@ -11,65 +11,58 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 function Category() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [categories, setCategories] = useState([]);
-
-    const handleAddCategory = (newCategory) => {
-        setCategories([...categories, { name: newCategory, visible: true }]);
-    };
-
-    const toggleVisibility = (index) => {
-        const newCategories = [...categories];
-        newCategories[index].visible = !newCategories[index].visible;
+    
+    const toggleVisibility = (categoryId) => {
+        const newCategories = categories.map((category) =>
+            category.categoryId === categoryId
+                ? { ...category, visible: !category.visible }
+                : category
+        );
         setCategories(newCategories);
     };
 
-    // 카테고리를 평탄화하는 함수
-    // const flattenCategories = (categories) => {
-    //     const flat = [];
-    
-    //     const processCategory = (category) => {
-    //         if (!category) return;
-    //         flat.push({
-    //             categoryId: category.categoryId,
-    //             categoryname: category.categoryname,
-    //             visible: category.isvisible === 'Y'
-    //         });
-            
-    //         if (category.children && Array.isArray(category.children)) {
-    //             category.children.forEach(child => processCategory(child));
-    //         }
-    //     };
-    
-    //     categories.forEach(category => processCategory(category));
-    //     return flat;
-    // };
-    
 
     useEffect(() => {
         const getCategories = async () => {
             try {
                 const res = await axios.get(`${BASE_URL}/category`);
 
-                console.log("redDate 가져오기: ", res.data);
+                console.log("resdDate 가져오기: ", res.data);
     
-                // // 데이터가 배열인지 객체인지 확인하고, 적절한 속성에 접근
-                // const dataToFlatten = Array.isArray(res) ? res : res.data || res.categories || [];
-                // // 평탄화된 데이터 생성
-                // const formattedData = flattenCategories(dataToFlatten);
-                
-                // 가져온 res.data 에서 반복문을 돌리고 
-                // children 객체는 가져오지않는다
-                const parentCategories = res.data.map(category => ({
-                    categoryId: category.categoryId,
-                    categoryname: category.categoryname,
-                    isvisible: category.isvisible
+                // 데이터 변환 (isvisible → visible 변환)
+                const formattedCategories = res.data.map((category) => ({
+                    categoryId: category.categoryId || null,
+                    categoryname: category.categoryname || "Unnamed Category",
+                    visible: category.isvisible === "Y", // isvisible을 boolean 값으로 변환
                 }));
-                setCategories(parentCategories);
+
+                console.log("Formatted Categories: ", formattedCategories);
+                setCategories(formattedCategories);
             } catch (error) {
                 console.error("Table Error", error);
             }
         };
         getCategories();
     }, []);
+
+
+     // 새 카테고리 추가 - POST 요청 후 상태 업데이트
+    const handleAddCategory = async (newCategoryName) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/category`,{
+                categoryname : newCategoryName,
+            });
+
+            const newCategory = response.data;
+            console.log(newCategory);
+
+            setCategories([...categories, newCategory]);
+        }catch (error) {
+            console.error('Failed to add new category:', error);
+        }
+    };
+
+
 
     return (
         <div className="cate-management">
@@ -78,8 +71,8 @@ function Category() {
             <CategoryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSave={(newCategory) => {
-                    handleAddCategory(newCategory);
+                onSave={(newCategoryName) => {
+                    handleAddCategory(newCategoryName);
                     setIsModalOpen(false);
                 }}
             />

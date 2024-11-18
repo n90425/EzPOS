@@ -6,23 +6,19 @@ function CategoryList({ categories, toggleVisibility }) {
         <div className="category-list">
             <h2>카테고리</h2>
             <ul>
-                {categories.length > 0 ? (
-                    categories.map((category, index) => (
-                        <li key={category.categoryId}> {/* < key={index}> 다니수정*/}
-                            <span>{category.categoryname}</span>
-                            <label className="switch">
-                                <input
-                                    type="checkbox"
-                                    checked={category.visible}
-                                    onChange={() => toggleVisibility(index)}
-                                />
-                                <span className="slider"></span>
-                            </label>
-                        </li>
-                    ))
-                ) : (
-                    <p>카테고리를 불러오는 중입니다...</p>
-                )}
+                {categories.map((category) => (
+                    <li key={category.categoryId}> {/* 고유한 key */}
+                        <span>{category.categoryname}</span>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={category.visible ?? false} //초기값 설정
+                                onChange={() => toggleVisibility(category.categoryId)}
+                            />
+                            <span className="slider"></span>
+                        </label>
+                    </li>
+                ))}
             </ul>
         </div>
     );

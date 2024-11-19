@@ -1,7 +1,6 @@
 package com.finalproject.possystem.table.entity;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.finalproject.possystem.order.entity.Order;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +9,9 @@ import java.math.BigDecimal;
 
 @Table(name="dining")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Dining {
     @Id
     @Column(name="`tableNo`")
@@ -27,15 +29,16 @@ public class Dining {
     private BigDecimal width;
     private BigDecimal height;
 
-    public Dining(){}
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", columnDefinition = "ENUM('EMPTY', 'OCCUPIED') DEFAULT 'EMPTY'")
+    private Status status = Status.EMPTY;
 
-    public Dining(Integer tableNo, BigDecimal xPosition, BigDecimal yPosition, String tableColor, BigDecimal width, BigDecimal height) {
-        this.tableNo = tableNo;
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-        this.tableColor = tableColor;
-        this.width = width;
-        this.height = height;
+    @OneToOne
+    @JoinColumn(name="currentOrderNo", referencedColumnName = "orderNo", foreignKey = @ForeignKey(name="fk_current_order"))
+    private Order currentOrder;
+
+    public enum Status {
+        EMPTY, OCCUPIED
     }
 
     public Integer getTableNo() {
@@ -86,15 +89,19 @@ public class Dining {
         this.height = height;
     }
 
-    @Override
-    public String toString() {
-        return "Dining{" +
-                "tableNo=" + tableNo +
-                ", xPosition=" + xPosition +
-                ", yPosition=" + yPosition +
-                ", tableColor='" + tableColor + '\'' +
-                ", width=" + width +
-                ", height=" + height +
-                '}';
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
     }
 }

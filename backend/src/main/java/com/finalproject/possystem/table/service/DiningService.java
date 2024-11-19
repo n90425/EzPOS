@@ -1,4 +1,4 @@
-package com.finalproject.possystem.table;
+package com.finalproject.possystem.table.service;
 
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;

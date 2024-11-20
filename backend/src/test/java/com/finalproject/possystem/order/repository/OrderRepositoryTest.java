@@ -78,11 +78,11 @@ class OrderRepositoryTest {
         orderRepo.deleteAll();
         assertTrue(orderRepo.count()==0);
 
-        Dining dining = new Dining(12, new BigDecimal("200.00"), new BigDecimal("300.0"), "Red", new BigDecimal("100.00"), new BigDecimal("100.00"));
+        Dining dining = new Dining(12, new BigDecimal("200.00"), new BigDecimal("300.0"), "Red", new BigDecimal("100.00"), new BigDecimal("100.00"), Dining.Status.OCCUPIED, null);
 
         diningRepo.save(dining); // Dining 객체를 먼저 저장
 
-        Dining dining2 = new Dining(13,new BigDecimal("200.00"),new BigDecimal("300.0"),"Red", new BigDecimal("100.00"),new BigDecimal("100.00"));
+        Dining dining2 = new Dining(13,new BigDecimal("200.00"),new BigDecimal("300.0"),"Red", new BigDecimal("100.00"),new BigDecimal("100.00"), Dining.Status.OCCUPIED, null);
         diningRepo.save(dining2); // Dining 객체를 먼저 저장
 
 
@@ -118,7 +118,7 @@ class OrderRepositoryTest {
         orderRepo.deleteAll();
         assertTrue(orderRepo.count()==0);
 
-        Dining dining = new Dining(12, new BigDecimal("200.00"), new BigDecimal("300.0"), "Red", new BigDecimal("100.00"), new BigDecimal("100.00"));
+        Dining dining = new Dining(12, new BigDecimal("200.00"), new BigDecimal("300.0"), "Red", new BigDecimal("100.00"), new BigDecimal("100.00"), Dining.Status.OCCUPIED, null);
 
         /* 데이터 10개 insert후 count */
         testDate();

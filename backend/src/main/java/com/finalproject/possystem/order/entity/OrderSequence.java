@@ -33,11 +33,4 @@ public class OrderSequence {
     @Column
     private int totalSales; /* 총 매출액 */
 
-    public OrderSequence(String openDate, Boolean isOpen, int currentSequence, int totalOrders, int totalSales) {
-        this.openDate = openDate;
-        this.isOpen = isOpen;
-        this.currentSequence = currentSequence;
-        this.totalOrders = totalOrders;
-        this.totalSales = totalSales;
-    }
 }

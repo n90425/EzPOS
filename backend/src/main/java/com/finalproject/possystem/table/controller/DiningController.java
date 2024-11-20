@@ -1,10 +1,9 @@
 package com.finalproject.possystem.table.controller;
 
-import com.finalproject.possystem.table.DiningService;
+import com.finalproject.possystem.table.service.DiningService;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,7 +47,6 @@ public class DiningController {
     public List<Dining> deleteDining(@RequestBody Map<String, Integer> requestData) {
         Integer tableNo = requestData.get("tableNo");
         diningService.delTable(tableNo);
-        System.out.println(tableNo);
         return diningService.getTable();
     }
 }

@@ -22,7 +22,7 @@ public class OrderSequenceController {
             orderSequenceService.startOpen();
             return ResponseEntity.ok("영업을 시작했습니다.");
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok("영업 중 입니다.");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("영업 시작중 오류가 발생하였습니다");

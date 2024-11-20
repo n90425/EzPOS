@@ -41,8 +41,20 @@ public class CateController {
     public List<Category> categoryDelete(@RequestBody Map<String, Integer> requestData) {
         Integer category_id = requestData.get("category_id");
         categoryService.categoryDelete(category_id);
-        System.out.println(category_id);
+        System.out.println("category_id는 김뙈지" + category_id);
         return categoryService.getAllMainCategory();
     }
 
+    @PostMapping("/updatecategory")
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
+        // 서비스 로직 호출
+        Category updatedCategory = categoryService.categoryUpdate(category);
+
+        // 업데이트된 카테고리가 없는 경우 (예: ID가 존재하지 않는 경우)
+        if (updatedCategory == null) {
+            return ResponseEntity.badRequest().build(); // 400 Bad Request 반환
+        }
+        // 성공적으로 업데이트된 경우
+        return ResponseEntity.ok(updatedCategory);
+    }
 }

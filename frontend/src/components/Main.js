@@ -38,7 +38,6 @@ function Main() {
     { name: '매출 요약', path: '/sales-summary' },
     { name: '판매 내역', path: '/sales-history' },
     { name: '영수증 반품', path: '/receipt-return' },
-    { name: '마감 정산', path: '/closing-settlement' },
     { name: '영업 준비금', path: '/operating-fund' },
     { name: '고객 조회', path: '/customer-inquiry' },
     { name: '주문 내역', path: '/order' },

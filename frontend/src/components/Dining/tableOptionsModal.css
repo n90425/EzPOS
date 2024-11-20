@@ -1,0 +1,44 @@
+.table-options-modal {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    width: 150px; /* 모달 너비를 줄임 */
+    height: auto; /* 필요에 따라 높이를 자동으로 */
+    background-color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    border-radius: 8px; /* 모서리 둥글게 */
+}
+
+.close-button {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.option-group {
+    margin-top: 20px;
+}
+
+.color-options {
+    display: flex;
+    gap: 10px;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.color-option.selected {
+    border: 2px solid #333;
+}

@@ -3,14 +3,14 @@ import "../css/catemodal.css";
 
 
 function CategoryModal({ isOpen, onClose, onSave }){
-    const [newCategory, setNewCategory] = useState('');
+    const [newCategoryName, setNewCategoryName] = useState('');
 
     if(!isOpen) return null;
 
     const handleSave = () => {
-        if (newCategory.trim()){
-            onSave(newCategory);
-            setNewCategory(''); // 입력 초기화
+        if (newCategoryName.trim()){
+            onSave(newCategoryName);
+            setNewCategoryName(''); // 입력 초기화
             onClose(); //닫기
         }
     };
@@ -21,8 +21,8 @@ function CategoryModal({ isOpen, onClose, onSave }){
                 <h2>카테고리 관리</h2>
                 <input
                     type="text"
-                    value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
                     placeholder="카테고리 이름 입력"
                 />
                 <button onClick={handleSave}>저장</button>

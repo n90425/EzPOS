@@ -22,6 +22,7 @@ function Category() {
     };
 
 
+    //data 가져오기
     useEffect(() => {
         const getCategories = async () => {
             try {
@@ -62,6 +63,17 @@ function Category() {
         }
     };
 
+    const handleDeleteCategory = async (categoryId) => {
+        try {
+            await axios.delete(`${BASE_URL}/deletecategory/${categoryId}`);
+            setCategories(categories.filter((cat) => cat.categoryId !== categoryId));
+            alert('카테고리가 성공적으로 삭제되었습니다.');
+        } catch (error) {
+            console.error("Failed to delete category:", error);
+            alert('카테고리 삭제에 실패했습니다.');
+        }
+    };
+
 
 
     return (
@@ -71,10 +83,13 @@ function Category() {
             <CategoryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSave={(newCategoryName) => {
-                    handleAddCategory(newCategoryName);
-                    setIsModalOpen(false);
-                }}
+                // onSave={(newCategoryName) => {
+                //     handleAddCategory(newCategoryName);
+                //     setIsModalOpen(false);
+                // }}
+                onSave={handleAddCategory}
+                onDelete={handleDeleteCategory}
+                categories={categories} // 데이터를 모달로 전달
             />
         </div>
     );

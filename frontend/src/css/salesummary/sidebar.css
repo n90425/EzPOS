@@ -51,3 +51,21 @@
 .sidebar button:hover {
     background-color: #0056b3;
 }
+
+
+/* 이전 페이지로 가는 버튼 */
+
+.back-button {
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #007bff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #0056b3;
+}

@@ -3,6 +3,7 @@ package com.finalproject.possystem.order.service;
 
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.QOrder;
+import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
@@ -10,6 +11,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
@@ -26,6 +28,7 @@ import java.util.Optional;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepo;
+    private OrderDetailRepository orderDetailRepo;
     private DiningRepository diningRepo;
     private JPAQueryFactory queryFactory;
 
@@ -91,6 +94,35 @@ public class OrderService {
         return orderRepo.findAll();
     }
 
+    /* 주문생성 또는 가져오기 */
+    @Transactional
+    public String createOrGetOrder(int tableNo){
+        /* 선택된 테이블의 테이블번호를 가져온다 */
+        Dining dining = diningRepo.findById(tableNo)
+                .orElseThrow(() -> new RuntimeException("Table을 찾을수 없습니다"));
+
+        /* dining에 연결된주문이 이미 존재할경우 해당 주문번호를 반환한다 */
+        if(dining.getCurrentOrder() != null)
+            return dining.getCurrentOrder().getOrderNo();
+
+        /* 새로운 주문번호 생성 */
+        String orderNo = createOrderId();
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setDining(dining); /* 선택된 테이블 번호를 주문테이블과 연결 */
+        order.setOrderTime(LocalDateTime.now());
+        order.setOrderPayStatus("UNPAID");
+        order.setOrderAmount(0.0);
+        order.setOrderVat(0.0);
+        /* 주문 저장 */
+        orderRepo.save(order);
+
+        /* Dining테이블에 업데이트 */
+        dining.setCurrentOrder(order);
+        diningRepo.save(dining);
+
+        return orderNo;
+    }
 
 
 

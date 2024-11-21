@@ -22,6 +22,7 @@ function Category() {
     };
 
 
+    //data 가져오기
     useEffect(() => {
         const getCategories = async () => {
             try {
@@ -62,6 +63,34 @@ function Category() {
         }
     };
 
+    const handleDeleteCategory = async (categoryId) => {
+        try {
+            await axios.post(`${BASE_URL}/deletecategory`, { category_id: categoryId });
+            setCategories(categories.filter((cat) => cat.categoryId !== categoryId));
+            alert('카테고리가 성공적으로 삭제되었습니다.');
+        } catch (error) {
+            console.error("Failed to delete category:", error);
+            alert('카테고리 삭제에 실패했습니다.');
+        }
+    };
+
+    //카테고리 수정
+    const handleUpdateCategory = async (updatedCategory) => {
+        try {
+            const response =await axios.post(`${BASE_URL}/updatecategory`, updatedCategory);
+            console.log('카테고리 업데이트 성공 ', response.data);
+
+        //성공시 서버에서 수정된 데이터로 업데이트
+        const updatedCategories = categories.map((category) =>
+            category.categoryId === updatedCategory.categoryId ? response.data : category
+        );
+        setCategories(updatedCategories);
+
+        }catch (error){
+            console.error('카테고리 업데이트 실패:', error);
+            alert('카테고리 업데이트에 실패했습니다.')
+        }
+    };
 
 
     return (
@@ -71,10 +100,10 @@ function Category() {
             <CategoryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSave={(newCategoryName) => {
-                    handleAddCategory(newCategoryName);
-                    setIsModalOpen(false);
-                }}
+                onSave={handleAddCategory}
+                onDelete={handleDeleteCategory}
+                onUpdate={handleUpdateCategory} //수정로직 전달
+                categories={categories}         // 데이터를 모달로 전달
             />
         </div>
     );

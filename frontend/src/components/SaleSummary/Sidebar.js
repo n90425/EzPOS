@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/cateside.css";
+import "../../css/salesummary/sidebar.css";
 
 function Sidebar() {
     return (

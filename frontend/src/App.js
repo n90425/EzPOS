@@ -10,7 +10,7 @@ import OrderList from './components/Order/OrderList.js'; // 주문
 import Dining from "./components/Dining/Dining.js"; // 테이블
 import EditDining from "./components/Dining/EditDining.js" // 테이블수정
 import { TableProvider } from './components/Dining/TableContext.js';
-import SaleSummary from './components/SaleSummary.js'; //매출 요약
+import { SaleSummary } from './components/SaleSummary/SaleSummary.js'; //매출 요약
 
 function App() {
   return (

@@ -4,9 +4,12 @@ import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.table.entity.Dining;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+@Repository
 public interface DiningRepository  extends JpaRepository<Dining, Integer> {
     Dining findByTableNo(int tableNo);
 

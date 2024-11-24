@@ -10,7 +10,7 @@ function OrderList(){
     useEffect(() => {
         const getOrders = async () => {
             try {
-                const data = await getfetch(`${BASE_URL}/order`);
+                const data = await getfetch(`${BASE_URL}/order/all`);
                 setOrders(data);
             } catch (error){
                 console.error("Order Error", error);

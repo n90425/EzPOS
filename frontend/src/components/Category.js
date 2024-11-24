@@ -21,28 +21,27 @@ function Category() {
         setCategories(newCategories);
     };
 
+    const getCategories = async () => {
+        try {
+            const res = await axios.get(`${BASE_URL}/category`);
 
+            console.log("resdDate 가져오기: ", res.data);
+
+            // 데이터 변환 (isvisible → visible 변환)
+            const formattedCategories = res.data.map((category) => ({
+                categoryId: category.categoryId || null,
+                categoryname: category.categoryname || "Unnamed Category",
+                visible: category.isvisible === "Y", // isvisible을 boolean 값으로 변환
+            }));
+
+            console.log("Formatted Categories: ", formattedCategories);
+            setCategories(formattedCategories);
+        } catch (error) {
+            console.error("Table Error", error);
+        }
+    };
     //data 가져오기
     useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const res = await axios.get(`${BASE_URL}/category`);
-
-                console.log("resdDate 가져오기: ", res.data);
-    
-                // 데이터 변환 (isvisible → visible 변환)
-                const formattedCategories = res.data.map((category) => ({
-                    categoryId: category.categoryId || null,
-                    categoryname: category.categoryname || "Unnamed Category",
-                    visible: category.isvisible === "Y", // isvisible을 boolean 값으로 변환
-                }));
-
-                console.log("Formatted Categories: ", formattedCategories);
-                setCategories(formattedCategories);
-            } catch (error) {
-                console.error("Table Error", error);
-            }
-        };
         getCategories();
     }, []);
 

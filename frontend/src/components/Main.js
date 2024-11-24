@@ -40,7 +40,7 @@ function Main() {
     { name: '영수증 반품', path: '/receipt-return' },
     { name: '영업 준비금', path: '/operating-fund' },
     { name: '고객 조회', path: '/customer-inquiry' },
-    { name: '주문 내역', path: '/order' },
+    { name: '주문 내역', path: '/order/all' },
     { name: '테이블 생성', path: '/dining' },
     { name: '담당자', path: '/manager' },
     { name: '상품관리', path: '/product-management' },

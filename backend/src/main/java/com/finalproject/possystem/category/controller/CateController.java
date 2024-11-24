@@ -20,7 +20,6 @@ public class CateController {
     /* 부모가없는 null인것만 가져온다 */
     @GetMapping("/category")
     public List<Category> getcategory(){
-        System.out.println(categoryService.getAllMainCategory());
         return categoryService.getAllMainCategory();
     }
 
@@ -41,7 +40,7 @@ public class CateController {
     public List<Category> categoryDelete(@RequestBody Map<String, Integer> requestData) {
         Integer category_id = requestData.get("category_id");
         categoryService.categoryDelete(category_id);
-        System.out.println(category_id);
+        System.out.println("category_id"+category_id);
         return categoryService.getAllMainCategory();
     }
 

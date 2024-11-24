@@ -1,38 +1,73 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import CategoryTabs from "../Category/CategoryTabs";
+import MenuList from "../Category/MenuList";
+import OrderList from "../Category/OrderList";
+import "./order.css"
 
-function Order() {
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-  const {tableNo} = useParams();
+const Order = () => {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null); // 선택된 카테고리
+  const [menus, setMenus] = useState([]); // 메뉴 데이터
   const [orderNo, setOrderNo] = useState(null);
-  const [orderDetail, setOrderDetail] = useState([]);
-  const [menus, setMenus] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]); // 주문 상세 데이터
 
-  // 테이블번호로 주문생성 또는 조회
+  const { tableNo } = useParams();
+
+  // 테이블 번호로 주문 생성 또는 조회
   useEffect(() => {
     const createOrGetOrder = async () => {
       try {
         const res = await axios.post(`${BASE_URL}/order/${tableNo}`, null, {
-          params: {tableNo},
+          params: { tableNo },
         });
         setOrderNo(res.data);
-        console.log("ORDER NO: ",res.data);
-      } catch(error){
-        console.log(error.response?.data || error.message)
-        console.error("ERR 생성 또는 조회중 오류발생: ", error)
+        console.log("ORDER NO: ", res.data);
+      } catch (error) {
+        console.error("주문 생성 또는 조회 중 오류 발생: ", error);
+      }
+    };
+
+    // 카테고리 가져오기 (Category.js 와 중복코드)
+    const getCategories = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/category`);
+        const formattedCategories = res.data.map((category) => ({
+          categoryId: category.categoryId || null,
+          categoryname: category.categoryname || "Unnamed Category",
+          visible: category.isvisible === "Y",
+        }));
+        setCategories(formattedCategories);
+        if (formattedCategories.length > 0) {
+          setSelectedCategory(formattedCategories[0].categoryId); // 첫 번째 카테고리 선택
+        }
+      } catch (error) {
+        console.error("카테고리 데이터 가져오기 실패: ", error);
+      }
+    };
+
+    // 메뉴데이터 가져오기
+    const getMenus = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/menus`);
+        setMenus(res.data);
+      } catch (error) {
+        console.error("메뉴 데이터를 가져오는 중 오류 발생: ", error);
       }
     };
 
     createOrGetOrder();
+    getCategories();
+    getMenus();
   }, [tableNo]);
 
-  // 주문상세
-  const createOrderDetail = async (menuId) => {
-    if(!orderNo){
-      alert("주문을 먼저 생성");
+  // 주문 상세 추가
+  const addOrderDetail = async (menuId) => {
+    if (!orderNo) {
+      alert("주문을 먼저 생성하세요.");
       return;
     }
     try {
@@ -40,50 +75,42 @@ function Order() {
         menuId,
         quantity: 1,
       });
-      setOrderDetail((prev)=> [...prev, res.data]);
-      console.log("createOrderDetail: ",res.data)
+      setOrderDetails((prev) => [...prev, res.data]);
+      console.log("createOrderDetail: ", res.data);
     } catch (error) {
-      console.log("주문상세 추가중 오류발생: ",error)
+      console.error("주문 상세 추가 중 오류 발생: ", error);
     }
   };
 
   return (
-    <div className="order">
-      <h1>테이블 {tableNo}</h1>
-      <h2>주문번호: {orderNo}</h2>
+    <div className="order-container">
+      {/* 카테고리 탭 */}
+      <CategoryTabs
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
 
       {/* 메뉴 리스트 */}
-      <div className="menu-list">
-        <h2>메뉴</h2>
-        {menus.map((menu) => (
-          <button
-            key={menu.menuId}
-            onClick={() => createOrderDetail(menu.menuId)}
-            className="menu-button"
-          >
-            {menu.menuName} - {menu.menuPrice}원
-          </button>
-        ))}
-      </div>
+      <MenuList
+        menus={menus.filter((menu) => menu.categoryId === selectedCategory)}
+        onAddToOrder={addOrderDetail}
+      />
 
       {/* 주문 상세 */}
-      <div className="order-details">
-        <h2>주문 상세</h2>
-        {orderDetail.length > 0 ? (
-          <ul>
-            {orderDetail.map((item, index) => (
-              <li key={index}>
-                {item.menuName} - {item.quantity} x {item.unitPrice} ={' '}
-                {item.totalAmount}원
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>주문 내역이 없습니다.</p>
-        )}
+      <OrderList orderDetails={orderDetails} />
+
+      {/* 하단 결제 버튼 */}
+      <div className="order-footer">
+        <button
+          className="confirm-button"
+          onClick={() => alert("결제 기능은 구현 중입니다.")}
+        >
+          결제
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default Order;

@@ -40,6 +40,7 @@ function Category() {
             console.error("Table Error", error);
         }
     };
+    
     //data 가져오기
     useEffect(() => {
         getCategories();
@@ -94,7 +95,7 @@ function Category() {
 
     return (
         <div className="cate-management">
-            <Header onAddCategory={() => setIsModalOpen(true)} />
+            <Header onAddCategory={() => setIsModalOpen(true)} onRefresh={getCategories}/>
             <CategoryList categories={categories} toggleVisibility={toggleVisibility} />
             <CategoryModal
                 isOpen={isModalOpen}

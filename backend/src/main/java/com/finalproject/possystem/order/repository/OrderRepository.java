@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
 
     /* orderNo로 주문조회 */

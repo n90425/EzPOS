@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import SettingDropDown  from "./SettingsDropDown";
 import { TableContext } from "./TableContext";
 
+// Dining 화면
 
 function Dining() {
     const {tables} = useContext(TableContext); // 초기 상태를 null로 설정
+
+    // const tables = null;
 
     // 테이블만들기 이동 navi
     const tableNavi = useNavigate();
@@ -14,11 +17,13 @@ function Dining() {
         tableNavi("/editDining");
     };
 
+    const handleOrderTable = (tableNo) => {
+        tableNavi(`/order/${tableNo}`)
+    }
+
     return (
         <div className="dining-container">
-            <div>
-                <SettingDropDown/>
-            </div>
+
 
             {tables === null || tables.length === 0 ? ( // 데이터가 없을 때 안내 메시지 표시
                 <div className="no-table">
@@ -28,6 +33,9 @@ function Dining() {
                 </div>
             ) : (
                 <div className="table-list">
+                    <div>
+                    <SettingDropDown/>
+                    </div>
                     {tables.map((table)=> (
                         <div
                             key={table.tableNo}
@@ -42,7 +50,10 @@ function Dining() {
                                 position: "absolute",
                             }}
                         >
-                            <div className="table-number">테이블 {table.tableNo}</div>
+                            <div className="table-number" onClick={()=>handleOrderTable(table.tableNo)}
+                                >
+                                    테이블 {table.tableNo}
+                            </div>
                         </div>
                     ))}
                 </div>

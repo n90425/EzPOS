@@ -2,6 +2,7 @@ package com.finalproject.possystem.order.service;
 
 
 import com.finalproject.possystem.order.entity.Order;
+import com.finalproject.possystem.order.entity.OrderDetail;
 import com.finalproject.possystem.order.entity.QOrder;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
@@ -28,8 +29,14 @@ import java.util.Optional;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepo;
-    private OrderDetailRepository orderDetailRepo;
+
+    @Autowired
+    private OrderDetailService orderDetailService;
+
+    @Autowired
     private DiningRepository diningRepo;
+
+
     private JPAQueryFactory queryFactory;
 
     private Map<String, Integer> dailyCount = new HashMap<>();
@@ -97,6 +104,7 @@ public class OrderService {
     /* 주문생성 또는 가져오기 */
     @Transactional
     public String createOrGetOrder(int tableNo){
+        System.out.println(tableNo);
         /* 선택된 테이블의 테이블번호를 가져온다 */
         Dining dining = diningRepo.findById(tableNo)
                 .orElseThrow(() -> new RuntimeException("Table을 찾을수 없습니다"));
@@ -115,7 +123,7 @@ public class OrderService {
         order.setOrderAmount(0.0);
         order.setOrderVat(0.0);
         /* 주문 저장 */
-        orderRepo.save(order);
+        order = orderRepo.save(order);
 
         /* Dining테이블에 업데이트 */
         dining.setCurrentOrder(order);
@@ -124,6 +132,11 @@ public class OrderService {
         return orderNo;
     }
 
+    /* 주문상세 생성 */
+    @Transactional
+    public OrderDetail addItemToOrder(OrderDetail orderDetail){
+        return orderDetailService.addItemToOrder(orderDetail);
+    }
 
 
     /* 결제로 넘길까..? 주문 합계 */
@@ -162,7 +175,13 @@ public class OrderService {
     }
 
 
-    /* orderPayStatus 수정 */
+    /* 결제상태를 COMPLETED로 변경 */
+    @Transactional
+    public Order completeOrder(String orderNo){
+        Order order = orderRepo.findById(orderNo).orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setOrderPayStatus("COMPLETED");
+        return orderRepo.save(order);
+    }
 
 
 

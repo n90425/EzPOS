@@ -1,4 +1,5 @@
 package com.finalproject.possystem.table.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.finalproject.possystem.order.entity.Order;
 
 import jakarta.persistence.*;
@@ -35,6 +36,7 @@ public class Dining {
 
     @OneToOne
     @JoinColumn(name="currentOrderNo", referencedColumnName = "orderNo", foreignKey = @ForeignKey(name="fk_current_order"))
+    @JsonBackReference
     private Order currentOrder;
 
     public enum Status {

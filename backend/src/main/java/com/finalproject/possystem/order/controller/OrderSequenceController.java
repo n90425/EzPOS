@@ -39,6 +39,8 @@ public class OrderSequenceController {
         try {
             orderSequenceService.close();
             return ResponseEntity.ok("영업을 종료했습니다");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.ok("이미 영업이 종료되었습니다");
         } catch (Exception e){
             return ResponseEntity.status(500).body("영업 종료중 오류가 발생했습니다");
         }

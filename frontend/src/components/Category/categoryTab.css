@@ -1,0 +1,31 @@
+.category-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 2px solid #ddd;
+    overflow-x: auto; /* 가로 스크롤 허용 */
+}
+
+.category-button {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+
+
+.category-tabs button {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}

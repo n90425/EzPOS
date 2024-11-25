@@ -20,7 +20,6 @@ public class CateController {
     /* 부모가없는 null인것만 가져온다 */
     @GetMapping("/category")
     public List<Category> getcategory(){
-        System.out.println(categoryService.getAllMainCategory());
         return categoryService.getAllMainCategory();
     }
 

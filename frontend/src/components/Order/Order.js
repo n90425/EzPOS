@@ -1,100 +1,105 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import useCategories from "../../hooks/useCategory"; // Custom Hook 가져오기
+import CategoryTabs from "../Category/CategoryTabs";
+import MenuList from "../Category/MenuList";
+import OrderList from "../Category/OrderList";
+import "./order.css";
 
-function Order() {
-  const { tableId } = useParams(); // URL에서 테이블 ID를 가져옴
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-  // 고기집 메뉴 데이터
-  const menuItems = {
-    고기: [
-      { id: 1, name: '등심', price: 45000 },
-      { id: 2, name: '생왕갈비', price: 40000 },
-      { id: 3, name: '양념왕갈비', price: 38000 },
-      { id: 4, name: '돼지갈비', price: 18000 },
-      { id: 5, name: '삼겹살', price: 18000 }
-    ],
-    식사: [
-      { id: 6, name: '갈비탕', price: 15000 },
-      { id: 7, name: '제육볶음', price: 12000 },
-      { id: 8, name: '물냉면', price: 10000},
-      { id: 9, name: '비빔냉면', price: 10000},
-      { id: 10, name: '김치찌개', price: 10000},
-      { id: 11, name: '된장찌개', price: 8000},
-      { id: 12, name: '고기된장', price: 2000},
-      { id: 13, name: '공기밥', price: 2000},
-    ],
-    주류: [
-      { id: 14, name: '소주', price: 5000 },
-      { id: 15, name: '청하', price: 7000 },
-      { id: 16, name: '맥주', price: 5000 },
-      { id: 17, name: '음료', price: 2000 }
-    ]
-  };
-  
-    // 기본 카테고리를 '고기'로 설정
-  const [activeCategory, setActiveCategory] = useState('고기');
-  const [selectedItems, setSelectedItems] = useState([]);
+const Order = () => {
+  const { categories, fetchCategories } = useCategories(); // Custom Hook 사용
+  const [selectedCategory, setSelectedCategory] = useState(null); // 선택된 카테고리
+  const [menus, setMenus] = useState([]); // 메뉴 데이터
+  const [orderNo, setOrderNo] = useState(null);
+  const [orderDetails, setOrderDetails] = useState([]); // 주문 상세 데이터
 
-  const handleOrder = (item) => {
-    // 주문한 메뉴를 상태에 추가
-    setSelectedItems((prev) => [...prev, item]);
+  const { tableNo } = useParams();
+
+  // 테이블 번호로 주문 생성 또는 조회
+  useEffect(() => {
+    const createOrGetOrder = async () => {
+      try {
+        const res = await axios.post(`${BASE_URL}/order/${tableNo}`, null, {
+          params: { tableNo },
+        });
+        setOrderNo(res.data);
+        console.log("ORDER NO: ", res.data);
+      } catch (error) {
+        console.error("주문 생성 또는 조회 중 오류 발생: ", error);
+      }
+    };
+
+    // 메뉴데이터 가져오기
+    const getMenus = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/menus`);
+        setMenus(res.data);
+      } catch (error) {
+        console.error("메뉴 데이터를 가져오는 중 오류 발생: ", error);
+      }
+    };
+
+    // fetchCategories(); // Custom Hook에서 제공하는 fetchCategories 호출
+    // getMenus();
+  }, [tableNo, fetchCategories]);
+
+  // 선택된 카테고리 초기값 설정
+  useEffect(() => {
+    if (categories.length > 0) {
+      setSelectedCategory(categories[0].categoryId); // 첫 번째 카테고리 선택
+    }
+  }, [categories]);
+
+  // 주문 상세 추가
+  const addOrderDetail = async (menuId) => {
+    if (!orderNo) {
+      alert("주문을 먼저 생성하세요.");
+      return;
+    }
+    try {
+      const res = await axios.post(`${BASE_URL}/order/${orderNo}/ordDetail`, {
+        menuId,
+        quantity: 1,
+      });
+      setOrderDetails((prev) => [...prev, res.data]);
+      console.log("createOrderDetail: ", res.data);
+    } catch (error) {
+      console.error("주문 상세 추가 중 오류 발생: ", error);
+    }
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>테이블 {tableId} 메뉴</h1>
-
+    <div className="order-container">
       {/* 카테고리 탭 */}
-      <div style={{ marginBottom: '20px' }}>
-        {Object.keys(menuItems).map((category) => (
-          <button
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            style={{
-              marginRight: '10px',
-              padding: '10px 20px',
-              cursor: 'pointer',
-              backgroundColor: activeCategory === category ? '#007BFF' : '#f0f0f0',
-              color: activeCategory === category ? '#fff' : '#000',
-              border: 'none',
-              borderRadius: '5px'
-            }}
-          >
-            {category}
-          </button>
-        ))}
+      <CategoryTabs
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
+
+      {/* 메뉴 리스트 */}
+      <MenuList
+        menus={menus.filter((menu) => menu.categoryId === selectedCategory)}
+        onAddToOrder={addOrderDetail}
+      />
+
+      {/* 주문 상세 */}
+      <OrderList orderDetails={orderDetails} />
+
+      {/* 하단 결제 버튼 */}
+      <div className="order-footer">
+        <button
+          className="confirm-button"
+          onClick={() => alert("결제 기능은 구현 중입니다.")}
+        >
+          결제
+        </button>
       </div>
-
-      {/* 선택된 카테고리의 메뉴 표시 */}
-      <h2>{activeCategory} 메뉴</h2>
-      <ul>
-        {menuItems[activeCategory].map((item) => (
-          <li key={item.id}>
-            {item.name}: {item.price.toLocaleString()}원
-            <button
-              style={{ marginLeft: '10px' }}
-              onClick={() => handleOrder(item)}
-            >
-              주문하기
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <h2>주문 목록</h2>
-      {selectedItems.length === 0 ? (
-        <p>주문한 메뉴가 없습니다.</p>
-      ) : (
-        <ul>
-          {selectedItems.map((item, index) => (
-            <li key={index}>
-              {item.name}: {item.price.toLocaleString()}원
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
-}
+};
 
 export default Order;

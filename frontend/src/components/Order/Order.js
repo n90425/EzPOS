@@ -1,15 +1,16 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
+import useCategories from "../../hooks/useCategory"; // Custom Hook 가져오기
 import CategoryTabs from "../Category/CategoryTabs";
 import MenuList from "../Category/MenuList";
 import OrderList from "../Category/OrderList";
-import "./order.css"
+import "./order.css";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Order = () => {
-  const [categories, setCategories] = useState([]);
+  const { categories, fetchCategories } = useCategories(); // Custom Hook 사용
   const [selectedCategory, setSelectedCategory] = useState(null); // 선택된 카테고리
   const [menus, setMenus] = useState([]); // 메뉴 데이터
   const [orderNo, setOrderNo] = useState(null);
@@ -31,24 +32,6 @@ const Order = () => {
       }
     };
 
-    // 카테고리 가져오기 (Category.js 와 중복코드)
-    const getCategories = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/category`);
-        const formattedCategories = res.data.map((category) => ({
-          categoryId: category.categoryId || null,
-          categoryname: category.categoryname || "Unnamed Category",
-          visible: category.isvisible === "Y",
-        }));
-        setCategories(formattedCategories);
-        if (formattedCategories.length > 0) {
-          setSelectedCategory(formattedCategories[0].categoryId); // 첫 번째 카테고리 선택
-        }
-      } catch (error) {
-        console.error("카테고리 데이터 가져오기 실패: ", error);
-      }
-    };
-
     // 메뉴데이터 가져오기
     const getMenus = async () => {
       try {
@@ -59,10 +42,16 @@ const Order = () => {
       }
     };
 
-    createOrGetOrder();
-    getCategories();
-    getMenus();
-  }, [tableNo]);
+    // fetchCategories(); // Custom Hook에서 제공하는 fetchCategories 호출
+    // getMenus();
+  }, [tableNo, fetchCategories]);
+
+  // 선택된 카테고리 초기값 설정
+  useEffect(() => {
+    if (categories.length > 0) {
+      setSelectedCategory(categories[0].categoryId); // 첫 번째 카테고리 선택
+    }
+  }, [categories]);
 
   // 주문 상세 추가
   const addOrderDetail = async (menuId) => {

@@ -21,7 +21,7 @@ public class OrderSequenceResponseDto {
     }
     public static OrderSequenceResponseDto from(OrderSequence orderSequence) {
         return new OrderSequenceResponseDto(
-                new Date(orderSequence.getOpenDate()),
+                orderSequence.getOpenDate(),
                 orderSequence.getIsOpen(),
                 orderSequence.getTotalOrders(),
                 orderSequence.getTotalSales());

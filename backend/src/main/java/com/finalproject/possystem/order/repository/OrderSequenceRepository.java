@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OrderSequenceRepository extends JpaRepository<OrderSequence, Date>, OrderSequenceRepositoryCustom {
     @Query("SELECT COUNT(o), SUM(o.orderAmount) FROM Order o WHERE DATE(o.orderTime) = :orderDate")
     List<Integer> findCountAndSumByOrderDate(@Param("orderDate") Date orderDate);

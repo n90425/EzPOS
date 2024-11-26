@@ -20,7 +20,7 @@ import lombok.ToString;
 public class OrderSequence {
     @Id
     @Column(name="openDate", nullable = false)
-    private String openDate; /* 영업날짜 */
+    private Date openDate; /* 영업날짜 */
 
     @Column(name= "isOpen", nullable = false)
     private Boolean isOpen; /* 영업상태 (열림/마감) */

@@ -8,6 +8,8 @@ import com.finalproject.possystem.order.repository.OrderSequenceRepository;
 import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +46,7 @@ public class OrderSequenceService {
         QOrderSequence orderSequence = QOrderSequence.orderSequence;
 
         /* 오늘날짜를 yyyy-MM-dd 형식으로 생성 */
-        String today = LocalDate.now().format(formatter);
+        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         /* openDate가 오늘날짜와 일치하는 한건을 선택 */
         OrderSequence result = queryFactory.selectFrom(orderSequence)
@@ -56,7 +58,7 @@ public class OrderSequenceService {
     /* 영업이 시작됨 */
     @Transactional
     public void startOpen() {
-        String today = LocalDate.now().format(formatter);
+        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> exist = getOrderSequenceToday();
 
@@ -111,7 +113,7 @@ public class OrderSequenceService {
 
 
     /* 주문번호 시퀀스 증가 */
-    public void updateCurrentSequence(String openDate){
+    public void updateCurrentSequence(Date openDate){
         QOrderSequence orderSequence = QOrderSequence.orderSequence;
 
         queryFactory.update(orderSequence)
@@ -122,7 +124,7 @@ public class OrderSequenceService {
 
     /* 주문번호 생성 */
     public String generateOrderNumber() {
-        String today = LocalDate.now().format(formatter);
+        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> sequenceOpt = getOrderSequenceToday();
 
@@ -139,7 +141,7 @@ public class OrderSequenceService {
         int currentSequence = sequence.getCurrentSequence();
 
         /* 주문번호 생성 */
-        return String.format("%s-%06d", today.replace("-", ""), currentSequence);
+        return String.format("%s-%06d", today.toString().replace("-", ""), currentSequence);
     }
 
     public OrderSequenceResponseDto getOrderDashInfo(Date searchDate){

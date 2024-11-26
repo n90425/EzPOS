@@ -3,6 +3,7 @@ package com.finalproject.possystem.category.service;
 import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.category.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

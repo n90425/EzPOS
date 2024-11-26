@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="possystem@database-1.cjqwewqg8nju.ap-northeast-2.rds.amazonaws.com" uuid="1373c969-8e9b-4b0f-8587-6a4334f9d106">
+    <data-source source="LOCAL" name="@database-1.cjqwewqg8nju.ap-northeast-2.rds.amazonaws.com" uuid="ec385a62-31d8-4507-af79-661a8318edad">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/backend/src/main/resources/application.properties</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://database-1.cjqwewqg8nju.ap-northeast-2.rds.amazonaws.com:3306/possystem</jdbc-url>
+      <jdbc-url>jdbc:mysql://database-1.cjqwewqg8nju.ap-northeast-2.rds.amazonaws.com:3306/</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

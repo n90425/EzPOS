@@ -9,6 +9,7 @@ import Order from './components/Order/Order.js';  // 주문 페이지
 import Dining from "./components/Dining/Dining.js"; // 테이블
 import EditDining from "./components/Dining/EditDining.js" // 테이블수정
 import { TableProvider } from './components/Dining/TableContext.js';
+import { SaleSummary } from './components/SaleSummary/SaleSummary.js'; //매출 요약
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/product-management" element={<ProductManagement />} />
             <Route path="/dining" element={<Dining/>}/> {/* 테이블가져오기 */}
             <Route path="/editDining" element={<EditDining/>}/> {/*테이블수정하기*/}
+            <Route path="/sales-summary" element={<SaleSummary/>}/> {/* 매출 요약 */}
           </Routes>
         </Router>
       </TableProvider>

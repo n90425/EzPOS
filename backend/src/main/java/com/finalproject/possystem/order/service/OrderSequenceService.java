@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManager;
 
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -153,7 +154,15 @@ public class OrderSequenceService {
                         "영업이 시작되지 않았습니다. 영업을 시작하세요."
                 ));
         OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
-        orderSequenceResponseDto.updateweeklySales(orderSequenceRepo.findByOrderDate(searchDate));
+
+
+        // 7일 전 날짜 계산
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(targetDate);
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        Date startDate = calendar.getTime();
+
+        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findByOpenDateBetween(startDate,targetDate));
         return orderSequenceResponseDto;
     }
 

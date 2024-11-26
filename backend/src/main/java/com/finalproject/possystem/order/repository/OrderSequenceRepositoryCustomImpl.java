@@ -23,13 +23,4 @@ public class OrderSequenceRepositoryCustomImpl implements OrderSequenceRepositor
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
-
-    @Override
-    public List<Integer> findByOrderDate(Date orderDate) {
-        return queryFactory.
-                select(QOrderSequence.orderSequence.totalSales)
-                .from(QOrderSequence.orderSequence)
-                .where(QOrderSequence.orderSequence.openDate.eq(orderDate))
-                .stream().toList();
-    }
 }

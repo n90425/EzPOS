@@ -6,6 +6,7 @@ import com.finalproject.possystem.order.service.OrderSequenceService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +73,7 @@ public class OrderSequenceController {
         }
     }
     @GetMapping("/order-sequence-info")
-    public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam Date searchDate) {
+    public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam("searchDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date searchDate) {
         return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(searchDate));
     }
 }

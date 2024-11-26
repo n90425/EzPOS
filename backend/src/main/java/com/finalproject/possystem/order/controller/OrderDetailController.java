@@ -26,9 +26,8 @@ public class OrderDetailController {
     }
 
     /* 주문 상세 조회 */
-
     /* orderNo가 일치하는 menuID를 조회하고 menuname, 가격을 가져온다 */
-    @GetMapping("/{orderNo}")
+    @GetMapping("/order/{orderNo}/ordDetail")
     public ResponseEntity<List<Map<String, Object>>> getDetail(@PathVariable String orderNo){
         List<Map<String, Object>> orderDetails = orderDetailService.getDetailWithMenuName(orderNo);
         return ResponseEntity.ok(orderDetails);

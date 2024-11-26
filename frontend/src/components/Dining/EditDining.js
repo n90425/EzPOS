@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TableContext } from "./TableContext";
 import TableOptionsModal from "./TableOptionsModal";
 import axios from "axios";
@@ -156,12 +156,37 @@ function EditDining() {
         setSelectedTable(null);
     }
 
+    // 테이블 unpaid (미결제 상태) 인 테이블의 색상처리로직
+    const fetchTableStatues = async () => {
+        try {
+            const res = await axios.get(`${BASE_URL}/dining-status/unpaid`);
+            const statuses = res.data;
+            setTables((prevTable) =>
+                prevTable.map((table) => {
+                    const status = statuses.find((s)=> s.tableNo === table.tableNo);
+                    return {
+                        ...table,
+                        isUnpaid: status ? status.unpaid : false,
+                    };
+                })
+            );
+        } catch(error) {
+            console.error("미결제 상태를 가져오는중 오류 발생", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchTables();
+        fetchTableStatues();
+    }, []);
+    
     // 테이블 상태변경
     const handleAddTableClick = () => {
         setIsAddingTable(true);
     };
 
 
+    // 테이블 위치 업데이트
     const updateTablePosition = (index, x, y) => {
         setTables((prevTables) => {
             const updatedTables = [...prevTables];
@@ -209,7 +234,9 @@ function EditDining() {
                                     position: "absolute",
                                     width: table.width,
                                     height: table.height,
-                                    backgroundColor: table.tableColor,
+                                    backgroundColor: table.isUnpaid ? table.tableColor : "white", // 미결제 여부에 따라 배경색 설정
+                                    color: table.isUnpaid ? "white" : table.tableColor,
+                                    border: `1px solid ${table.tableColor}`,
                                 }}
                                 onClick={(event)=> handleTableclick(table, event)}
                             >

@@ -4,6 +4,7 @@ import com.finalproject.possystem.table.service.DiningService;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +49,12 @@ public class DiningController {
         Integer tableNo = requestData.get("tableNo");
         diningService.delTable(tableNo);
         return diningService.getTable();
+    }
+
+    /* 테이블 전체를 가져와서 상태를 확인함 */
+    @GetMapping("/status")
+    public ResponseEntity<List<Dining>> getAlltables() {
+        List<Dining> tables = diningService.getTable();
+        return ResponseEntity.ok(tables);
     }
 }

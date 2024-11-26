@@ -1,11 +1,18 @@
 package com.finalproject.possystem.order.service;
 
+import com.finalproject.possystem.order.dto.response.OrderSequenceResponseDto;
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.entity.QOrderSequence;
 import com.finalproject.possystem.order.repository.OrderSequenceRepository;
+import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +35,7 @@ public class OrderSequenceService {
     }
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @Autowired
     private OrderSequenceRepository orderSequenceRepo;
 
 
@@ -48,13 +56,14 @@ public class OrderSequenceService {
     /* 영업이 시작됨 */
     @Transactional
     public void startOpen() {
+        String today = LocalDate.now().format(formatter);
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> exist = getOrderSequenceToday();
 
         /* 오늘날짜의 id가 없을경우 */
         if (exist.isEmpty()) {
             OrderSequence newSequence = new OrderSequence();
-            newSequence.setOpenDate(LocalDate.now().format(formatter));
+            newSequence.setOpenDate(today);
             newSequence.setIsOpen(true);
             newSequence.setCurrentSequence(0);
             newSequence.setTotalOrders(0);
@@ -133,5 +142,17 @@ public class OrderSequenceService {
         return String.format("%s-%06d", today.replace("-", ""), currentSequence);
     }
 
+    public OrderSequenceResponseDto getOrderDashInfo(Date searchDate){
+        Date targetDate = (searchDate == null) ? new Date() : searchDate;
+
+        // 대상 날짜로 OrderSequence 조회
+        OrderSequence sequence = orderSequenceRepo.findByOpenDate(targetDate)
+                .orElseThrow(() -> new IllegalStateException(
+                        "영업이 시작되지 않았습니다. 영업을 시작하세요."
+                ));
+        OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
+        orderSequenceResponseDto.updateweeklySales(orderSequenceRepo.findByOrderDate(searchDate));
+        return orderSequenceResponseDto;
+    }
 
 }

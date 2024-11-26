@@ -1,0 +1,71 @@
+.sidebar {
+    position: fixed;
+    /* 화면의 왼쪽에 고정 */
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    /* 화면 전체 높이 */
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    cursor: pointer;
+}
+
+.sidebar ul li.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #0056b3;
+}
+
+
+/* 이전 페이지로 가는 버튼 */
+
+.back-button {
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #007bff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #0056b3;
+}

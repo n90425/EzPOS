@@ -92,6 +92,29 @@ class MenuRepositoryTest {
         assertEquals(18000, menu.getMenuPrice());   // 메뉴 가격 확인
     }
 
+
+    @Test
+    @Transactional
+    @Commit
+    public void findAllMenusTest() {
+        // 모든 메뉴 조회
+        List<Menu> menuList = menuRepo.findAll();
+
+        // 결과 출력
+        menuList.forEach(menu -> {
+            System.out.println("Menu ID: " + menu.getMenuId());
+            System.out.println("Menu Name: " + menu.getMenuName());
+//            System.out.println("Price: " + menu.getPrice());
+            System.out.println("Category ID: " + menu.getCategoryId());
+            System.out.println("--------------------------------");
+        });
+
+        // 검증 로직 (optional)
+        assertNotNull(menuList);
+        assertFalse(menuList.isEmpty(), "Menu list should not be empty");
+    }
+
+
     // 메뉴 이름으로 메뉴 찾기 테스트
     @Test
     @Transactional

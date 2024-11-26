@@ -8,6 +8,7 @@ import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
+import com.finalproject.possystem.table.service.DiningService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
@@ -36,6 +37,8 @@ public class OrderService {
     @Autowired
     private DiningRepository diningRepo;
 
+    @Autowired
+    private DiningService diningService;
 
     private JPAQueryFactory queryFactory;
 
@@ -54,12 +57,6 @@ public class OrderService {
         return orderNo;
     }
 
-    /* 주문 생성 */
-    public Order newOrder(Order order){
-        String orderNo = createOrderId();
-        order.setOrderNo(orderNo);
-        return orderRepo.save(order);
-    }
 
     /* 주문 업데이트 */
     public Order updateOrder(Order order){
@@ -127,6 +124,7 @@ public class OrderService {
 
         /* Dining테이블에 업데이트 */
         dining.setCurrentOrder(order);
+        diningService.updateTableStatus(tableNo, order, false);
         diningRepo.save(dining);
 
         return orderNo;
@@ -182,7 +180,6 @@ public class OrderService {
         order.setOrderPayStatus("COMPLETED");
         return orderRepo.save(order);
     }
-
 
 
 }

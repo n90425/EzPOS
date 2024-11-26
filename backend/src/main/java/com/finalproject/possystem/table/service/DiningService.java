@@ -1,5 +1,6 @@
 package com.finalproject.possystem.table.service;
 
+import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,17 @@ public class DiningService {
         return diningRepo.save(dining);
     }
 
-
+    /* 주문의 결제상태에 따라 Table의 사용여부를 가능하고 다이닝 테이블의 색상까지 변경할수있도록 하기위한코드 */
+    public void updateTableStatus(Integer tableNo, Order order, boolean isPaid){
+        Dining table = diningRepo.findById(tableNo)
+                .orElseThrow(() -> new RuntimeException("Tbale not found"));
+        
+        if (isPaid) {
+            table.freeTable(); /* 결제완료 : 현재상태를 EMPTY 로 변경 */
+        } else {
+            table.occupyTable(order); /* 주문생성 : 현재상태를 OCCUPIED로 변경 */
+        }
+        
+        diningRepo.save(table);
+    }
 }

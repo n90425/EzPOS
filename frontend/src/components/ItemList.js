@@ -1,22 +1,18 @@
-import React from 'react'
+import React from "react";
 
-function ItemList({ items }) {
+function ItemList({ items = [] }) {
     return (
         <div className="item-list">
-            <h2>메뉴</h2>
             <ul>
                 {items.map((item) => (
-                    <li key={item.manuId}>
-                        <span>{item.manuName}</span>
-                        <label className="switch">
-                            <span className="slider"></span>
-                        </label>
+                    <li key={item.menuId}> {/* 고유한 key prop 추가 */}
+                        <span>{item.menuname}</span>
                     </li>
                 ))}
             </ul>
-
         </div>
-    )
+    );
 }
 
-export default ItemList
+
+export default ItemList;

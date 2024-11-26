@@ -30,6 +30,7 @@ public class Dining {
     private BigDecimal width;
     private BigDecimal height;
 
+    /* 테이블이 비어있는지 주문과 연결되어있는지 확인 */
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "ENUM('EMPTY', 'OCCUPIED') DEFAULT 'EMPTY'")
     private Status status = Status.EMPTY;
@@ -41,6 +42,16 @@ public class Dining {
 
     public enum Status {
         EMPTY, OCCUPIED
+    }
+    
+    public void occupyTable(Order order) {
+        this.status = Status.OCCUPIED; /* 테이블 상태를 OCCUPIED로 변경 */
+        this.currentOrder = order; /* 현재 주문과 연결 */
+    }
+    
+    public void freeTable() {
+        this.status = Status.EMPTY; /* 테이블 상태를 EMPTY로 변경 */
+        this.currentOrder = null; /* 현재 주문 해제 */
     }
 
     public Integer getTableNo() {

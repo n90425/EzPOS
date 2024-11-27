@@ -37,19 +37,25 @@ function Item() {
     // 새로운 아이템 추가
     const handleAddItem = async (newItem) => {
         try {
-            const response = await axios.post(`${BASE_URL}/item`, newItem);
-
+            // categoryId만 전달
+            const formattedItem = {
+                ...newItem,
+                categoryId: newItem.categoryId, // 선택된 카테고리 ID만 전달
+            };
+    
+            const response = await axios.post(`${BASE_URL}/menu`, formattedItem);
             const newItemData = response.data;
             setItems([...items, newItemData]);
         } catch (error) {
             console.error('Failed to add new item:', error);
         }
     };
+    
 
     // 아이템 삭제
     const handleDeleteItem = async (menuId) => {
         try {
-            await axios.post(`${BASE_URL}/deleteitem`, { menu_id: menuId });
+            await axios.post(`${BASE_URL}/deletemenu`, { menuId: menuId });
             setItems(items.filter((item) => item.menuId !== menuId));
         } catch (error) {
             console.error('Failed to delete item:', error);
@@ -75,12 +81,11 @@ function Item() {
     return (
         <div className="item-management">
             <ItemHeader onAddItem={() => setItemModalOpen(true)} />
-            <ItemList items={items} />
+            <ItemList items={items} onDelete={handleDeleteItem} />
             <ItemModal
                 isOpen={itemModalOpen}
                 onClose={() => setItemModalOpen(false)}
                 onSave={handleAddItem}
-                onDelete={handleDeleteItem}
                 onUpdate={handleUpdateItem}
                 items={items}
                 categories={categories} // useCategory 훅으로 가져온 데이터를 전달

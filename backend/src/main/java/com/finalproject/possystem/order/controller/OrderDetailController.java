@@ -21,6 +21,7 @@ public class OrderDetailController {
     @PostMapping("/order/{orderNo}/ordDetail")
     public ResponseEntity<OrderDetail> addOrderDetail(@PathVariable String orderNo, @RequestBody OrderDetail orderDetail){
         orderDetail.setOrderNo(orderNo);
+        System.out.println(orderNo);
         OrderDetail newDetail = orderDetailService.addItemToOrder(orderDetail);
         return ResponseEntity.ok(newDetail);
     }

@@ -5,6 +5,7 @@ import useCategories from "../../hooks/useCategory"; // Custom Hook 가져오기
 import CategoryTabs from "../Category/CategoryTabs";
 import MenuList from "../Category/MenuList";
 import OrderList from "../Category/OrderList";
+import OrderDetail from "./OrderDetail";
 import "./order.css";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -24,7 +25,7 @@ const Order = () => {
   // 메뉴데이터 가져오기
   const getMenus = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/menus`);
+      const res = await axios.get(`${BASE_URL}/menu`);
       setMenus(res.data);
     } catch (error) {
       console.error("메뉴 데이터를 가져오는 중 오류 발생: ", error);
@@ -53,6 +54,26 @@ const Order = () => {
       setSelectedCategory(categories[0].categoryId); // 첫 번째 카테고리 선택
     }
   }, [categories]);
+
+
+  // 주문 상세 데이터 가져오기
+const fetchOrderDetails = async () => {
+  try {
+    const res = await axios.get(`${BASE_URL}/order/${orderNo}/ordDetail`);
+    setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
+    console.log("Order Details: ", res.data);
+  } catch (error) {
+    console.error("주문 상세 데이터를 가져오는 중 오류 발생: ", error);
+  }
+};
+
+// 주문 번호(orderNo)가 생성된 이후에 주문 상세 데이터를 가져오기
+useEffect(() => {
+  if (orderNo) {
+    fetchOrderDetails();
+  }
+}, [orderNo]);
+
 
   // 메뉴를 선택하면 주문 상세 추가
   const addOrderDetail = async (menuId) => {
@@ -88,8 +109,13 @@ const Order = () => {
       />
 
       {/* 주문 상세 */}
-      <OrderList orderDetails={orderDetails} />
-
+      <OrderDetail 
+        orders={orderDetails} 
+        removeFromOrder={(order) => {
+          setOrderDetails(orderDetails.filter((item) => item !== order));
+        }}
+        totalAmount={orderDetails.reduce((acc, item) => acc + item.totalAmount, 0)}
+      />
       {/* 하단 결제 버튼 */}
       <div className="order-footer">
         <button

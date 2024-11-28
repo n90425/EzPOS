@@ -1,28 +1,17 @@
 import React from "react";
+import "./orderDetail.css"; // CSS 파일 연결
 
-const OrderDetail = ({orders, removeFromOrder, totalAmount}) => {
+const OrderDetail = ({ orders, removeFromOrder, totalAmount }) => {
     return (
-        <div style={{width: "40%", padding:"10px"}}>
-            <h2>주문 목록</h2>
+        <div className="order-detail-container">
+            <h2 className="order-detail-header">주문 목록</h2>
             {orders.length === 0 ? (
                 <p>주문이 없습니다</p>
             ) : (
                 <div>
                     {orders.map((order, orderId) => (
-                        <div
-                            key={orderId}
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                marginBottom: "10px",
-                                padding: "10px",
-                                border: "1px solid #ccc",
-                                borderRadius: "5px",
-                                backgroundColor: "#fff",
-                            }}
-                        >
-                            <div>
+                        <div key={orderId} className="order-item">
+                            <div className="order-item-info">
                                 <p>{order.menuName}</p>
                                 <p>수량: {order.quantity}</p>
                                 <p>가격: {order.price.toLocaleString()}원</p>
@@ -30,7 +19,7 @@ const OrderDetail = ({orders, removeFromOrder, totalAmount}) => {
                             <button onClick={() => removeFromOrder(order)}>삭제</button>
                         </div>
                     ))}
-                    <div style={{marginTop: "20px", fontWeight: "bold"}}>
+                    <div className="total-amount">
                         총 금액: {totalAmount.toLocaleString()}원
                     </div>
                 </div>

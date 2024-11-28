@@ -79,7 +79,7 @@ public class DiningService {
         return diningRepo.save(dining);
     }
 
-    /* 주문의 결제상태에 따라 Table의 사용여부를 가능하고 다이닝 테이블의 색상까지 변경할수있도록 하기위한코드 */
+    /* 주문의 결제상태에 따라 Table의 사용여부와 다이닝 테이블의 색상까지 변경할수있도록 하기위한코드 */
     public void updateTableStatus(Integer tableNo, Order order, boolean isPaid){
         Dining table = diningRepo.findById(tableNo)
                 .orElseThrow(() -> new RuntimeException("Table not found"));
@@ -117,9 +117,6 @@ public class DiningService {
         if(currentOrder == null) {
             throw new IllegalArgumentException("원본테이블에 연결된 주문이 없습니다");
         }
-
-        System.out.println("현재 주문 번호: " + currentOrder);
-
 
         /* 대상테이블에 주문연결 및 상태변경 */
         targetTable.setCurrentOrder(currentOrder);

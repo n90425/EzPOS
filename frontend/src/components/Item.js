@@ -3,35 +3,41 @@ import axios from "axios";
 import ItemHeader from './ItemHead';
 import ItemList from './ItemList';
 import ItemModal from './ItemModal';
-import useCategory from '../hooks/useCategory'; // useCategory 훅 임포트
+import useItem from '../hooks/useItem'; // useItem 훅 사용
+import useCategory from '../hooks/useCategory'; // useCategory 훅 사용
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function Item() {
     const [itemModalOpen, setItemModalOpen] = useState(false);
-    const [items, setItems] = useState([]);
+    const { items, setItems, loading: itemLoading, error: itemError } = useItem(); // useItem 훅 사용
     const { categories, loading: categoryLoading, error: categoryError } = useCategory(); // useCategory 훅 사용
+    const [ selectedCategory, setSelectedCategory ] = useState(null);
 
-    //모든 메뉴 가져오기
-    const fetchItems = async () => {
-        try {
-            const response = await axios.get(`${BASE_URL}/menu`);
-            console.log('Fetched items:', response.data);
+    // //모든 메뉴 가져오기
+    // const fetchItems = async () => {
+    //     try {
+    //         const response = await axios.get(`${BASE_URL}/menu`);
+    //         console.log('Fetched items:', response.data);
     
-            // 서버 응답 데이터 변환 (필요 시)
-            const formattedItems = response.data.map((item) => ({
-                menuId: item.menuId,
-                menuname: item.menuName || "Unnamed Item",
-            }));
-            setItems(formattedItems); // 변환된 데이터로 상태 설정
-        } catch (error) {
-            console.error('Failed to fetch items:', error);
-        }
-    };
+    //         // 서버 응답 데이터 변환 (필요 시)
+    //         const formattedItems = response.data.map((item) => ({
+    //             menuId: item.menuId,
+    //             menuname: item.menuName || "Unnamed Item", price : item.menuPrice || "Unnamed Item"
+    //         }));
+    //         setItems(response.data); // 변환된 데이터로 상태 설정
+    //     } catch (error) {
+    //         console.error('Failed to fetch items:', error);
+    //     }
+    // };
     
-    useEffect(() => {
-        fetchItems();
-    }, []);
+    // useEffect(() => {
+    //     fetchItems();
+    // }, []);
+
+
+    //선택된 카테고리에 따라 메뉴반환
+    const filteredItems = selectedCategory ? items.filter((item) => String(item.categoryId) === String(selectedCategory)) : items;
 
 
     // 새로운 아이템 추가
@@ -81,7 +87,13 @@ function Item() {
     return (
         <div className="item-management">
             <ItemHeader onAddItem={() => setItemModalOpen(true)} />
-            <ItemList items={items} onDelete={handleDeleteItem} />
+            <ItemList 
+                categories={categories}
+                items={filteredItems} // 필터링된 데이터 전달 
+                onDelete={handleDeleteItem} // 삭제 핸들러 전달
+                onCategorySelect={setSelectedCategory} // 카테고리 선택 핸들러 전달
+                selectedCategory={selectedCategory} // 선택된 카테고리 전달 
+            />
             <ItemModal
                 isOpen={itemModalOpen}
                 onClose={() => setItemModalOpen(false)}
@@ -90,6 +102,8 @@ function Item() {
                 items={items}
                 categories={categories} // useCategory 훅으로 가져온 데이터를 전달
             />
+            {itemLoading && <p>Loading items...</p>}
+            {itemError && <p>Error loading items: {itemError.message}</p>}
             {categoryLoading && <p>Loading categories...</p>}
             {categoryError && <p>Error loading categories: {categoryError.message}</p>}
         </div>

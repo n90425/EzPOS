@@ -17,6 +17,7 @@ import java.sql.Date;
 @Entity
 public class Menu {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menuId")
     private Integer menuId;
 

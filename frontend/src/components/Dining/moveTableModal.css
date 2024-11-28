@@ -1,0 +1,61 @@
+.modal-overlay {
+    position: fixed; /* 화면 전체를 덮기 위해 고정 */
+    top: 0;
+    left: 0;
+    width: 100vw; /* 전체 화면 너비 */
+    height: 100vh; /* 전체 화면 높이 */
+    /* background-color: rgba(0, 0, 0, 0.7); 투명한 어두운 배경 */
+    display: flex; /* 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    z-index: 1000; /* 다른 요소 위에 배치 */
+}
+
+
+.modal-content {
+    position: relative;
+    background-color: rgba(44, 62, 80, 0.9); /* 반투명 배경 제거 */
+    width: 100%; /* 화면 너비를 모두 채움 */
+    height: 100%; /* 화면 높이를 모두 채움 */
+    
+    box-shadow: none; /* 그림자 제거 */
+    display: flex;
+    flex-direction: column; /* 상단에 헤더, 아래에 내용 배치 */
+}
+
+
+.modal-header {
+    display: flex; /* 플렉스 레이아웃 사용 */
+    align-items: center; /* 세로 가운데 정렬 */
+    /* justify-content: space-between; 양쪽 끝 정렬 */
+    background-color: rgba(30, 40, 50, 0.2); /* 헤더 배경색 */
+    color: white;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.modal-header h5 {
+    flex: 1; /* 남은 공간 차지 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    margin: 0; /* 여백 제거 */
+    font-size: 20px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: auto; /* 버튼을 오른쪽 끝으로 밀기 */
+    font-size: 16px;
+}
+.table-grid {
+    flex: 1; /* 남은 공간 차지 */
+    overflow-y: auto; /* 테이블이 많을 경우 스크롤 활성화 */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 반응형 그리드 */
+    gap: 10px;
+    padding: 1rem;
+}

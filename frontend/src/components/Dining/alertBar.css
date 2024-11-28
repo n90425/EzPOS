@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: #4CAF50; /* 원하는 배경 색 */
+    background-color: rgba(30, 40, 50, 0.7); /* 헤더 배경색 */
     color: white;
     text-align: center;
     padding: 1em;

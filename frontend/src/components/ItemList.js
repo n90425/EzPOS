@@ -1,9 +1,29 @@
 import React from "react";
 import "../css/itemlist.css";
 
-function ItemList({ items = [], onDelete }) {
+function ItemList({ items = [], categories = [], onDelete, onCategorySelect, selectedCategory }) {
     return (
         <div className="item-list">
+            {/* 카테고리 버튼 */}
+            <div className="category-buttons">
+                <button
+                    className={!selectedCategory ? "active" : ""}
+                    onClick={() => onCategorySelect(null)}
+                >
+                    전체
+                </button>
+                {categories.map((category) => (
+                    <button
+                        key={category.categoryId}
+                        className={selectedCategory === category.categoryId ? "active" : ""}
+                        onClick={() => onCategorySelect(category.categoryId)}   //카테고리 버튼 클릭
+                    >
+                        {category.categoryname}
+                    </button>
+                ))}
+            </div>
+
+            {/* 메뉴 리스트 */}
             <table className="item-table">
                 <thead>
                     <tr>
@@ -19,33 +39,22 @@ function ItemList({ items = [], onDelete }) {
                 <tbody>
                     {items.map((item) => (
                         <tr key={item.menuId}>
-                            <td>
-                                <input type="checkbox" />
-                            </td>
-                            <td>
-                                <div className="item-image">
-                                    {item.image ? (
-                                        <img src={item.image} alt={item.menuname} />
-                                    ) : (
-                                        <span>이미지 없음</span>
-                                    )}
-                                </div>
-                            </td>
-                            <td>{item.menuname}</td>
-                            <td>{item.price}원</td>
-                            <td>{item.stock || "없음"}</td>
+                            <td><input type="checkbox" /></td>
+                            <td>{item.image ? <img src={item.image} alt={item.menuName} /> : "이미지 없음"}</td>
+                            <td>{item.menuName || "이름 없음"}</td> {/* 메뉴 이름 */}
+                            <td>{item.menuPrice ? `${item.menuPrice}원` : "가격 없음"}</td> {/* 메뉴 가격 */}
+                            <td>{item.stock || "없음"}</td> {/* 재고 수량 */}
                             <td>
                                 <label className="switch">
-                                    <input type="checkbox" checked={item.soldOut || false} />
+                                    <input type="checkbox" checked={item.soldOut || false} readOnly />
                                     <span className="slider"></span>
                                 </label>
                             </td>
-                            <td>
-                                <button className="delete-button" onClick={() => onDelete(item.menuId)}>삭제</button>
-                            </td>
+                            <td><button onClick={() => onDelete(item.menuId)}>삭제</button></td>
                         </tr>
                     ))}
                 </tbody>
+
             </table>
         </div>
     );

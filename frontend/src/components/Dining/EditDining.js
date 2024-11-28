@@ -156,30 +156,6 @@ function EditDining() {
         setSelectedTable(null);
     }
 
-    // 테이블 unpaid (미결제 상태) 인 테이블의 색상처리로직
-    const fetchTableStatues = async () => {
-        try {
-            const res = await axios.get(`${BASE_URL}/dining-status/unpaid`);
-            const statuses = res.data;
-            setTables((prevTable) =>
-                prevTable.map((table) => {
-                    const status = statuses.find((s)=> s.tableNo === table.tableNo);
-                    return {
-                        ...table,
-                        isUnpaid: status ? status.unpaid : false,
-                    };
-                })
-            );
-        } catch(error) {
-            console.error("미결제 상태를 가져오는중 오류 발생", error);
-        }
-    }
-
-    useEffect(() => {
-        fetchTables();
-        fetchTableStatues();
-    }, []);
-    
     // 테이블 상태변경
     const handleAddTableClick = () => {
         setIsAddingTable(true);
@@ -234,9 +210,9 @@ function EditDining() {
                                     position: "absolute",
                                     width: table.width,
                                     height: table.height,
-                                    backgroundColor: table.isUnpaid ? table.tableColor : "white", // 미결제 여부에 따라 배경색 설정
-                                    color: table.isUnpaid ? "white" : table.tableColor,
-                                    border: `1px solid ${table.tableColor}`,
+                                    backgroundColor: table.status === "EMPTY"? "white" : table.tableColor, // 테이블이 비어있는지 아닌지에따라 색상변경
+                                    color: table.status === "EMPTY"? table.tableColor: "white",
+                                    border: `2px solid ${table.tableColor}`,
                                 }}
                                 onClick={(event)=> handleTableclick(table, event)}
                             >

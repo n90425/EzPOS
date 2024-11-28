@@ -2,17 +2,15 @@ import React, {useState, useEffect, useRef } from "react";
 import "./settingDropDown.css";
 import { useNavigate } from "react-router-dom";
 
-function SettingsDropDown(){
+function SettingsDropDown({showAlert, onTableMove}){
     // dropdown 상태추가
     const [isOpen, setIsOpen] = useState(false);
     // 드롭다운밖을 마우스클릭할경우 포커스 설정 상태추가
     const dropdownRef = useRef(null);
 
-
     // 상태변경
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    }
+    const toggleDropdown = () => setIsOpen(!isOpen);
+    
 
     // 드롭다운 밖을선택할때 상태를 false로변경
     const handleClickOutside = (event) => {
@@ -29,6 +27,7 @@ function SettingsDropDown(){
         }
     }, []);
 
+
     // 테이블 편집을 눌렀을때 이동
     const tableNavi = useNavigate();
     const handleEditTable = () => {
@@ -37,7 +36,7 @@ function SettingsDropDown(){
 
     return (
         <div className="top-bar">
-            <button className="top-bar-button">자리이동</button>
+            <button className="top-bar-button" onClick={onTableMove}>자리이동</button>
             <button className="top-bar-button">합석</button>
             <button className="top-bar-button">단체 손님 관리</button>
             <button className="top-bar-button">재출력</button>
@@ -56,4 +55,4 @@ function SettingsDropDown(){
     )
 }
 
-export default SettingsDropDown;
+export default SettingsDropDown; 

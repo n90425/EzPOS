@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,5 +57,17 @@ public class DiningController {
     public ResponseEntity<List<Dining>> getAlltables() {
         List<Dining> tables = diningService.getTable();
         return ResponseEntity.ok(tables);
+    }
+
+    @PostMapping("/dining/move")
+    public ResponseEntity<Map<String, String>> moveTable(@RequestBody Map<String, Integer> request){
+        int sourceTableNo = request.get("sourceTableNo");
+        int targetTableNo = request.get("targetTableNo");
+
+        String msg = diningService.moveTable(sourceTableNo, targetTableNo);
+
+        Map<String, String> res = new HashMap<>();
+        res.put("msg", msg);
+        return ResponseEntity.ok(res);
     }
 }

@@ -1,10 +1,12 @@
 package com.finalproject.possystem.table.service;
 
 import com.finalproject.possystem.order.entity.Order;
+import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +15,9 @@ import java.util.List;
 public class DiningService {
     @Autowired
     private DiningRepository diningRepo;
+
+    @Autowired
+    private OrderRepository orderRepo;
 
     /* 전체의 테이블개수 세기 */
     public long count(){
@@ -77,14 +82,66 @@ public class DiningService {
     /* 주문의 결제상태에 따라 Table의 사용여부를 가능하고 다이닝 테이블의 색상까지 변경할수있도록 하기위한코드 */
     public void updateTableStatus(Integer tableNo, Order order, boolean isPaid){
         Dining table = diningRepo.findById(tableNo)
-                .orElseThrow(() -> new RuntimeException("Tbale not found"));
+                .orElseThrow(() -> new RuntimeException("Table not found"));
         
         if (isPaid) {
             table.freeTable(); /* 결제완료 : 현재상태를 EMPTY 로 변경 */
         } else {
             table.occupyTable(order); /* 주문생성 : 현재상태를 OCCUPIED로 변경 */
         }
-        
         diningRepo.save(table);
+    }
+
+    /* 테이블 자리이동 구현 */
+    @Transactional
+    public String moveTable(int sourceTableNo, int targetTableNo) {
+        /* 선택된테이블 찾기 */
+        Dining sourceTable = diningRepo.findById(sourceTableNo)
+                .orElseThrow(()-> new IllegalArgumentException("기존테이블을 찾을수 없습니다"));
+        /* 대상테이블 찾기 */
+        Dining targetTable = diningRepo.findById(targetTableNo)
+                .orElseThrow(()-> new IllegalArgumentException("대상테이블을 찾을수 없습니다"));
+
+        /* 선택된테이블인지 EMPTY 일경우 throw 발생 */
+        if(sourceTable.getStatus() == Dining.Status.EMPTY) {
+            throw new IllegalArgumentException("테이블이 비어있습니다");
+        }
+
+        /* 대상테이블이 EMPTY가 아닐경우 throw발생 */
+        if(targetTable.getStatus() != Dining.Status.EMPTY) {
+            throw new IllegalArgumentException("테이블이 비어있지않습니다");
+        }
+
+        /* 테이블의 현재 연결된 Order객체를 가져온다 */
+        Order currentOrder = sourceTable.getCurrentOrder();
+        if(currentOrder == null) {
+            throw new IllegalArgumentException("원본테이블에 연결된 주문이 없습니다");
+        }
+
+        System.out.println("현재 주문 번호: " + currentOrder);
+
+
+        /* 대상테이블에 주문연결 및 상태변경 */
+        targetTable.setCurrentOrder(currentOrder);
+        targetTable.setStatus(Dining.Status.OCCUPIED);
+
+        /* 원본테이블 초기화 */
+        sourceTable.setCurrentOrder(null);
+        sourceTable.setStatus(Dining.Status.EMPTY);
+
+        /* 테이블저장 */
+        diningRepo.save(sourceTable);
+        diningRepo.save(targetTable);
+
+        /* 주문 DB 정보 업데이트 */
+        String orderNo = currentOrder.getOrderNo();
+        Order order = orderRepo.findByOrderNo(orderNo);
+        if (order == null) {
+            throw new IllegalArgumentException("해당 주문을 찾을 수 없습니다.");
+        }
+        order.setDining(targetTable);
+        orderRepo.save(order);
+
+        return String.format("테이블 %d번이 %d번으로 이동되었습니다.", sourceTableNo, targetTableNo);
     }
 }

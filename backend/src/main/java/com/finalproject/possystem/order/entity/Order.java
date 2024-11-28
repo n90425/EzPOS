@@ -13,7 +13,6 @@ import java.util.List;
 
 import static java.time.LocalTime.now;
 
-@ToString
 @Setter
 @Getter
 @Table(name = "`order`")
@@ -59,4 +58,15 @@ public class Order {
         return this.orderTime.format(formatter);
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderNo='" + orderNo + '\'' +
+                ", orderTime=" + orderTime +
+                ", orderPayStatus='" + orderPayStatus + '\'' +
+                ", orderAmount=" + orderAmount +
+                ", orderVat=" + orderVat +
+                ", orderDetails=" + orderDetails +
+                '}';
+    }
 }

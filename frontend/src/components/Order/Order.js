@@ -18,6 +18,20 @@ const Order = () => {
 
   const { tableNo } = useParams();
 
+
+
+
+  // 메뉴데이터 가져오기
+  const getMenus = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/menus`);
+      setMenus(res.data);
+    } catch (error) {
+      console.error("메뉴 데이터를 가져오는 중 오류 발생: ", error);
+    }
+  };
+
+
   // 테이블 번호로 주문 생성 또는 조회
   useEffect(() => {
     const createOrGetOrder = async () => {
@@ -30,20 +44,8 @@ const Order = () => {
         console.error("주문 생성 또는 조회 중 오류 발생: ", error);
       }
     };
-
-    // 메뉴데이터 가져오기
-    const getMenus = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/menus`);
-        setMenus(res.data);
-      } catch (error) {
-        console.error("메뉴 데이터를 가져오는 중 오류 발생: ", error);
-      }
-    };
-
-    // fetchCategories(); // Custom Hook에서 제공하는 fetchCategories 호출
-    // getMenus();
-  }, [tableNo, fetchCategories]);
+    createOrGetOrder();
+  }, [tableNo]);
 
   // 선택된 카테고리 초기값 설정
   useEffect(() => {
@@ -52,7 +54,7 @@ const Order = () => {
     }
   }, [categories]);
 
-  // 주문 상세 추가
+  // 메뉴를 선택하면 주문 상세 추가
   const addOrderDetail = async (menuId) => {
     if (!orderNo) {
       alert("주문을 먼저 생성하세요.");

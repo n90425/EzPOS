@@ -6,13 +6,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 
 @Table(name="dining")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Dining {
     @Id
     @Column(name="`tableNo`")
@@ -39,6 +39,8 @@ public class Dining {
     @JoinColumn(name="currentOrderNo", referencedColumnName = "orderNo", foreignKey = @ForeignKey(name="fk_current_order"))
     @JsonBackReference
     private Order currentOrder;
+
+
 
     public enum Status {
         EMPTY, OCCUPIED
@@ -117,4 +119,20 @@ public class Dining {
     public void setCurrentOrder(Order currentOrder) {
         this.currentOrder = currentOrder;
     }
+
+    @Override
+    public String toString() {
+        return "Dining{" +
+                "tableNo=" + tableNo +
+                ", xPosition=" + xPosition +
+                ", yPosition=" + yPosition +
+                ", tableColor='" + tableColor + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", status=" + status +
+                ", currentOrder=" + currentOrder +
+                '}';
+    }
+
+
 }

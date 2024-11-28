@@ -33,17 +33,10 @@ public class OrderController {
 
     /* 선택된 테이블에서 주문생성 */
     @PostMapping("/order/{tableNo}")
-    public ResponseEntity<String> addToOrder(@PathVariable int tableNo, @RequestBody List<OrderDetail> orderDetail){
+    public ResponseEntity<String> addToOrder(@PathVariable int tableNo){
         try {
             /* 주문생성 또는 가져오기 */
             String orderNo = orderService.createOrGetOrder(tableNo);
-
-            for(OrderDetail detail : orderDetail){
-                /* orderDetail에 주문번호 set */
-                detail.setOrderNo(orderNo);
-                /* orderDetail orderAddNo 추가주문 생성 또는 값증가, 총금액계산 생성 */
-                orderDetailService.addItemToOrder(detail);
-            }
             return ResponseEntity.ok(orderNo);
         } catch (RuntimeException e){
             logger.error("Error fail logger: {}", e.getMessage(), e);

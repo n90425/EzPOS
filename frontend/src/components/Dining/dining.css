@@ -47,7 +47,6 @@
     border: none;
     border-radius: 8px;
     display: flex;
-    align-items: center;
     justify-content: center;
     color: white;
     font-weight: bold;
@@ -56,6 +55,6 @@
 }
 
 .table-number {
-    font-size: 13px;
+    font-size: 15px;
     padding: 0.5em;
 }

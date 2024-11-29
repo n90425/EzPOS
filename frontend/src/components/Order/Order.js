@@ -40,6 +40,11 @@ const Order = () => {
     }
   }, [categories]);
 
+  // `isVisible`과 선택된 카테고리를 기준으로 메뉴 필터링
+  const filteredMenus = items.filter(
+    (menu) => menu.categoryId === selectedCategory && menu.isVisible
+  );
+
   // 메뉴를 선택하면 주문 상세 추가
   const addOrderDetail = async (menuId) => {
     if (!orderNo) {
@@ -69,7 +74,7 @@ const Order = () => {
 
       {/* 메뉴 리스트 */}
       <MenuList
-        menus={items.filter((menu) => menu.categoryId === selectedCategory)} // 선택된 카테고리에 따른 메뉴 필터링
+        menus={filteredMenus} // `isVisible`을 적용한 필터링된 메뉴 리스트 전달
         onAddToOrder={addOrderDetail}
       />
 

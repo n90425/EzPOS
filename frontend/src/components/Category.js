@@ -15,13 +15,6 @@ function Category() {
     // 커스텀 훅에서 상태와 함수 가져오기
     const { categories, setCategories, fetchCategories, loading, error } = useCategories();
 
-    const toggleVisibility = (categoryId) => {
-        setCategories(categories.map((category) =>
-            category.categoryId === categoryId
-                ? { ...category, visible: !category.visible }
-                : category
-        ));
-    };
 
     const handleAddCategory = async (newCategoryName) => {
         try {
@@ -52,13 +45,35 @@ function Category() {
         }
     };
 
+
+    // 사용 여부 토글
+    const handleToggleVisibility = async (categoryId, isVisible) => {
+        try {
+            await axios.post(`${BASE_URL}/category/toggle-visibility`, {
+                categoryId,
+                isVisible,
+            });
+            setCategories((prevCategories) =>
+                prevCategories.map((category) =>
+                    category.categoryId === categoryId
+                        ? { ...category, isVisible }
+                        : category
+                )
+            );
+        } catch (error) {
+            console.error("Failed to toggle visibility:", error);
+        }
+    };
+    
+
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error loading categories</div>;
 
     return (
         <div className="cate-management">
             <Header onAddCategory={() => setIsModalOpen(true)} />
-            <CategoryList categories={categories} toggleVisibility={toggleVisibility} />
+            <CategoryList categories={categories} toggleVisibility={handleToggleVisibility} />
             <CategoryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

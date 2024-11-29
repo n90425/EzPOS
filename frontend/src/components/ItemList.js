@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/itemlist.css";
 
-function ItemList({ items = [], categories = [], onDelete, onCategorySelect, selectedCategory }) {
+function ItemList({ items = [], categories = [], onDelete, onEdit, onToggleVisibility, onCategorySelect, selectedCategory }) {
     return (
         <div className="item-list">
             {/* 카테고리 버튼 */}
@@ -31,8 +31,9 @@ function ItemList({ items = [], categories = [], onDelete, onCategorySelect, sel
                         <th>이미지</th>
                         <th>상품명</th>
                         <th>가격</th>
-                        <th>재고수량</th>
                         <th>품절표시</th>
+                        <th>사용여부</th>
+                        <th>수정</th>
                         <th>삭제</th>
                     </tr>
                 </thead>
@@ -46,10 +47,15 @@ function ItemList({ items = [], categories = [], onDelete, onCategorySelect, sel
                             <td>{item.stock || "없음"}</td> {/* 재고 수량 */}
                             <td>
                                 <label className="switch">
-                                    <input type="checkbox" checked={item.soldOut || false} readOnly />
+                                    <input
+                                        type="checkbox"
+                                        checked={item.isVisible || false}
+                                        onChange={() => onToggleVisibility(item.menuId, !item.isVisible)} // 상태 변경 핸들러
+                                    />
                                     <span className="slider"></span>
                                 </label>
                             </td>
+                            <td><button onClick={() => onEdit(item)}>수정</button></td>
                             <td><button onClick={() => onDelete(item.menuId)}>삭제</button></td>
                         </tr>
                     ))}

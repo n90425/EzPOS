@@ -7,13 +7,15 @@ function CategoryList({ categories, toggleVisibility }) {
             <h2>카테고리</h2>
             <ul>
                 {categories.map((category) => (
-                    <li key={category.categoryId}> {/* 고유한 key */}
+                    <li key={category.categoryId}
+                        className={category.isVisible ? "visible-category" : "hidden-category"}
+                    > 
                         <span>{category.categoryname}</span>
                         <label className="switch">
                             <input
                                 type="checkbox"
-                                checked={category.visible ?? false} //초기값 설정
-                                onChange={() => toggleVisibility(category.categoryId)}
+                                checked={category.isVisible}
+                                onChange={() => toggleVisibility(category.categoryId, !category.isVisible)}
                             />
                             <span className="slider"></span>
                         </label>

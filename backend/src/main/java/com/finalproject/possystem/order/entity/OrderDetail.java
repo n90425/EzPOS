@@ -28,9 +28,9 @@ public class OrderDetail {
     private Integer unitPrice;
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-    @Column(name = "totalAmount")
+    @Column(name = "totalAmount", insertable = false, updatable = false)
     private Integer totalAmount;
-    @Column(name = "itemOrderTime")
+    @Column(name = "itemOrderTime", insertable = false, updatable = false)
     private LocalDateTime itemOrderTime;
 
     @ManyToOne

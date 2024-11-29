@@ -23,7 +23,7 @@ public class Category {
 
     private String categoryname;
 
-    private Character isvisible = 'Y';
+    private Boolean isvisible;
 
     // 상위 카테고리와의 관계 설정
     @ManyToOne /* 이 필드를 실제로 사용할때 데이터를 로드 */

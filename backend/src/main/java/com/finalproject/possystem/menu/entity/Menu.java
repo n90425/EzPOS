@@ -37,7 +37,7 @@ public class Menu {
     private String menuImage;
 
     @Column(name = "isVisible")
-    private Character isVisible;
+    private Boolean isVisible;
 
     @Column(name = "menuDate")
     private Date menuDate;

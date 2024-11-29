@@ -44,12 +44,20 @@ public class DiningService {
     }
 
     /* 하나의 테이블을 삭제 */
+    @Transactional
     public void delTable(Integer tableNo){
-        if (tableNo != null) {
-            diningRepo.deleteById(tableNo);
-        } else {
-            throw new IllegalArgumentException("Table number must not be null");
+        Dining dining = diningRepo.findById(tableNo)
+                .orElseThrow(() -> new IllegalArgumentException("테이블을 찾을 수 없습니다."));
+
+        // 관련된 Order의 dining 참조 해제
+        List<Order> orders = orderRepo.findByDining(dining);
+        for (Order order : orders) {
+            order.setDining(null);
+            orderRepo.save(order);
         }
+
+        // Dining 삭제
+        diningRepo.delete(dining);
     }
 
     /* DB에 비어있는 테이블 찾기 */
@@ -114,6 +122,7 @@ public class DiningService {
 
         /* 테이블의 현재 연결된 Order객체를 가져온다 */
         Order currentOrder = sourceTable.getCurrentOrder();
+        System.out.println("currentOrder: "+currentOrder);
         if(currentOrder == null) {
             throw new IllegalArgumentException("원본테이블에 연결된 주문이 없습니다");
         }

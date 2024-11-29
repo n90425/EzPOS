@@ -1,5 +1,7 @@
 package com.finalproject.possystem.order.service;
 
+import com.finalproject.possystem.menu.entity.Menu;
+import com.finalproject.possystem.menu.repository.MenuRepository;
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.OrderDetail;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepo;
+    @Autowired
+    private MenuRepository menuRepo;
 
     @Autowired
     private OrderRepository orderRepo;
@@ -24,6 +28,7 @@ public class OrderDetailService {
     /* orderDetail orderAddNo 추가주문 값증가, 총금액계산 생성 */
     @Transactional
     public OrderDetail addItemToOrder(OrderDetail orderDetail){
+
         /* orderAddNo의 최대값을 가져온다 */
         int maxOrdAddNo = orderDetailRepo.findMaxOrdAddByOrderNo(orderDetail.getOrderNo()).orElse(0);
         /* ordAddNo 1씩 증가 */
@@ -33,8 +38,13 @@ public class OrderDetailService {
         if(orderDetail.getQuantity() == null || orderDetail.getQuantity() <= 0){
             orderDetail.setQuantity(1);
         }
-        /* 수량 * 가격 = 총금액을 계산 */
-        orderDetail.calculateTotalAmount();
+
+        /* 메뉴id와 detail에서 id와 일치한것을 찾는다 */
+        Integer unitPrice = menuRepo.findById(orderDetail.getMenuId())
+                .map(Menu::getMenuPrice)
+                .orElseThrow(()-> new IllegalArgumentException("유효하지않은 메뉴입니다"));
+        orderDetail.setUnitPrice(unitPrice);
+
         return orderDetailRepo.save(orderDetail);
     }
 

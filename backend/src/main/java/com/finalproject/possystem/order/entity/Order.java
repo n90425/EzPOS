@@ -23,8 +23,8 @@ public class Order {
     @Column(name = "orderNo")
     private String orderNo;
 
-    @OneToOne
-    @JoinColumn(name="`tableNo`", referencedColumnName = "`tableNo`", nullable = false)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="`tableNo`", referencedColumnName = "`tableNo`", nullable = true)
     @JsonBackReference
     private Dining dining;
 
@@ -66,7 +66,6 @@ public class Order {
                 ", orderPayStatus='" + orderPayStatus + '\'' +
                 ", orderAmount=" + orderAmount +
                 ", orderVat=" + orderVat +
-                ", orderDetails=" + orderDetails +
                 '}';
     }
 }

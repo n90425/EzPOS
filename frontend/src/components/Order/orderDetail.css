@@ -1,0 +1,60 @@
+.order-detail-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f9f9f9;
+  gap: 20px;
+  padding: 20px;
+}
+
+.menu-list-section {
+  flex: 3; /* 좌측 메뉴 리스트: 3:1 비율 */
+  border-right: 1px solid #ddd;
+  padding: 10px;
+}
+
+.order-detail-section {
+  flex: 1; /* 우측 주문 상세: 2:1 비율 */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.order-items {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.order-item-info p {
+  margin: 0;
+}
+
+.total-amount {
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: right;
+}
+
+.checkout-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: #0056b3;
+}

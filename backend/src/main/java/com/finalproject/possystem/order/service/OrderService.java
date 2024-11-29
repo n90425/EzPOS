@@ -88,9 +88,9 @@ public class OrderService {
     }
 
 
-    /* 선택한 주문 읽어오기 */
-    public Order getOrder(String orderNo){
-        return orderRepo.findByOrderNo(orderNo);
+    /* 해당테이블의 주문 읽어오기 */
+    public Order getOrder(Integer tableNo){
+        return orderRepo.findByTableNo(tableNo);
     }
 
     /* 주문 전체 읽어오기 */

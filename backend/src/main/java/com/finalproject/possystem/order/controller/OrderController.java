@@ -8,6 +8,7 @@ import com.finalproject.possystem.order.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,24 @@ public class OrderController {
     }
 
     /* 주문 1건 조회 */
+    @GetMapping("/order/{tableNo}")
+    public ResponseEntity<String> readOrder(@PathVariable Integer tableNo){
+        try {
+            Order order = orderService.getOrder(tableNo); // 서비스에서 주문을 가져옴
+            if (order == null) {
+                // 주문이 없는 경우
+                return ResponseEntity.ok("해당 테이블 번호에 대한 주문이 없습니다.");
+            }
+            // 주문이 있는 경우
+            return ResponseEntity.ok(order.getOrderNo());
+        } catch (Exception e) {
+            // 기타 예외 처리
+            logger.error("주문 조회 중 예외 발생: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("주문 조회 중 오류 발생: " + e.getMessage());
+        }
+    }
+
     /* 주문 업데이트 */
     /* 주문 삭제 */
 

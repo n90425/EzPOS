@@ -52,13 +52,14 @@ public class DiningController {
         return diningService.getTable();
     }
 
-    /* 테이블 전체를 가져와서 상태를 확인함 */
+    /* 테이블 전체를 가져와서 상태를 확인함 : 오더가 연결되어있느냐에따라 테이블색상이 달라짐 */
     @GetMapping("/status")
     public ResponseEntity<List<Dining>> getAlltables() {
         List<Dining> tables = diningService.getTable();
         return ResponseEntity.ok(tables);
     }
 
+    /* 테이블 자리이동 구현: source 기존테이블을 target 변경테이블로 테이블 자리이동 */
     @PostMapping("/dining/move")
     public ResponseEntity<Map<String, String>> moveTable(@RequestBody Map<String, Integer> request){
         int sourceTableNo = request.get("sourceTableNo");
@@ -66,8 +67,10 @@ public class DiningController {
 
         String msg = diningService.moveTable(sourceTableNo, targetTableNo);
 
+        /* service 에있는 msg 를 가져오기위함 */
         Map<String, String> res = new HashMap<>();
         res.put("msg", msg);
+        System.out.println("res: "+res);
         return ResponseEntity.ok(res);
     }
 }

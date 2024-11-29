@@ -35,7 +35,7 @@ public class Dining {
     @Column(name = "status", columnDefinition = "ENUM('EMPTY', 'OCCUPIED') DEFAULT 'EMPTY'")
     private Status status = Status.EMPTY;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="currentOrderNo", referencedColumnName = "orderNo", foreignKey = @ForeignKey(name="fk_current_order"))
     @JsonBackReference
     private Order currentOrder;

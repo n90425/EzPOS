@@ -44,7 +44,7 @@ class MenuRepositoryTest {
         menu1.setMenuPrice(18000);
         menu1.setMenuDescription("달짝지근 양념에 고기가 배여 남녀노소 누구나 좋아하는 돼지갈비");
         menu1.setMenuImage("/images/samgyeopsal.jpg");
-        menu1.setIsVisible('Y');
+        menu1.setIsVisible(true);
         menu1.setMenuDate(Date.valueOf("2024-10-10"));
 
         Menu menu2 = new Menu();
@@ -54,7 +54,7 @@ class MenuRepositoryTest {
         menu2.setMenuPrice(18000);
         menu2.setMenuDescription("두툼한 360시간 숙성삼겹살");
         menu2.setMenuImage("/images/galbi.jpg");
-        menu2.setIsVisible('Y');
+        menu2.setIsVisible(true);
         menu2.setMenuDate(Date.valueOf("2024-10-10"));
 
         menuRepo.save(menu1);  // 메뉴1 저장

@@ -56,4 +56,17 @@ public class CateController {
         // 성공적으로 업데이트된 경우
         return ResponseEntity.ok(updatedCategory);
     }
+
+    @PostMapping("/category/toggle-visibility")
+    public ResponseEntity<?> toggleVisibility(@RequestBody Map<String, Object> payload) {
+        System.out.println("Payload received: " + payload);
+
+        Integer categoryId = (Integer) payload.get("categoryId");
+        Boolean isVisible = (Boolean) payload.get("isVisible");
+
+        categoryService.updateCategoryVisibility(categoryId, isVisible);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

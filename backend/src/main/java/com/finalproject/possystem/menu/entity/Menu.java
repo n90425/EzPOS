@@ -37,7 +37,7 @@ public class Menu {
     private String menuImage;
 
     @Column(name = "isVisible")
-    private Character isVisible;
+    private Boolean  isVisible;
 
     @Column(name = "menuDate")
     private Date menuDate;
@@ -46,4 +46,6 @@ public class Menu {
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)  // 카테고리 ID 조인
     private Category category;  // Category 엔티티와 연결
+
+
 }

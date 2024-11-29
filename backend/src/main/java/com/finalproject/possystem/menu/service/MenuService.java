@@ -45,8 +45,26 @@ public class MenuService {
         return menuRepository.save(menu);
     }
 
+    //메뉴 업데이트
+    public Menu menuUpdate(Menu menu) {
+        Menu menuupdate = menuRepository.findByMenuId(menu.getMenuId());
+        if (menuupdate == null) return null;
+        menuupdate.setCategoryId(menu.getCategoryId());
+        menuupdate.setMenuName(menu.getMenuName());
+        menuupdate.setMenuPrice(menu.getMenuPrice());
+        menuupdate.setIsVisible(menu.getIsVisible());
+        return menuRepository.save(menuupdate);
+    }
 
-
+    //visible사용 여부
+    public void updatemenuVisibility(Integer menuId, Boolean isVisible){
+        Menu menu = menuRepository.findByMenuId(menuId);
+        if (menu == null) {
+            throw new IllegalArgumentException("Menu not found");
+        }
+        menu.setIsVisible(isVisible);
+        menuRepository.save(menu);
+    }
 
     //menuId로 삭제
     public void menuDelete(Integer menuId) { menuRepository.deleteById(menuId);}

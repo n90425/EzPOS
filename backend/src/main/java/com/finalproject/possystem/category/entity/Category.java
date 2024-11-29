@@ -23,7 +23,8 @@ public class Category {
 
     private String categoryname;
 
-    private Character isvisible = 'Y';
+    @Column(name = "isvisible", nullable = false)
+    private Boolean isVisible = true;
 
     // 상위 카테고리와의 관계 설정
     @ManyToOne /* 이 필드를 실제로 사용할때 데이터를 로드 */
@@ -50,7 +51,7 @@ public class Category {
         return "Category{" +
                 "categoryId=" + categoryId +
                 ", categoryname='" + categoryname + '\'' +
-                ", isvisible=" + isvisible +
+                ", isvisible=" + isVisible +
                 ", parent=" + (parent != null ? parent.getCategoryId() : "null") +
                 ", children=" + children +
                 '}';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/CateSide';
+import Sidebar from '../components/ProductSide';
 import Category from '../components/Category';
 import Item from '../components/Item';
 import "../css/product.css";
@@ -7,8 +7,8 @@ import "../css/product.css";
 function ProductManagement() {
     const [showCategoryManagement, setShowCategoryManagement] = useState(false);
     const [showItemManagement, setShowItemManagement] = useState(false); 
-    const [categories, setCategories] = useState([]); // 카테고리 상태
-    const [items, setItems] = useState([]); // 상품 상태
+    // const [categories, setCategories] = useState([]); // 카테고리 상태
+    // const [items, setItems] = useState([]); // 상품 상태
 
     const handleCategoryClick = () => {
         setShowCategoryManagement(true);

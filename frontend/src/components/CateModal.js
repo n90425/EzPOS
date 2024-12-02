@@ -86,7 +86,7 @@ function CategoryModal({ isOpen, onClose, onSave, categories, onDelete, onUpdate
                             확인
                         </button>
                         <button className="category-cancel-button" onClick={onClose}>
-                            취소
+                            닫기
                         </button>
                     </div>
                 </div>

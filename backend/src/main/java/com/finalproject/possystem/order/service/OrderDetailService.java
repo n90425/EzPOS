@@ -6,6 +6,7 @@ import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.OrderDetail;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
+import com.finalproject.possystem.table.entity.Dining;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,13 @@ public class OrderDetailService {
     private OrderRepository orderRepo;
 
     /* 주문상세 삭제 */
-    public void deleteOrderDetail(Integer orderDetailNo){
-        orderDetailRepo.deleteById(orderDetailNo);
+    @Transactional
+    public void deleteOrderDetail(Integer ordDetailNo, String orderNo, Integer tableNo) {
+        // 특정 주문 상세를 삭제
+        int deletedRows = orderDetailRepo.deleteOrderDetail(ordDetailNo, orderNo, tableNo);
+        if (deletedRows == 0) {
+            throw new IllegalArgumentException("삭제할 데이터가 없습니다.");
+        }
     }
 
 
@@ -65,6 +71,7 @@ public class OrderDetailService {
             Integer menuPrice = (Integer) row[2]; /* menuPrice 컬럼 */
 
             Map<String, Object> map = new HashMap<>();
+            map.put("ordDetailNo", orderDetail.getOrdDetailNo());
             map.put("menuName", menuName);
             map.put("unitPrice", menuPrice);
             map.put("quantity", orderDetail.getQuantity());

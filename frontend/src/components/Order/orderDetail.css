@@ -27,6 +27,10 @@
 }
 
 .order-item {
+  display: flex;
+  justify-content: space-between; /* 양 끝으로 정렬 */
+  align-items: flex-start; /* 상단 정렬 */
+  position: relative; /* X 버튼 배치를 위한 상대 위치 */
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -57,4 +61,29 @@
 
 .checkout-button:hover {
   background-color: #0056b3;
+}
+
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-button {
+  position: absolute; /* 부모를 기준으로 절대 위치 */
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  color: #e60000;
 }

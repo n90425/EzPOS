@@ -2,6 +2,9 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import MenuList from "../Category/MenuList";
 import "./orderDetail.css"; // CSS 파일 연결
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -15,7 +18,6 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
             try {
             const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
             setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
-            console.log("Order Details: ", res.data);
             } catch (error) {
             console.error("주문 상세 데이터를 가져오는 중 오류 발생: ", error);
             }
@@ -23,12 +25,15 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
 
     // 주문번호가 변경되면 주문상세 데이터 가져오기
     useEffect(() => {
+        if(!tableNo){
+            console.error("테이블번호가 없습니다");
+        }
+
         fetchOrder();
-        console.log("orderNo: "+orderNo)
         if(orderNo){
             fetchOrderDetails(orderNo);
         }
-    }, [orderNo]);
+    }, [orderNo, tableNo]);
 
 
     // 메뉴를 선택하면 주문과 주문 상세 추가
@@ -41,7 +46,7 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
             
 
             // 주문상세 추가
-            const res = await axios.post(`${BASE_URL}/order/${currentOrderNo}/ordDetail`, {
+            const res = await axios.post(`${BASE_URL}/order/${orderNo}/ordDetail`, {
             menuId,
             quantity: 1,
             });
@@ -49,9 +54,24 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
             // 주문상세업데이트
             setOrderDetails((prev) => [...prev, res.data]);
             fetchOrderDetails(currentOrderNo);
-            console.log("createOrderDetail: ", res.data);
         } catch (error) {
             console.error("주문 상세 추가 중 오류 발생: ", error);
+        }
+    }
+
+    
+    const delOrderDetail = async (ordDetailNo) => {
+        try {
+            await axios.post(`${BASE_URL}/order/delete/ordDetail`, {
+                ordDetailNo: Number(ordDetailNo),
+                orderNo,
+                tableNo: Number(tableNo),
+            });
+
+            setOrderDetails((prev) => prev.filter((detail)=> detail.ordDetailNo !== ordDetailNo));
+            
+        } catch (error) {
+            console.error("주문 상세 삭제 중 오류 발생: ", error);
         }
     }
 
@@ -72,13 +92,19 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
                     <p>주문이 없습니다</p>
                 ) : (
                     <div className="order-items">
-                        {orderDetails.map((detail, ordDetailNo) => (
-                            <div key={ordDetailNo} className="order-item">
+                        {orderDetails.map((detail) => (
+                            <div key={detail.ordDetailNo} className="order-item">
                                 <div className="order-item-info">
                                     <p>{detail.menuName}</p>
                                     <p>수량: {detail.quantity}</p>
                                     <p>가격: {detail.unitPrice.toLocaleString()}원</p>
                                 </div>
+                                <button
+                                    className="delete-button"
+                                    onClick={() => delOrderDetail(detail.ordDetailNo)}
+                                >
+                                    <FontAwesomeIcon icon={faTimes}/>
+                                </button>
                             </div>
                         ))}
                         <div className="total-amount">

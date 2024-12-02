@@ -2,22 +2,24 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import MenuList from "../Category/MenuList";
 import "./orderDetail.css"; // CSS 파일 연결
+import PaymentPage from "../Pay/PaymentPage";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fetchOrder }) => {
     const [orderDetails, setOrderDetails] = useState([]); // 주문 상세 데이터
     const totalAmount = orderDetails.reduce((acc, item) => acc + item.totalAmount, 0);
+    const [isPaymentPage, setIsPaymentPage] = useState(false); // 결제 페이지 여부
 
 
       // 주문 상세 데이터 가져오기
     const fetchOrderDetails = async (currentOrderNo) => {
             try {
-            const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
-            setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
-            console.log("Order Details: ", res.data);
+                const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
+                setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
+                console.log("Order Details: ", res.data);
             } catch (error) {
-            console.error("주문 상세 데이터를 가져오는 중 오류 발생: ", error);
+                console.error("주문 상세 데이터를 가져오는 중 오류 발생: ", error);
             }
     };
 
@@ -42,8 +44,8 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
 
             // 주문상세 추가
             const res = await axios.post(`${BASE_URL}/order/${currentOrderNo}/ordDetail`, {
-            menuId,
-            quantity: 1,
+                menuId,
+                quantity: 1,
             });
 
             // 주문상세업데이트
@@ -53,51 +55,64 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
         } catch (error) {
             console.error("주문 상세 추가 중 오류 발생: ", error);
         }
+    };
+
+    const handlePaymentClick = () => {
+        setIsPaymentPage(true); //결제페이지로 전환
+    };
+
+    const handleBackToOrder = () => {
+        setIsPaymentPage(false); //주문페이지로 돌아가기
     }
-
-
 
     return (
         <div className="order-detail-container">
-            {/* 좌측: 메뉴 리스트 */}
-            <div className="menu-list-section">
-                <h2>메뉴</h2>
-                <MenuList menus={menus} onAddToOrder={addOrderDetail} />
-            </div>
-
-            {/* 주문 상세 리스트 */}
-            <div className="order-detail-section">
-                <h2>주문 목록</h2>
-                {orderDetails.length === 0 ? (
-                    <p>주문이 없습니다</p>
-                ) : (
-                    <div className="order-items">
-                        {orderDetails.map((detail, ordDetailNo) => (
-                            <div key={ordDetailNo} className="order-item">
-                                <div className="order-item-info">
-                                    <p>{detail.menuName}</p>
-                                    <p>수량: {detail.quantity}</p>
-                                    <p>가격: {detail.unitPrice.toLocaleString()}원</p>
-                                </div>
+            {isPaymentPage ? (
+                <PaymentPage totalAmount={totalAmount} onBack={handleBackToOrder} />
+            ) : (
+                <>
+                    {/* 좌측: 메뉴 리스트 */}
+                    <div className="menu-list-section">
+                        <h2>메뉴</h2>
+                        <MenuList menus={menus} onAddToOrder={addOrderDetail} />
+                    </div>
+                    {/* 주문 상세 리스트 */}
+                    <div className="order-detail-section">
+                        <h2>주문 목록</h2>
+                        {orderDetails.length === 0 ? (
+                            <p>주문이 없습니다</p>
+                        ) : (
+                            <div className="order-items">
+                                {orderDetails.map((detail, ordDetailNo) => (
+                                    <div key={ordDetailNo} className="order-item">
+                                        <div className="order-item-info">
+                                            <p>{detail.menuName}</p>
+                                            <p>수량: {detail.quantity}</p>
+                                            <p>가격: {detail.unitPrice.toLocaleString()}원</p>
+                                        </div>
+                                    </div>
+                                ))}
+                                <div className="total-amount">총 금액: {totalAmount.toLocaleString()}원</div>
                             </div>
-                        ))}
-                        <div className="total-amount">
-                            총 금액: {totalAmount.toLocaleString()}원
+                        )}
+                        {/* 하단 결제 버튼 */}
+                        <div className="order-footer">
+                            <button className="confirm-button" onClick={handlePaymentClick}>
+                                결제
+                            </button>
                         </div>
                     </div>
-                )}
-                {/* 하단 결제 버튼 */}
-                <div className="order-footer">
-                    <button
-                    className="confirm-button"
-                    onClick={() => alert("결제 기능은 구현 중입니다.")}
-                    >
-                    결제
-                    </button>
-                </div>
-            </div>
+                </>
+            )}
         </div>
     );
 };
 
+
 export default OrderDetail;
+
+
+
+
+     
+        

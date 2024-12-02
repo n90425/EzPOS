@@ -1,8 +1,7 @@
+/* 공통 스타일 */
 .sidebar {
-    width: 150px;
-    background-color: #fff;
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #f8f9fa;
 }
 
 .sidebar h3 {
@@ -17,16 +16,27 @@
 }
 
 .sidebar ul li {
-    padding: 10px 0;
+    padding: 10px 20px;
     color: #666;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
+/* 선택된 항목 */
 .sidebar ul li.active {
-    color: #007bff;
+    background-color: #007bff;
+    color: white;
     font-weight: bold;
 }
 
+/* 호버 효과 */
+.sidebar ul li:hover {
+    background-color: #e9ecef;
+    color: #000;
+}
+
+/* 버튼 스타일 */
 .sidebar button {
     width: 100%;
     padding: 10px;
@@ -36,6 +46,7 @@
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 .sidebar button:hover {

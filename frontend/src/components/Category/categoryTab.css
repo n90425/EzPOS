@@ -3,7 +3,6 @@
     gap: 8px;
     padding: 8px 0;
     border-bottom: 2px solid #ddd;
-    overflow-x: auto; /* 가로 스크롤 허용 */
 }
 
 .category-button {

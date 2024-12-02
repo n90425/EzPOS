@@ -29,6 +29,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 
     List<Order> findByDining(Dining dining);
 
-    @Query("SELECT o FROM Order o WHERE o.dining.tableNo = :tableNo AND o.orderPayStatus='UNPAID'")
-    Order findByTableNo(Integer tableNo);
+    @Query(value = "SELECT * FROM `order` WHERE tableNo = :tableNo AND orderPayStatus='UNPAID' ORDER BY orderTime DESC LIMIT 1", nativeQuery = true)
+    Optional<Order> findByTableNo(Integer tableNo);
 }

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/itemmodal.css"; // ItemModal 전용 CSS
 
-function ItemModal({ isOpen, onClose, onSave, categories = [] }) {
+function ItemModal({ isOpen, onClose, onSave, onUpdate, selectedItem, categories = [] }) {
     const [newItem, setNewItem] = useState({
         name: "",
         price: "",
@@ -9,6 +9,30 @@ function ItemModal({ isOpen, onClose, onSave, categories = [] }) {
         taxIncluded: true,
         displayStock: false,
     });
+
+
+    // selectedItem이 변경될때 초기화
+    useEffect(() => {
+        if (selectedItem) {
+            setNewItem({
+                name: selectedItem.menuName || "",
+                price: selectedItem.menuPrice || "",
+                categoryId: selectedItem.categoryId || "",
+                taxIncluded: selectedItem.taxIncluded || true,
+                displayStock: selectedItem.displayStock || false,
+            });
+        } else {
+            // 새 상품 추가시 초기값 설정
+            setNewItem({
+                name: "",
+                price: "",
+                categoryId: "",
+                taxIncluded: true,
+                displayStock: false,
+            });
+        }
+    }, [selectedItem]);
+
 
     if (!isOpen) return null;
 
@@ -28,24 +52,36 @@ function ItemModal({ isOpen, onClose, onSave, categories = [] }) {
             displayStock: newItem.displayStock,
         };
 
-        // 변환된 데이터 전달
-        onSave(itemToSave);
 
-        // 입력값 초기화
-        setNewItem({
-            name: "",
-            price: "",
-            categoryId: "",
-            taxIncluded: true,
-            displayStock: false,
-        });
+        // 수정 모드인지 확인
+        if (selectedItem) {
+            onUpdate({ ...selectedItem, ...itemToSave }); // 수정
+        } else {
+            onSave(itemToSave); // 새로 추가
+        }
+
+        // 입력값 초기화 및 모달 닫기
+        onClose();
+
+
+        // // 변환된 데이터 전달
+        // onSave(itemToSave);
+
+        // // 입력값 초기화
+        // setNewItem({
+        //     name: "",
+        //     price: "",
+        //     categoryId: "",
+        //     taxIncluded: true,
+        //     displayStock: false,
+        // });
     };
 
     return (
         <div className="item-modal-overlay">
             <div className="item-modal-content">
                 <div className="item-modal-header">
-                    <h2>새 상품 추가</h2>
+                    <h2>{selectedItem ? "상품수정" :"새 상품 추가"}</h2>
                 </div>
                 <div className="item-modal-body">
                     <div className="form-group">

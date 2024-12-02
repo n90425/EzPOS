@@ -26,6 +26,13 @@ public class OrderDetailController {
         return ResponseEntity.ok(newDetail);
     }
 
+    /* 주문 상세 삭제 */
+    @PostMapping("/order/{ordDetailNo}")
+    public ResponseEntity<Void> deleteOrderDetail(@PathVariable Integer ordDetailNo) {
+        orderDetailService.deleteOrderDetail(ordDetailNo);
+        return ResponseEntity.noContent().build();
+    }
+
     /* 주문 상세 조회 */
     /* orderNo가 일치하는 menuID를 조회하고 menuname, 가격을 가져온다 */
     @GetMapping("/order/{orderNo}/ordDetail")

@@ -12,12 +12,14 @@ const useCategory = () => {
         try {
         setLoading(true);
         const res = await axios.get(`${BASE_URL}/category`);
-        const formattedCategories = res.data.map((category) => ({
-            categoryId: category.categoryId || null,
-            categoryname: category.categoryname || "Unnamed Category",
-            visible: category.isvisible === "Y", // `isvisible` 변환
-        }));
-        setCategories(formattedCategories);
+        // const formattedCategories = res.data.map((category) => ({
+        //     categoryId: category.categoryId || null,
+        //     categoryname: category.categoryname || "Unnamed Category",
+        //     isVisible: Boolean(category.isvisible), // `isvisible` 변환
+        // }));
+        setCategories(res.data);
+        // console.log(formattedCategories);
+        console.log(res.data);
         } catch (err) {
         console.error("Failed to fetch categories: ", err);
         setError(err);
@@ -30,7 +32,7 @@ const useCategory = () => {
         fetchCategories();
     }, []);
     
-    return { categories, fetchCategories, loading, error };
+    return { categories, setCategories, fetchCategories, loading, error };
 };
         
 export default useCategory;

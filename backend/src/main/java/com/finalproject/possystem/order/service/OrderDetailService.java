@@ -25,6 +25,12 @@ public class OrderDetailService {
     @Autowired
     private OrderRepository orderRepo;
 
+    /* 주문상세 삭제 */
+    public void deleteOrderDetail(Integer orderDetailNo){
+        orderDetailRepo.deleteById(orderDetailNo);
+    }
+
+
     /* orderDetail orderAddNo 추가주문 값증가, 총금액계산 생성 */
     @Transactional
     public OrderDetail addItemToOrder(OrderDetail orderDetail){

@@ -1,7 +1,7 @@
 .category-buttons {
     display: flex;
     gap: 10px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .category-buttons button {
@@ -10,6 +10,7 @@
     background-color: #f9f9f9;
     cursor: pointer;
     border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .category-buttons button.active {
@@ -31,19 +32,20 @@
     max-width: 100%; /* 테이블이 부모 요소를 넘지 않음 */
     border-collapse: collapse;
     text-align: center;
+    font-size: 14px;
 }
 
 .item-table th,
 .item-table td {
     padding: 10px;
     border-bottom: 1px solid #eaeaea;
-    font-size: 14px;
 }
 
 .item-table th {
     background-color: #f8f9fa;
     font-weight: bold;
     color: #333;
+    text-transform: uppercase;
 }
 
 .item-table td {
@@ -60,7 +62,7 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 34px;
+    width: 40px;
     height: 20px;
 }
 
@@ -99,7 +101,11 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(14px);
+    transform: translateX(20px); /* 이동 거리 수정 */
+}
+
+input:not(:checked) + .slider:hover {
+    background-color: #b5b5b5; /* 비활성 상태에서 hover 효과 */
 }
 
 .delete-button {
@@ -109,9 +115,31 @@ input:checked + .slider:before {
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .delete-button:hover {
     background-color: #c82333;
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
 }
+
+.edit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+td:last-child,
+td:nth-last-child(2) {
+    white-space: nowrap; /* 수정, 삭제 버튼 줄바꿈 방지 */
+}
+

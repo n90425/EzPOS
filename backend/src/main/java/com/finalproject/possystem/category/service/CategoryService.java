@@ -47,8 +47,18 @@ public class CategoryService {
         if (categoryupdate == null) return null;
         categoryupdate.setParent(category.getParent());
         categoryupdate.setCategoryname(category.getCategoryname());
-        categoryupdate.setIsvisible(category.getIsvisible());
+        categoryupdate.setIsVisible(category.getIsVisible());
         return categoryRepository.save(categoryupdate);
+    }
+
+    //isvisible
+    public void updateCategoryVisibility(Integer categoryId, Boolean isVisible) {
+        Category category = categoryRepository.findByCategoryId(categoryId);
+        if (category == null) {
+            throw new IllegalArgumentException("Menu not found");
+        }
+        category.setIsVisible(isVisible);
+        categoryRepository.save(category);
     }
 
     /*category delete*/

@@ -87,6 +87,27 @@ public class DiningService {
         return diningRepo.save(dining);
     }
 
+    /* 선택한 테이블에 orderNo가 null인경우 -> 상태를 empty 로 설정하고 currentOrderNo를 null로 설정 */
+    /* null이 아닌경우 -> 상태를 OCCUPIED로 설정하고 currentOrder를 order 객체로 변경 */
+    public void updateDiningCurrentOrder(Integer tableNo, String orderNo) {
+        Dining dining = diningRepo.findById(tableNo)
+                .orElseThrow(() -> new RuntimeException("Dining not fount"));
+
+        /* 선택된 테이블에 연결된 orderNo가 null인경우 */
+        if(orderNo == null){
+            dining.setStatus(Dining.Status.EMPTY);
+            dining.setCurrentOrder(null);
+        } else {
+            Order order = orderRepo.findByOrderNo(orderNo);
+            if(order == null){
+                throw new RuntimeException("orderNo를 찾을수 없습니다: "+ orderNo);
+            }
+            dining.setStatus(Dining.Status.OCCUPIED);
+            dining.setCurrentOrder(order);
+        }
+        diningRepo.save(dining);
+    }
+
     /* 주문의 결제상태에 따라 Table의 사용여부와 다이닝 테이블의 색상까지 변경할수있도록 하기위한코드 */
     public void updateTableStatus(Integer tableNo, Order order, boolean isPaid){
         Dining table = diningRepo.findById(tableNo)

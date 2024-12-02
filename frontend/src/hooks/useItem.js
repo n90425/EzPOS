@@ -26,7 +26,7 @@ export const useItem = () => {
         fetchItems();
     }, []);
 
-    return { items, loading, error, fetchItems};
+    return { items, setItems, loading, error, fetchItems};
 };
 
 export default useItem;

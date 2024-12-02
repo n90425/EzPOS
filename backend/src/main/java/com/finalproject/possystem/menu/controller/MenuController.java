@@ -3,6 +3,7 @@ package com.finalproject.possystem.menu.controller;
 import com.finalproject.possystem.menu.entity.Menu;
 import com.finalproject.possystem.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +34,27 @@ public class MenuController {
         return menuService.menuInsert(menu);
     }
 
+    //메뉴수정
+    @PostMapping("/updatemenu")
+    public ResponseEntity<Menu> updateMenu(@RequestBody Menu menu) {
+        Menu updateMenu = menuService.menuUpdate(menu);
 
+        // 업데이트된 카테고리가 없는 경우 (예: ID가 존재하지 않는 경우)
+        if (updateMenu == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        // 성공적으로 업데이트된 경우
+        return ResponseEntity.ok(updateMenu);
+    }
 
+    @PostMapping("/menu/toggle-visibility")
+    public ResponseEntity<?> toggleMenuVisibility(@RequestBody Map<String, Object> payload) {
+        Integer menuId = (Integer) payload.get("menuId");
+        Boolean isVisible = (Boolean) payload.get("isVisible");
+
+        menuService.updatemenuVisibility(menuId, isVisible);
+        return ResponseEntity.ok().build();
+    }
 
     //menu삭제
     @PostMapping("/deletemenu")

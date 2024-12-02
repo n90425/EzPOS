@@ -89,7 +89,7 @@ public class OrderService {
 
 
     /* 해당테이블의 주문 읽어오기 */
-    public Order getOrder(Integer tableNo){
+    public Optional<Order> getOrder(Integer tableNo){
         return orderRepo.findByTableNo(tableNo);
     }
 

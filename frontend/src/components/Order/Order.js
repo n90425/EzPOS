@@ -21,7 +21,7 @@ const Order = () => {
       const res = await axios.get(`${BASE_URL}/order/${tableNo}`);
       if(res.data) {
         setOrderNo(res.data);
-      } 
+      }
     } catch (error) {
       console.error("주문조회중 오류발생", error);
     }

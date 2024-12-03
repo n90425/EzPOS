@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { TableContext } from "./TableContext";
 import TableOptionsModal from "./TableOptionsModal";
 import axios from "axios";

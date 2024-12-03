@@ -53,9 +53,29 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
                 menuId,
                 quantity: 1,
             });
+            
+            const newDetail = res.data;
 
             // 주문상세업데이트
-            setOrderDetails((prev) => [...prev, res.data]);
+            setOrderDetails((prev) => {
+                // 주문상세에 메뉴를 추가하는데 기존에 존재하는 데이터가 있는지 확인
+                const existingDetail = prev.find((detail) => detail.menuId === newDetail.menuId);
+
+                // 메뉴가 이미 주문상세에 존재할경우 수량과 총주문금액을 업데이트
+                if(existingDetail){
+                    return prev.map((detail) =>
+                        detail.menuId === newDetail.menuId
+                            ? {
+                                ...detail,
+                                quantity: detail.quantity+1,
+                                totalAmount: detail.unitPrice * (detail.quantity+1),
+                            }
+                            : detail
+                    );
+                }
+                // 메뉴가 주문상세에 존재하지않을경우 새항목추가
+                return [...prev, newDetail]
+            });
             fetchOrderDetails(currentOrderNo);
         } catch (error) {
             console.error("주문 상세 추가 중 오류 발생: ", error);
@@ -109,7 +129,7 @@ const OrderDetail = ({ orderNo, setOrderNo, menus, tableNo, createOrGetOrder, fe
                         ) : (
                             <div className="order-items">
                                 {orderDetails.map((detail) => (
-                                    <div key={detail.ordDetailNo} className="order-item">
+                                    <div key={`${detail.orderNo}-${detail.ordDetailNo}`} className="order-item">
                                         <div className="order-item-info">
                                             <p>{detail.menuName}</p>
                                             <p>수량: {detail.quantity}</p>

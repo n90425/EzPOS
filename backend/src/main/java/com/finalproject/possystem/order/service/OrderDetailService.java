@@ -22,7 +22,6 @@ public class OrderDetailService {
     private OrderDetailRepository orderDetailRepo;
     @Autowired
     private MenuRepository menuRepo;
-
     @Autowired
     private OrderRepository orderRepo;
 
@@ -34,12 +33,28 @@ public class OrderDetailService {
         if (deletedRows == 0) {
             throw new IllegalArgumentException("삭제할 데이터가 없습니다.");
         }
+        updateOrder(orderNo);
     }
 
 
     /* orderDetail orderAddNo 추가주문 값증가, 총금액계산 생성 */
     @Transactional
     public OrderDetail addItemToOrder(OrderDetail orderDetail){
+
+        /* 해당주문에 동일한 메뉴ID가 있는지 확인 */
+        OrderDetail existingOrderDetail = orderDetailRepo.findByOrderNoAndMenuId(
+                orderDetail.getOrderNo(),
+                orderDetail.getMenuId()
+        );
+
+        /* 동일한 메뉴가 있을경우 Quantity 수량 증가 */
+        if(existingOrderDetail != null){
+            /* 수량 1증가 */
+            existingOrderDetail.setQuantity(existingOrderDetail.getQuantity()+1);
+            /* 주문금액 수정 = 수량 * 금액 */
+            existingOrderDetail.setTotalAmount(existingOrderDetail.getQuantity()* existingOrderDetail.getUnitPrice());
+            return orderDetailRepo.save(existingOrderDetail);
+        }
 
         /* orderAddNo의 최대값을 가져온다 */
         int maxOrdAddNo = orderDetailRepo.findMaxOrdAddByOrderNo(orderDetail.getOrderNo()).orElse(0);
@@ -51,15 +66,33 @@ public class OrderDetailService {
             orderDetail.setQuantity(1);
         }
 
-        /* 메뉴id와 detail에서 id와 일치한것을 찾는다 */
+        /* 메뉴id로 단가 가져오기 */
         Integer unitPrice = menuRepo.findById(orderDetail.getMenuId())
                 .map(Menu::getMenuPrice)
                 .orElseThrow(()-> new IllegalArgumentException("유효하지않은 메뉴입니다"));
         orderDetail.setUnitPrice(unitPrice);
 
-        return orderDetailRepo.save(orderDetail);
+        /* 주문상세저장 */
+        OrderDetail saveDetail = orderDetailRepo.save(orderDetail);
+        /* Order 테이블 업데이트 */
+        updateOrder(orderDetail.getOrderNo());
+        return saveDetail;
     }
 
+    /* 주문 업데이트 */
+    public void updateOrder(String orderNo){
+        Double totalAmount = orderDetailRepo.calTotalAmount(orderNo);
+        if(totalAmount==null)
+            totalAmount=0.0;
+        Double netAmount = totalAmount/1.1;
+        Double vat = totalAmount - netAmount;
+
+        Order ord = orderRepo.findById(orderNo).orElseThrow(()-> new RuntimeException("주문을 찾을수 없습니다"));
+
+        ord.setOrderAmount(netAmount);
+        ord.setOrderVat(vat);
+        orderRepo.save(ord);
+    }
 
     public List<Map<String, Object>> getDetailWithMenuName(String orderNo){
         /* orderNo가 일치하는 menuID를 조회하고 menuname, 가격을 가져온다 */
@@ -71,6 +104,7 @@ public class OrderDetailService {
             Integer menuPrice = (Integer) row[2]; /* menuPrice 컬럼 */
 
             Map<String, Object> map = new HashMap<>();
+
             map.put("ordDetailNo", orderDetail.getOrdDetailNo());
             map.put("menuName", menuName);
             map.put("unitPrice", menuPrice);

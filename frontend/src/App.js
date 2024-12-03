@@ -6,6 +6,7 @@ import ProductManagement from './components/ProductManagement';
 import Main from './components/Main.js';  // 메인 페이지
 import Open from './components/Open/OpenAndClose.js';  // 테이블 페이지
 import Order from './components/Order/Order.js';  // 주문 페이지
+import OrderAll from './components/Order/OrderAll.js';  // 주문 페이지
 import Dining from "./components/Dining/Dining.js"; // 테이블
 import EditDining from "./components/Dining/EditDining.js" // 테이블수정
 import { TableProvider } from './components/Dining/TableContext.js';
@@ -17,8 +18,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
-            <Route path="/shop/open" element={<Open />} /> 영업개시
-            {/* <Route path="/table/:tableId" element={<Order />} /> 테이블 ID에 따른 주문 페이지 */}
+            <Route path="/shop/open" element={<Open />} /> {/*영업개시*/}
+            <Route path="/order/all" element={<OrderAll />} /> {/*테이블 ID에 따른 주문 페이지*/}
             <Route path="/order/:tableNo" element={<Order/>}/> {/* 주문내역 */}
             <Route path="/product-management" element={<ProductManagement />} />
             <Route path="/dining" element={<Dining/>}/> {/* 테이블가져오기 */}

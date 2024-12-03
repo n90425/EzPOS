@@ -1,6 +1,7 @@
 package com.finalproject.possystem.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.finalproject.possystem.table.entity.Dining;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,7 @@ public class Order {
     private Double orderVat;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     public Order(String orderNo, Dining dining, LocalDateTime orderTime, String orderPayStatus, Double orderAmount, Double orderVat) {

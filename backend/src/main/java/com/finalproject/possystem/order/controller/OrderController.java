@@ -27,7 +27,7 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     /* 전체주문조회 */
-    @GetMapping("/all")
+    @GetMapping("/order/all")
     public List<Order> getOrder(){
         System.out.println(orderService.allOrder());
         return orderService.allOrder();

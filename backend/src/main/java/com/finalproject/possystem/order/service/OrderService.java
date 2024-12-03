@@ -32,7 +32,7 @@ public class OrderService {
     private OrderRepository orderRepo;
 
     @Autowired
-    private OrderDetailService orderDetailService;
+    private OrderDetailRepository orderDetailRepo;
 
     @Autowired
     private DiningRepository diningRepo;
@@ -43,6 +43,7 @@ public class OrderService {
     private JPAQueryFactory queryFactory;
 
     private Map<String, Integer> dailyCount = new HashMap<>();
+
 
     /* 주문번호 생성 */
     public String createOrderId(){
@@ -58,17 +59,7 @@ public class OrderService {
     }
 
 
-    /* 주문 업데이트 */
-    public Order updateOrder(Order order){
-        Order ord = orderRepo.findById(order.getOrderNo()).orElse(null);
-        if(ord == null) return null;
 
-        ord.setOrderPayStatus(order.getOrderPayStatus());
-        ord.setOrderAmount(order.getOrderAmount());
-        ord.setOrderVat(order.getOrderVat());
-
-        return orderRepo.save(ord);
-    }
 
     /* 테이블 이동 */
     public Order updateTable(String orderNo, int tableNo){
@@ -128,12 +119,6 @@ public class OrderService {
         diningRepo.save(dining);
 
         return orderNo;
-    }
-
-    /* 주문상세 생성 */
-    @Transactional
-    public OrderDetail addItemToOrder(OrderDetail orderDetail){
-        return orderDetailService.addItemToOrder(orderDetail);
     }
 
 

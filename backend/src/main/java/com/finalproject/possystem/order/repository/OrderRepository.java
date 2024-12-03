@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -29,6 +30,7 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 
     List<Order> findByDining(Dining dining);
 
+    /* 선택된 테이블의 번호와 주문이 UNPAID 된 주문을 찾는다 */
     @Query(value = "SELECT * FROM `order` WHERE tableNo = :tableNo AND orderPayStatus='UNPAID' ORDER BY orderTime DESC LIMIT 1", nativeQuery = true)
     Optional<Order> findByTableNo(Integer tableNo);
 }

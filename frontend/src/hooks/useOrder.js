@@ -9,9 +9,15 @@ export const useOrder = () => {
     const { tableNo } = useParams();
 
     // 오더 전체 가져오기
-    const fetchOrders = useCallback(async () => {
+    const fetchOrders = useCallback(async (startDate, endDate, status) => {
         try {
-            const res = await axios.get(`${BASE_URL}/order/all`);
+            const res = await axios.get(`${BASE_URL}/order/all`, {
+                params: {
+                    startDate: startDate || null,
+                    endDate: endDate || null,
+                    status: status || null,
+                },
+            });
             if(res.data) {
                 setOrderNo(res.data);
             }

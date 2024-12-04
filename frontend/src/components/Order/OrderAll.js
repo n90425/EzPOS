@@ -1,13 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useOrder from "./../../hooks/useOrder";
 import "./orderAll.css";
 
 const OrderAll = () => {
     const { orderNo, setOrderNo, fetchOrders } = useOrder();
 
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [status, setStatus] = useState("");
+
+    // 전체 데이터 조회
+    const handleAllSearch = () => {
+        setStartDate("");
+        setEndDate("");
+        setStatus("");
+        fetchOrders(null, null, "");
+    };
+
+    // 날짜+결제상태를 기반으로 검색
+    const handleSearch = () => {
+        const start = startDate ? `${startDate}T00:00:00` : null;
+        const end = endDate ? `${endDate}T23:59:59` : null;
+        console.log(start, end, status)
+        fetchOrders(start, end, status);
+    }
+
+    // 페이지 로드 시 오늘 날짜로 기본값 설정 및 데이터 조회
     useEffect(() => {
-        fetchOrders();
+        const today = new Date().toISOString().split("T")[0]; // 오늘 날짜
+        const start = `${today}T00:00:00`;
+        const end = `${today}T23:59:59`;
+        fetchOrders(start, end, ""); // 오늘 날짜로 조회
     }, [fetchOrders]);
+
+    const formatDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+        const options = {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true, // 오전오후
+        };
+        return date.toLocaleString("ko-KR", options);
+    };
+
+    const format = (amount) => {
+        if(!amount)
+            amount = 0;
+        return Math.round(amount).toLocaleString("ko-KR");
+    };
 
     return (
         <div className="order-all-container">
@@ -17,10 +60,41 @@ const OrderAll = () => {
                 <div>
                     <label>
                         주문 조회 기간: 
-                        <input type="date" /> ~ <input type="date" />
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e)=> setStartDate(e.target.value)}
+                        />
+                        ~
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={(e)=> setEndDate(e.target.value)}
+                        />
                     </label>
                 </div>
-                <button className="search-button">조회하기</button>
+                <div>
+                    <label>
+                        상태 선택:
+                        <select
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                            <option value="">전체</option>
+                            <option value="PAID">PAID</option>
+                            <option value="UNPAID">UNPAID</option>
+                        </select>
+                    </label>
+                </div>
+                {/* 오른쪽 버튼 */}
+                <div className="filter-buttons">
+                    <button className="search-button" onClick={handleAllSearch}>
+                        전체 조회
+                    </button>
+                    <button className="search-button" onClick={handleSearch}>
+                        조회하기
+                    </button>
+                </div>
             </div>
 
             {orderNo && Array.isArray(orderNo) ? (
@@ -40,12 +114,12 @@ const OrderAll = () => {
                         {orderNo.map((order) => (
                             <tr key={order.orderNo}>
                                 <td>{order.orderNo}</td>
-                                <td>{order.orderTime}</td>
+                                <td>{formatDateTime(order.orderTime)}</td>
                                 <td>{order.tableNo || "-"}</td>
                                 <td>{order.orderPayStatus}</td>
-                                <td>{(order.orderAmount || 0).toFixed(0)}</td>
-                                <td>{(order.orderVat || 0).toFixed(0)}</td>
-                                <td>{((order.orderAmount || 0) + (order.orderVat || 0)).toFixed(0)}</td>
+                                <td className="amount">{format(order.orderAmount || 0)}</td>
+                                <td className="amount">{format(order.orderVat || 0)}</td>
+                                <td className="amount">{format((order.orderAmount || 0) + (order.orderVat || 0))}</td>
                             </tr>
                         ))}
                     </tbody>

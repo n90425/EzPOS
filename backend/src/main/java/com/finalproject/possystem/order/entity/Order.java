@@ -2,6 +2,7 @@ package com.finalproject.possystem.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.finalproject.possystem.table.entity.Dining;
 import jakarta.persistence.*;
 import lombok.*;
@@ -57,6 +58,13 @@ public class Order {
     public String getOrderDateFormatter(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
         return this.orderTime.format(formatter);
+    }
+
+    /* JSON 직렬화를 위한 tableNo 필드 추가 */
+    @Transient
+    @JsonProperty("tableNo") // JSON에 tableNo 필드로 포함
+    public Integer getTableNo() {
+        return dining != null ? dining.getTableNo() : null;
     }
 
     @Override

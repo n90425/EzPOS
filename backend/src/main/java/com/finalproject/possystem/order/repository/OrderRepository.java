@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,27 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 
     /* orderNo로 주문조회 */
     Order findByOrderNo(String orderNo);
+
+
+    /* 기간조회 */
+    List<Order> findAllByOrderTimeBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+    /* 기간 + 결제상태 (PAID, UNPAID) 조회 */
+    List<Order> findAllByOrderTimeBetweenAndOrderPayStatus(LocalDateTime startDate, LocalDateTime endDate, String status);
+
+    /* 특정날짜 이전조회: endDate만 지정한경우 (처음~end까지조회) */
+    List<Order> findAllByOrderTimeBefore(LocalDateTime endDate);
+
+    /* 특정날짜 이전조회 + 상태코드 (PAID, UNPAID) */
+    List<Order> findAllByOrderTimeBeforeAndOrderPayStatus(LocalDateTime endDate, String status);
+
+    /* 특정날짜 이후조회: startDate만 지정한경우 (start부터 ~ 끝까지조회) */
+    List<Order> findAllByOrderTimeAfter(LocalDateTime startDate);
+
+    /* 특정날짜 이후조회 + 상태코드 (PAID, UNPAID)조회 */
+    List<Order> findAllByOrderTimeAfterAndOrderPayStatus(LocalDateTime startDate, String status);
+
+
 
 
     /* orderPayStatus 수정 */

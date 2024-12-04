@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +27,54 @@ public class OrderController {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-    /* 전체주문조회 */
+
+    /* 기간별주문조회 */
     @GetMapping("/order/all")
-    public List<Order> getOrder(){
-        System.out.println(orderService.allOrder());
-        return orderService.allOrder();
+    public List<Order> getOrderByDateRange(
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            @RequestParam(value = "status", required = false) String status
+    ) {
+        logger.info("startDate = {}, endDate = {}, status = {}", startDate, endDate, status);
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+
+        try {
+            if (startDate != null && !startDate.isEmpty()) {
+                start = LocalDateTime.parse(startDate);
+            }
+            if (endDate != null && !endDate.isEmpty()) {
+                end = LocalDateTime.parse(endDate);
+            }
+        } catch (Exception e) {
+            logger.error("날짜 파싱 중 오류 발생: {}", e.getMessage());
+            throw new IllegalArgumentException("잘못된 날짜 형식입니다.");
+        }
+
+
+        /* start와 end 모두없는경우 전체조회 */
+        if(start == null && end ==null){
+            return orderService.allOrder();
+        }
+
+        /* 특정날짜 이전조회: endDate만 지정한경우 (처음~end까지조회) */
+        if(start == null){
+            return status != null
+                    ? orderService.findOrderByDateBeforeAndStatus(end, status)
+                    : orderService.findOrderByDateBefore(end);
+        }
+
+        /* 특정날짜 이후조회: startDate만 지정한경우 (start부터 ~ 끝까지조회) */
+        if(end == null){
+            return status != null
+                    ? orderService.findOrderByDateAfterAndStatus(start,status)
+                    : orderService.findOrderByDateAfter(start);
+        }
+
+        /* start와 end 모두 있는경우 */
+        return status != null
+                ?orderService.findOrderByDateRangeAndStatus(start, end, status)
+                :orderService.findOrderByDateRange(start, end);
     }
 
     /* 선택된 테이블에서 주문생성 */
@@ -39,6 +83,7 @@ public class OrderController {
         try {
             /* 주문생성 또는 가져오기 */
             String orderNo = orderService.createOrGetOrder(tableNo);
+
             return ResponseEntity.ok(orderNo);
         } catch (RuntimeException e){
             logger.error("Error fail logger: {}", e.getMessage(), e);

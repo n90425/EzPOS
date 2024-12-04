@@ -17,13 +17,24 @@
 /* 필터 섹션 */
 .filter-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* 두 영역을 양쪽으로 배치 */
     align-items: center;
     margin-bottom: 20px;
     padding: 15px;
     background-color: #f8f9fa;
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+.filter-section .filter-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간 간격 */
+}
+
+.filter-section .filter-options {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 입력 필드 간 간격 */
 }
 
 .filter-section label {
@@ -60,13 +71,14 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    text-align: center; /* 테이블 기본 텍스트 가운데 정렬 */
 }
+
 
 .order-table thead th {
     background-color: #f1f1f1;
     border: 1px solid #ddd;
     padding: 10px;
-    text-align: left;
     font-size: 16px;
 }
 
@@ -77,7 +89,11 @@
 .order-table tbody td {
     padding: 10px;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
+}
+
+.order-table tbody td.amount {
+    text-align: right; /* 금액은 오른쪽 정렬 */
 }
 
 .order-table tbody tr:nth-child(even) {

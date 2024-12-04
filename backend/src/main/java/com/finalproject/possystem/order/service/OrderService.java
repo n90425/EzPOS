@@ -10,6 +10,7 @@ import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import com.finalproject.possystem.table.service.DiningService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,35 @@ public class OrderService {
         return orderRepo.findAll();
     }
 
+    /* 기간별 주문조회 */
+    public List<Order> findOrderByDateRange(LocalDateTime startDate, LocalDateTime endDate){
+        return orderRepo.findAllByOrderTimeBetween(startDate, endDate);
+    }
+    public List<Order> findOrderByDateRangeAndStatus(LocalDateTime startDate, LocalDateTime endDate, String status){
+        return orderRepo.findAllByOrderTimeBetweenAndOrderPayStatus(startDate, endDate, status);
+    }
+
+    /* 특정날짜 이전조회: endDate만 지정한경우 (처음~end까지조회) */
+    public List<Order> findOrderByDateBefore(LocalDateTime endDate){
+        return orderRepo.findAllByOrderTimeBefore(endDate);
+    }
+
+    /* 특정날짜 이전조회 + 상태코드 (PAID, UNPAID)조회 */
+    public List<Order> findOrderByDateBeforeAndStatus(LocalDateTime endDate, String statue){
+        return orderRepo.findAllByOrderTimeBeforeAndOrderPayStatus(endDate, statue);
+    }
+
+    /* 특정날짜 이후조회: startDate만 지정한경우 (start부터 ~ 끝까지조회) */
+    public List<Order> findOrderByDateAfter(LocalDateTime startDate){
+        return orderRepo.findAllByOrderTimeAfter(startDate);
+    }
+
+    /* 특정날짜 이후조회 + 상태코드 (PAID, UNPAID)조회 */
+    public List<Order> findOrderByDateAfterAndStatus(LocalDateTime startDate, String status){
+        return orderRepo.findAllByOrderTimeAfterAndOrderPayStatus(startDate, status);
+    }
+
+
     /* 주문생성 또는 가져오기 */
     @Transactional
     public String createOrGetOrder(int tableNo){
@@ -112,6 +142,7 @@ public class OrderService {
         order.setOrderVat(0.0);
         /* 주문 저장 */
         order = orderRepo.save(order);
+        System.out.println("createOrGetOrder: "+order);
 
         /* Dining테이블에 업데이트 */
         dining.setCurrentOrder(order);

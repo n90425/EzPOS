@@ -53,7 +53,7 @@ class OrderRepositoryTest {
             double orderAmount = (100.00 + (i*10.00));
             double orderVat = orderAmount*0.1;
 
-            Order order = new Order(orderNo,dining,orderTime,orderPayStatus,orderAmount,orderVat);
+            Order order = new Order(orderNo,dining,1,orderTime,orderPayStatus,orderAmount,orderVat);
             orderRepo.save(order);
 
             System.out.println(order);
@@ -88,11 +88,11 @@ class OrderRepositoryTest {
 
 
         /* 1번주문 추가 */
-        Order order = new Order(datePart+"-000001", dining, now(), "pending", 10000.00, 1000.00);
+        Order order = new Order(datePart+"-000001", dining,1, now(), "pending", 10000.00, 1000.00);
         orderRepo.save(order);
 
         /* 2번주문 추가 */
-        Order order2 = new Order(datePart+"-000002", dining2, now(), "pending", 10000.00, 1000.00);
+        Order order2 = new Order(datePart+"-000002", dining2, 1, now(), "pending", 10000.00, 1000.00);
         orderRepo.save(order2);
 
         /* 총주문은 2개 1번주문과 2번주문이 같은지 비교 */
@@ -126,7 +126,7 @@ class OrderRepositoryTest {
         assertTrue(orderRepo.count()==10);
 
         /* 0번고객을 select 후 order2에 저장, order와 order2가 동일한 주문인지 확인 */
-        Order order2 = new Order(datePart+"-000000", dining, now(), "pending", 10000.00, 1000.00);
+        Order order2 = new Order(datePart+"-000000", dining, 1,now(), "pending", 10000.00, 1000.00);
         assertTrue(order.getOrderNo().equals(order2.getOrderNo()));
 
         /* 0번 주문삭제 총 남은 주문은 9개 */

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CashModal from "./CashModal";
 import { useNavigate } from "react-router-dom";
+import useOrder from "./../../hooks/useOrder"; // useOrder 훅
 import axios from "axios";
 
 
@@ -9,6 +10,7 @@ import axios from "axios";
 const PaymentPage = ({ totalAmount, onBack }) => {
     const [isCashModalOpen, setCashModalOpen] = useState(false);
     const navigate = useNavigate();
+    const { createOrGetOrder } = useOrder();
 
     // 현금 결제 클릭 시 모달 열기
     const handleCashClick = () => {
@@ -20,12 +22,16 @@ const PaymentPage = ({ totalAmount, onBack }) => {
     };
     // 현금 영수증 발급 없이 결제 완료
     const skipCashReceipt = async () => {
-        console.log("Skip Cash Receipt: Sending orderNo =", "20241204-000002"); // 로그 추가
+        console.log("Skip Cash Receipt: Sending totalAmount =", totalAmount); // totalAmount 로그
+        console.log("Rounded Amount:", Math.round(totalAmount)); // Math.round 로그
         try {
+            const orderNo = await createOrGetOrder(); //주문번호 생성
+
             const res = await axios.post("http://localhost:8080/api/pay/cash-receipt", {
-                orderNo: "20241204-000002",
+                orderNo,
                 receiptNumber: null,
                 receiptType: null,
+                amount: Math.round(totalAmount), // 정수로 변환
             });
             console.log("Server Response:", res.data); // 로그 추가
             alert(res.data.message || "결제가 완료되었습니다!");
@@ -40,9 +46,10 @@ const PaymentPage = ({ totalAmount, onBack }) => {
     // 현금 영수증 발급 및 결제 완료
     const handlePaymentComplete = async (receiptNumber, receiptType) => {
         try {
+            const orderNo = await createOrGetOrder();
             // 서버에 현금 영수증 발급 요청
             const response = await axios.post("http://localhost:8080/api/pay/cash-receipt", {
-                orderNo: "20241204-000002", // 가짜 주문 번호
+                orderNo, 
                 receiptNumber,
                 receiptType,
             });

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import "./cashmodal.css";
 
 const CashModal = ({ onClose, onSkip, onPaymentComplete }) => {

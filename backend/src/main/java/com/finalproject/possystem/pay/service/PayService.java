@@ -20,73 +20,67 @@ public class PayService {
         this.orderRepository = orderRepository;
     }
 
-    /**
-     * 주문 데이터를 기반으로 Pay 테이블에 삽입 (현금 영수증 없음)
-     */
+    //현금영수증 없음
     @Transactional
     public void processCashPayment(String orderNo) {
-        System.out.println("Processing cash payment for orderNo: " + orderNo); // 로그 추가
+        System.out.println("Processing cash payment for orderNo: " + orderNo);
+        savePayment(orderNo, null, null);
+        System.out.println("Payment successfully saved for orderNo: " + orderNo);
+    }
 
+    //현금영수증 있음
+    @Transactional
+    public String processCashReceipt(String orderNo, String receiptNumber, String receiptType) {
+        System.out.println("OrderNo: " + orderNo);
+        System.out.println("ReceiptNumber: " + receiptNumber);
+        System.out.println("ReceiptType: " + receiptType);
+
+        // 결제 저장
+        savePayment(orderNo, receiptNumber, receiptType);
+
+        // 가짜 영수증 ID 생성
+        String receiptId = UUID.randomUUID().toString();
+        System.out.println("Generated Receipt ID: " + receiptId);
+        return receiptId;
+    }
+
+    //공통 pay 저장
+    private void savePayment(String orderNo, String receiptNumber, String receiptType) {
         // Order 테이블에서 주문 데이터 조회
         Order order = orderRepository.findByOrderNo(orderNo);
         if (order == null) {
             throw new IllegalArgumentException("주문번호에 해당하는 주문을 찾을 수 없습니다.");
         }
 
-        // 소수점 버리기 (정수로 변환)
-        int amount = (int) Math.floor(order.getOrderAmount());
+        // 주문 총액 계산 (orderAmount + orderVat)
+        double totalAmount = order.getOrderAmount() + order.getOrderVat();
+        int roundedAmount = (int) Math.round(totalAmount); // 반올림 후 정수 처리
 
-        System.out.println("Order found: " + order); // 로그 추가
+        System.out.println("Order found: " + order);
+        System.out.println("Processed Total Amount (Rounded): " + roundedAmount);
 
-        // Pay 엔티티 생성 및 저장
+        // Pay 엔티티 생성
         Pay pay = new Pay();
         pay.setPayNo(uuidToBytes(UUID.randomUUID())); // UUID 생성 후 변환
         pay.setPaySeqnum(1); // 일련번호
         pay.setOrderNo(order.getOrderNo());
-        pay.setOdPayAmt(amount); // 주문 총 금액
+        pay.setOdPayAmt(roundedAmount); // 주문 총 금액
         pay.setPayMethCd("CASH"); // 결제 수단
         pay.setPayStatCd("COMPLETED"); // 결제 상태
         pay.setPayDt(LocalDateTime.now()); // 결제 일시
 
-        System.out.println("Saving Pay entity: " + pay); // 로그 추가
-
-        payRepository.save(pay);
-        System.out.println("Payment successfully saved for orderNo: " + orderNo);
-    }
-
-
-    /**
-     * 주문 데이터를 기반으로 Pay 테이블에 삽입 및 현금 영수증 발급
-     */
-    @Transactional
-    public String processCashReceipt(String orderNo, String receiptNumber, String receiptType) {
-        // Order 테이블에서 주문 데이터 조회
-        Order order = orderRepository.findByOrderNo(orderNo);
-        if (order == null) {
-            throw new IllegalArgumentException("주문번호에 해당하는 주문을 찾을 수 없습니다.");
+        if (receiptNumber != null) {
+            pay.setCashReceiptNumber(receiptNumber);
+            pay.setCashReceiptType(Pay.CashReceiptType.valueOf(receiptType));
+            pay.setCashReceiptStatus(Pay.CashReceiptStatus.APPLIED);
+        } else {
+            pay.setCashReceiptStatus(Pay.CashReceiptStatus.NOT_APPLIED);
         }
 
-        // 소수점 버리기 (정수로 변환)
-        int amount = (int) Math.floor(order.getOrderAmount());
-
-        // Pay 엔티티 생성 및 저장
-        Pay pay = new Pay();
-        pay.setPayNo(uuidToBytes(UUID.randomUUID())); // UUID 생성 후 변환
-        pay.setPaySeqnum(1); // 일련번호 로직 필요 시 추가
-        pay.setOrderNo(order.getOrderNo());
-        pay.setOdPayAmt(amount); // 주문 총 금액
-        pay.setPayMethCd("CASH"); // 결제 수단
-        pay.setPayStatCd("COMPLETED"); // 결제 상태
-        pay.setPayDt(LocalDateTime.now()); // 결제 일시
-        pay.setCashReceiptNumber(receiptNumber);
-        pay.setCashReceiptType(Pay.CashReceiptType.valueOf(receiptType));
-        pay.setCashReceiptStatus(Pay.CashReceiptStatus.APPLIED);
-
+        System.out.println("Saving Pay entity: " + pay); // 로그 추가
         payRepository.save(pay);
-
-        // 가짜 영수증 ID 생성
-        return UUID.randomUUID().toString();
     }
+
 
     private byte[] uuidToBytes(UUID uuid) {
         byte[] bytes = new byte[16];

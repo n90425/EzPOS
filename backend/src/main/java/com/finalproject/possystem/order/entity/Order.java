@@ -79,6 +79,11 @@ public class Order {
         }
     }
 
+    /* 결제 이후 테이블과의 관계를끊고 테이블번호를 직접 저장 */
+    public void disconnectTable(){
+        this.dining = null;
+    }
+
     @Override
     public String toString() {
         return "Order{" +

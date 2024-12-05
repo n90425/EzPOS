@@ -41,7 +41,6 @@ public class Dining {
     private Order currentOrder;
 
 
-
     public enum Status {
         EMPTY, OCCUPIED
     }

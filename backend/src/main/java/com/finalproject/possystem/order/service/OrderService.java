@@ -2,25 +2,18 @@ package com.finalproject.possystem.order.service;
 
 
 import com.finalproject.possystem.order.entity.Order;
-import com.finalproject.possystem.order.entity.OrderDetail;
-import com.finalproject.possystem.order.entity.QOrder;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import com.finalproject.possystem.table.service.DiningService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -60,8 +53,6 @@ public class OrderService {
     }
 
 
-
-
     /* 테이블 이동 */
     public Order updateTable(String orderNo, int tableNo){
         Order order = orderRepo.findById(orderNo).orElse(null);
@@ -94,6 +85,8 @@ public class OrderService {
     public List<Order> findOrderByDateRange(LocalDateTime startDate, LocalDateTime endDate){
         return orderRepo.findAllByOrderTimeBetween(startDate, endDate);
     }
+
+    /* 기간별 start와 end 있어야함 + 상태조회 */
     public List<Order> findOrderByDateRangeAndStatus(LocalDateTime startDate, LocalDateTime endDate, String status){
         return orderRepo.findAllByOrderTimeBetweenAndOrderPayStatus(startDate, endDate, status);
     }
@@ -153,49 +146,19 @@ public class OrderService {
     }
 
 
-    /* 결제로 넘길까..? 주문 합계 */
-    public BigDecimal daysum(LocalDate orderTime, String type, DayOfWeek dayOfWeek){
-        QOrder order = QOrder.order;
-
-        LocalDateTime startDay = null;
-        LocalDateTime endDay = null;
-
-        /* 당일주문조회 select : 자정부터 다음날까지 */
-        if("day".equalsIgnoreCase(type)){
-            startDay = orderTime.atStartOfDay();
-            endDay = orderTime.plusDays(1).atStartOfDay();
-
-        /* 월주문조회 select : 해당월의 1일부터 다음달 첫날 전까지 */
-        } else if ("month".equalsIgnoreCase(type)) {
-            YearMonth month = YearMonth.from(orderTime);
-            startDay = month.atDay(1).atStartOfDay();
-            endDay = month.plusMonths(1).atDay(1).atStartOfDay();
-
-        /* 날짜 주문조회 select : 특정요일에 해당하는 날짜를 조회 */
-        } else if ("weekday".equalsIgnoreCase(type)) {
-            startDay = orderTime.with(dayOfWeek).atStartOfDay();
-            endDay = orderTime.with(dayOfWeek).plusDays(1).atStartOfDay();
-        }
-
-        Double result = queryFactory
-                .select(order.orderAmount.sum().add(order.orderVat.sum()))
-                .from(order)
-                .where(order.orderTime.between(startDay, endDay)
-                        .and(order.orderTime.dayOfWeek().eq(dayOfWeek.getValue()))
-                        .and(order.orderPayStatus.eq("completed")))
-                .fetchOne();
-
-        return result != null ? BigDecimal.valueOf(result) : BigDecimal.ZERO;
-    }
-
-
-    /* 결제상태를 COMPLETED로 변경 */
-    @Transactional
-    public Order completeOrder(String orderNo){
-        Order order = orderRepo.findById(orderNo).orElseThrow(() -> new RuntimeException("Order not found"));
-        order.setOrderPayStatus("COMPLETED");
-        return orderRepo.save(order);
-    }
+//    /* 주문의 상태를 PAID 로 바꾸고, 연결되어있는 테이블과의 연관관계를 해제한다 */
+//    @Transactional
+//    public void orderAfterPayment(String orderNo){
+//        Order order = orderRepo.findById(orderNo)
+//                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다."));
+//
+//        /* 결제상태를 PAID로 변경 */
+//        order.setOrderPayStatus("PAID");
+//        /* 테이블번호를 직접 storedTableNo 컬럼에 저장하고 다이닝 테이블과의 관계끊기 */
+//        order.disconnectTable();
+//        /* 주문저장 */
+//        orderRepo.save(order);
+//    }
 
 
 }

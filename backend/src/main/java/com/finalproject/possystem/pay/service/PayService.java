@@ -6,6 +6,9 @@ import com.finalproject.possystem.pay.entity.Pay;
 import com.finalproject.possystem.pay.repository.PayRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import com.finalproject.possystem.table.entity.Dining;
+import com.finalproject.possystem.table.repository.DiningRepository;
+
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,10 +17,12 @@ import java.util.UUID;
 public class PayService {
     private final PayRepository payRepository;
     private final OrderRepository orderRepository;
+    private final DiningRepository diningRepository;
 
-    public PayService(PayRepository payRepository, OrderRepository orderRepository) {
+    public PayService(PayRepository payRepository, OrderRepository orderRepository, DiningRepository diningRepository) {
         this.payRepository = payRepository;
         this.orderRepository = orderRepository;
+        this.diningRepository = diningRepository;
     }
 
     //현금영수증 X
@@ -109,4 +114,23 @@ public class PayService {
         int approvalNumber = (int) (Math.random() * 900000) + 100000; // 100000 ~ 999999 범위
         return String.valueOf(approvalNumber);
     }
+    @Transactional
+    public void orderPayComplete(String orderNo){
+        Order order = orderRepository.findByOrderNo(orderNo);
+
+        if(order==null){
+            throw new IllegalArgumentException("주문번호를 찾을수 없습니다");
+        }
+
+        order.setOrderPayStatus("PAID");
+
+        Dining dining = order.getDining();
+        if(dining != null){
+            dining.freeTable();
+            diningRepository.save(dining);
+        }
+        order.disconnectTable();
+        orderRepository.save(order);
+    }
+
 }

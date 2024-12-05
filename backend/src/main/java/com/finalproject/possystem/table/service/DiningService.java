@@ -30,9 +30,15 @@ public class DiningService {
     }
 
     /* 하나의 테이블을 가져오는 메서드 */
-    public Dining getTable(Integer tableNo){
-        return diningRepo.findById(tableNo).orElse(null);
+    public Dining findDiningByTableNo(Integer tableNo){
+        Dining dining = diningRepo.findByTableNo(tableNo);
+        if(dining==null){
+            throw new IllegalArgumentException("해당 테이블번호를 찾을수 없습니다.: "+ tableNo);
+        }
+        return dining;
     }
+
+
 
     /* 테이블을 생성하는 메서드 */
     public Dining saveTable(Dining dining){
@@ -108,11 +114,16 @@ public class DiningService {
         diningRepo.save(dining);
     }
 
-    /* 주문의 결제상태에 따라 Table의 사용여부와 다이닝 테이블의 색상까지 변경할수있도록 하기위한코드 */
+
+    /* 주문의 결제상태에 따라 Table의 사용여부용여부를 EMPTY:비어있음 로 바꾸고 저장 */
     public void updateTableStatus(Integer tableNo, Order order, boolean isPaid){
         Dining table = diningRepo.findById(tableNo)
-                .orElseThrow(() -> new RuntimeException("Table not found"));
-        
+                .orElseThrow(() -> new RuntimeException("해당 테이블번호를 찾을수 없습니다."));
+
+        if (table.getStatus() == Dining.Status.OCCUPIED) {
+            throw new IllegalArgumentException("이미 사용 중인 테이블입니다.");
+        }
+
         if (isPaid) {
             table.freeTable(); /* 결제완료 : 현재상태를 EMPTY 로 변경 */
         } else {

@@ -1,10 +1,14 @@
 package com.finalproject.possystem.pay.controller;
 
+import com.finalproject.possystem.pay.entity.CardPaymentRequest;
 import com.finalproject.possystem.pay.entity.CashReceiptRequest;
 import com.finalproject.possystem.pay.entity.CashReceiptResponse;
 import com.finalproject.possystem.pay.service.PayService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pay")
@@ -60,4 +64,70 @@ public class PayController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
+
+    //카드결제
+    @PostMapping("/card-payment")
+    public ResponseEntity<Map<String, String>> handleCardPayment(@RequestBody CardPaymentRequest request) {
+        try {
+            // 카드 결제 처리 (orderNo만 전달)
+            payService.processCardPayment(
+                    request.getOrderNo(),
+                    request.getCardNumber(),
+                    request.getExpiryDate(),
+                    request.getCvv()
+            );
+
+            // 성공 응답 반환
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "SUCCESS");
+            response.put("message", "카드 결제가 완료되었습니다.");
+            return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+            // 잘못된 요청 처리
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "FAILURE",
+                    "message", e.getMessage()
+            ));
+        } catch (Exception e) {
+            // 서버 오류 처리
+            return ResponseEntity.internalServerError().body(Map.of(
+                    "status", "FAILURE",
+                    "message", "결제 처리 중 오류가 발생했습니다."
+            ));
+        }
+    }
 }
+
+
+
+
+//@PostMapping("/card-payment")
+//public ResponseEntity<Map<String, String>> handleCardPayment(@RequestBody CardPaymentRequest request) {
+//    try {
+//        payService.processCardPayment(
+//                request.getOrderNo(),
+//                request.getAmount(),
+//                request.getCardNumber(),
+//                request.getExpiryDate(),
+//                request.getCvv()
+//        );
+//
+//        Map<String, String> response = new HashMap<>();
+//        response.put("status", "SUCCESS");
+//        response.put("message", "카드 결제가 완료되었습니다.");
+//        return ResponseEntity.ok(response);
+//
+//    } catch (IllegalArgumentException e) {
+//        return ResponseEntity.badRequest().body(Map.of(
+//                "status", "FAILURE",
+//                "message", e.getMessage()
+//        ));
+//    } catch (Exception e) {
+//        return ResponseEntity.internalServerError().body(Map.of(
+//                "status", "FAILURE",
+//                "message", "결제 처리 중 오류가 발생했습니다."
+//        ));
+//    }
+//}
+//}

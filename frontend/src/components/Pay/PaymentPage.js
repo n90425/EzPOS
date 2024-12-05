@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CashModal from "./CashModal";
+import CardModal from "./CardModal";
 import { useNavigate } from "react-router-dom";
 import useOrder from "./../../hooks/useOrder"; // useOrder 훅
 import axios from "axios";
@@ -9,6 +10,7 @@ import axios from "axios";
 
 const PaymentPage = ({ totalAmount, onBack }) => {
     const [isCashModalOpen, setCashModalOpen] = useState(false);
+    const [isCardModalOpen, setCardModalOpen] = useState(false);
     const navigate = useNavigate();
     const { createOrGetOrder } = useOrder();
 
@@ -20,6 +22,8 @@ const PaymentPage = ({ totalAmount, onBack }) => {
     const closeModal = () => {
         setCashModalOpen(false);
     };
+
+
     // 현금 영수증 발급 없이 결제 완료
     const skipCashReceipt = async () => {
         console.log("Skip Cash Receipt: Sending totalAmount =", totalAmount); // totalAmount 로그
@@ -64,6 +68,32 @@ const PaymentPage = ({ totalAmount, onBack }) => {
     };
 
 
+
+     // 카드 결제 클릭 시 모달 열기
+     const handleCardClick = () => {
+        setCardModalOpen(true);
+    };
+
+    // 카드 결제 완료 처리
+    const handleCardPayment = async (cardNumber, expiryDate, cvv) => {
+        try {
+            const orderNo = await createOrGetOrder();
+            const response = await axios.post("http://localhost:8080/api/pay/card-payment", {
+                orderNo,
+                totalAmount: Math.round(totalAmount),
+                cardNumber,
+                expiryDate,
+                cvv,
+            });
+            alert(response.data.message || "카드 결제가 완료되었습니다!");
+            setCardModalOpen(false);
+            navigate("/dining");
+        } catch (error) {
+            console.error("카드 결제 실패:", error.response?.data || error.message);
+            alert("카드 결제 처리에 실패했습니다. 다시 시도해주세요.");
+        }
+    };
+
     return (
         <div className="payment-page">
             <button className="back-button" onClick={onBack}> ← 뒤로가기 </button> 
@@ -71,7 +101,7 @@ const PaymentPage = ({ totalAmount, onBack }) => {
             {/* <p>{totalAmount.toLocaleString()}원</p> */}
             <p>{new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(totalAmount)}</p>
             <div className="payment-methods">
-                <button className="payment-method">신용카드</button>
+                <button className="payment-method" onClick={handleCardClick}>신용카드</button>
                 <button className="payment-method" onClick={handleCashClick}>현금</button>
                 <button className="payment-method">QR결제</button>
                 <button className="payment-method">계좌이체</button>
@@ -83,6 +113,14 @@ const PaymentPage = ({ totalAmount, onBack }) => {
                     onClose={closeModal} 
                     onSkip={skipCashReceipt}
                     onPaymentComplete={handlePaymentComplete} 
+                />
+            )}
+
+            {/* 카드결제 모달 */}
+            {isCardModalOpen && (
+                <CardModal 
+                    onClose={() => setCardModalOpen(false)} 
+                    onPaymentComplete={handleCardPayment} 
                 />
             )}
         </div>

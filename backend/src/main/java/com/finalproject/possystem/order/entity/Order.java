@@ -78,12 +78,6 @@ public class Order {
             this.dining = null; /* 주문과 다이닝의 관계해제 */
         }
     }
-
-    /* 결제 이후 테이블과의 관계를끊고 테이블번호를 직접 저장 */
-    public void disconnectTable(){
-        this.dining = null;
-    }
-
     @Override
     public String toString() {
         return "Order{" +

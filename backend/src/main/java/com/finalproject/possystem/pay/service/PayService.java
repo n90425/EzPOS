@@ -4,6 +4,8 @@ import com.finalproject.possystem.pay.entity.Pay;
 import com.finalproject.possystem.pay.repository.PayRepository;
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.repository.OrderRepository;
+import com.finalproject.possystem.table.entity.Dining;
+import com.finalproject.possystem.table.repository.DiningRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +16,12 @@ import java.util.UUID;
 public class PayService {
     private final PayRepository payRepository;
     private final OrderRepository orderRepository;
+    private final DiningRepository diningRepository;
 
-    public PayService(PayRepository payRepository, OrderRepository orderRepository) {
+    public PayService(PayRepository payRepository, OrderRepository orderRepository, DiningRepository diningRepository) {
         this.payRepository = payRepository;
         this.orderRepository = orderRepository;
+        this.diningRepository = diningRepository;
     }
 
     //현금영수증 없음
@@ -92,6 +96,25 @@ public class PayService {
             bytes[8 + i] = (byte) (leastSignificantBits >>> (8 * (7 - i)));
         }
         return bytes;
+    }
+
+    @Transactional
+    public void orderPayComplete(String orderNo){
+        Order order = orderRepository.findByOrderNo(orderNo);
+
+        if(order==null){
+            throw new IllegalArgumentException("주문번호를 찾을수 없습니다");
+        }
+
+        order.setOrderPayStatus("PAID");
+
+        Dining dining = order.getDining();
+        if(dining != null){
+            dining.freeTable();
+            diningRepository.save(dining);
+        }
+        order.disconnectTable();
+        orderRepository.save(order);
     }
 
 }

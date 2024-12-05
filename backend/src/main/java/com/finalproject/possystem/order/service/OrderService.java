@@ -2,25 +2,18 @@ package com.finalproject.possystem.order.service;
 
 
 import com.finalproject.possystem.order.entity.Order;
-import com.finalproject.possystem.order.entity.OrderDetail;
-import com.finalproject.possystem.order.entity.QOrder;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import com.finalproject.possystem.table.service.DiningService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -58,8 +51,6 @@ public class OrderService {
         dailyCount.put(datePart, count);
         return orderNo;
     }
-
-
 
 
     /* 테이블 이동 */
@@ -155,19 +146,19 @@ public class OrderService {
     }
 
 
-    /* 주문의 상태를 PAID 로 바꾸고, 연결되어있는 테이블과의 연관관계를 해제한다 */
-    @Transactional
-    public void orderAfterPayment(String orderNo){
-        Order order = orderRepo.findById(orderNo)
-                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다."));
-
-        /* 결제상태를 PAID로 변경 */
-        order.setOrderPayStatus("PAID");
-        /* 테이블번호를 직접 storedTableNo 컬럼에 저장하고 다이닝 테이블과의 관계끊기 */
-        order.disconnectTable();
-        /* 주문저장 */
-        orderRepo.save(order);
-    }
+//    /* 주문의 상태를 PAID 로 바꾸고, 연결되어있는 테이블과의 연관관계를 해제한다 */
+//    @Transactional
+//    public void orderAfterPayment(String orderNo){
+//        Order order = orderRepo.findById(orderNo)
+//                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다."));
+//
+//        /* 결제상태를 PAID로 변경 */
+//        order.setOrderPayStatus("PAID");
+//        /* 테이블번호를 직접 storedTableNo 컬럼에 저장하고 다이닝 테이블과의 관계끊기 */
+//        order.disconnectTable();
+//        /* 주문저장 */
+//        orderRepo.save(order);
+//    }
 
 
 }

@@ -24,6 +24,10 @@ public class PayController {
             if (request.getReceiptNumber() == null) {
                 System.out.println("Processing cash payment without receipt for orderNo: " + request.getOrderNo());
                 payService.processCashPayment(request.getOrderNo());
+
+                /* Order테이블 결제상태 변경 및 테이블해제 */
+                payService.orderPayComplete(request.getOrderNo());
+
                 response.setStatus("SUCCESS");
                 response.setMessage("현금 결제가 완료되었습니다. (영수증 발급 없음)");
                 return ResponseEntity.ok(response);
@@ -41,6 +45,10 @@ public class PayController {
                     request.getReceiptNumber(),
                     request.getReceiptType()
             );
+
+            /* Order테이블 결제상태 변경 및 테이블해제 */
+            payService.orderPayComplete(request.getOrderNo());
+
             response.setStatus("SUCCESS");
             response.setMessage("현금 영수증이 성공적으로 발급되었습니다.");
             response.setReceiptId(receiptId);

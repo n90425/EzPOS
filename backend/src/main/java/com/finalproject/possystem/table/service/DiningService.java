@@ -120,10 +120,6 @@ public class DiningService {
         Dining table = diningRepo.findById(tableNo)
                 .orElseThrow(() -> new RuntimeException("해당 테이블번호를 찾을수 없습니다."));
 
-        if (table.getStatus() == Dining.Status.OCCUPIED) {
-            throw new IllegalArgumentException("이미 사용 중인 테이블입니다.");
-        }
-
         if (isPaid) {
             table.freeTable(); /* 결제완료 : 현재상태를 EMPTY 로 변경 */
         } else {

@@ -85,6 +85,9 @@ public class PayController {
                     request.getCvv()
             );
 
+            /* Order테이블 결제상태 변경 및 테이블해제 */
+            payService.orderPayComplete(request.getOrderNo());
+
             // 성공 응답 반환
             Map<String, String> response = new HashMap<>();
             response.put("status", "SUCCESS");

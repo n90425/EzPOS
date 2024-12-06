@@ -35,6 +35,7 @@ export const useOrder = () => {
         if(res.data) {
             setOrderNo(res.data);
         }
+        return res.data;
         } catch (error) {
         console.error("주문조회중 오류발생", error);
         }

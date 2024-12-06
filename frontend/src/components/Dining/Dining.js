@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./dining.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SettingDropDown  from "./SettingsDropDown";
 import MoveTableModal from "./MoveTableModal";
 import { TableContext } from "./TableContext";
 import AlertBar from "./AlertBar";
 import axios from "axios";
+import useOrder from "./../../hooks/useOrder";
+import useOrderDetail from "../../hooks/useOrderDetail";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -13,6 +15,10 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function Dining() {
     const {tables, fetchTables} = useContext(TableContext);
+    const { orderNo, fetchOrder } = useOrder();
+    const {orderDetails, fetchOrderDetails} = useOrderDetail();
+    const totalAmount = orderDetails.reduce((acc, item) => acc + item.totalAmount, 0);
+    
     
     // Alert 상태
     const [alertMessage, setAlertMessage] = useState("");
@@ -21,6 +27,30 @@ function Dining() {
      // 테이블 이동 모달 상태
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
     
+    // useLocation으로 전달받은 상태
+    const location = useLocation();
+
+
+    // // 테이블 정보를 가져오는 useEffect
+    // useEffect(() => {
+    //     fetchTables(); // 테이블 정보 가져오기
+    // }, []);
+
+    // // 주문 상세 정보를 가져오는 useEffect
+    // useEffect(() => {
+    //     console.log(fetchOrder)
+    //     if (tables && tables.length > 0) {
+    //         tables.forEach((table) => {
+    //             fetchOrderDetails(table.orderNo); // 각 테이블의 주문번호로 상세 정보 가져오기
+    //         });
+    //     }
+    // }, [tables]);
+    useEffect(() => {
+        // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
+        if (location.state?.refreshTables) {
+            fetchTables();
+        }
+    }, [location.state]);
 
     const showAlert = (message) => {
         setAlertMessage(message);
@@ -87,7 +117,20 @@ function Dining() {
                         >
                             <div className="table-number"
                                 >
-                                    테이블 {table.tableNo}
+                                    <p>테이블 {table.tableNo}</p>
+                                    <div className="dining-order-item">
+                                        {orderDetails
+                                        .filter((detail)=>detail.orderNo === table.orderNo)
+                                        .map((detail) => (
+                                            <div key={detail.ordDetailNo} className="dining-order-item">
+                                                <div className="dining-order-info">
+                                                    <p>{detail.menuName}</p>
+                                                    <p>{detail.quantity}</p>
+                                                    <p>{totalAmount.toLocaleString()}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                             </div>
                         </div>
                     ))}

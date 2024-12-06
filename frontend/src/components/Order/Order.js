@@ -17,6 +17,7 @@ const Order = () => {
 
   // 선택된 카테고리 초기값 설정
   useEffect(() => {
+    console.log(orderNo);
     if (categories.length > 0) {
       setSelectedCategory(categories[0].categoryId); // 첫 번째 카테고리 선택
     }

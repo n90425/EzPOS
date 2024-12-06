@@ -36,20 +36,31 @@ public class OrderService {
 
     private JPAQueryFactory queryFactory;
 
-    private Map<String, Integer> dailyCount = new HashMap<>();
 
+    private static final Object lock = new Object();
 
     /* 주문번호 생성 */
     public String createOrderId(){
         /* 연월일 뽑아오기 */
-        String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        /* Map에 선택한 연월일이 저장된게 없을경우 주문번호 000000부터 생성 */
-        int count = dailyCount.getOrDefault(datePart,0)+1;
-        /* 연월일-일련번호 조합 */
-        String orderNo = datePart+"-"+String.format("%06d", count);
-        /* 맵에 저장 */
-        dailyCount.put(datePart, count);
-        return orderNo;
+        synchronized (lock){
+            String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+            /* DB에서 현재날짜로 시작하는 orderNo중 가장 큰값 가져오기 */
+            String maxOrderNo = orderRepo.findMaxOrderNo(datePart+"%");
+
+            int nextCount;
+            /* 만약 해당 날짜로 생성된 주문번호가 없으면 1로 초기화 */
+            if(maxOrderNo == null){
+                nextCount = 1;
+            } else {
+                /* 생성된 주문번호가 있을경우 - split 후 1증가 */
+                String lastOrderNo = maxOrderNo.substring(maxOrderNo.lastIndexOf('-')+1);
+                nextCount = Integer.parseInt(lastOrderNo)+1;
+            }
+
+            String orderNo = datePart + "-" + String.format("%06d", nextCount);
+            return orderNo;
+        }
     }
 
 

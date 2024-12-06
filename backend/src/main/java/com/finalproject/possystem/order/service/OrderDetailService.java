@@ -41,6 +41,9 @@ public class OrderDetailService {
     @Transactional
     public OrderDetail addItemToOrder(OrderDetail orderDetail){
 
+        Order order = orderRepo.findById(orderDetail.getOrderNo())
+                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을 수 없습니다: " + orderDetail.getOrderNo()));
+
         /* 해당주문에 동일한 메뉴ID가 있는지 확인 */
         OrderDetail existingOrderDetail = orderDetailRepo.findByOrderNoAndMenuId(
                 orderDetail.getOrderNo(),

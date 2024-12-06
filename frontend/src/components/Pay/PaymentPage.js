@@ -6,7 +6,7 @@ import useOrder from "./../../hooks/useOrder"; // useOrder 훅
 import axios from "axios";
 
 
-// const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const PaymentPage = ({ totalAmount, onBack }) => {
     const [isCashModalOpen, setCashModalOpen] = useState(false);
@@ -31,7 +31,7 @@ const PaymentPage = ({ totalAmount, onBack }) => {
         try {
             const orderNo = await createOrGetOrder(); //주문번호 생성
 
-            const res = await axios.post("http://localhost:8080/api/pay/cash-receipt", {
+            const res = await axios.post(`${BASE_URL}/pay/cash-receipt`, {
                 orderNo,
                 receiptNumber: null,
                 receiptType: null,
@@ -40,7 +40,7 @@ const PaymentPage = ({ totalAmount, onBack }) => {
             console.log("Server Response:", res.data); // 로그 추가
             alert(res.data.message || "결제가 완료되었습니다!");
             setCashModalOpen(false);
-            navigate("/dining");
+            navigate("/dining", { state: { refreshTables: true }});
         } catch (error) {
             console.error("현금 결제 실패:", error.response?.data || error.message);
             alert("결제 처리에 실패했습니다. 다시 시도해주세요.");
@@ -60,7 +60,7 @@ const PaymentPage = ({ totalAmount, onBack }) => {
 
             alert(response.data.message); // 서버 응답 메시지
             setCashModalOpen(false);      // 모달 닫기
-            navigate("/dining");           // 테이블 페이지로 이동
+            navigate("/dining", { state: { refreshTables: true }});           // 테이블 페이지로 이동
         } catch (error) {
             console.error("현금 영수증 발급 실패:", error.response?.data || error.message);
             alert("현금 영수증 발급에 실패했습니다. 다시 시도해주세요.");
@@ -87,7 +87,7 @@ const PaymentPage = ({ totalAmount, onBack }) => {
             });
             alert(response.data.message || "카드 결제가 완료되었습니다!");
             setCardModalOpen(false);
-            navigate("/dining");
+            navigate("/dining", { state: { refreshTables: true }});
         } catch (error) {
             console.error("카드 결제 실패:", error.response?.data || error.message);
             alert("카드 결제 처리에 실패했습니다. 다시 시도해주세요.");

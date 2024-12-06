@@ -1,13 +1,14 @@
 package com.finalproject.possystem.pay.controller;
 
-import com.finalproject.possystem.pay.entity.CardPaymentRequest;
-import com.finalproject.possystem.pay.entity.CashReceiptRequest;
-import com.finalproject.possystem.pay.entity.CashReceiptResponse;
+import com.finalproject.possystem.pay.entity.*;
 import com.finalproject.possystem.pay.service.PayService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -108,6 +109,26 @@ public class PayController {
             ));
         }
     }
+
+    @GetMapping("/payhistory")
+    public ResponseEntity<List<PaymentHistoryResponse>> getPaymentHistory(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @RequestParam(required = false) String posNumber,
+            @RequestParam(required = false) String tableNumber,
+            @RequestParam(required = false) String receiptNumber) {
+
+        List<PaymentHistoryResponse> paymentHistories = payService.getPaymentHistory(
+                startDate != null ? startDate.toString() : null,
+                endDate != null ? endDate.toString() : null,
+                posNumber,
+                tableNumber,
+                receiptNumber
+        );
+        return ResponseEntity.ok(paymentHistories);
+    }
+
+
 }
 
 

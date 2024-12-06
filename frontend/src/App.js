@@ -11,6 +11,7 @@ import Dining from "./components/Dining/Dining.js"; // 테이블
 import EditDining from "./components/Dining/EditDining.js" // 테이블수정
 import { TableProvider } from './components/Dining/TableContext.js';
 import { SaleSummary } from './components/SaleSummary/SaleSummary.js'; //매출 요약
+import PaymentHistory from "./components/Pay/PaymentHistory"; // 결제 내역 페이지
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/dining" element={<Dining/>}/> {/* 테이블가져오기 */}
             <Route path="/editDining" element={<EditDining/>}/> {/*테이블수정하기*/}
             <Route path="/sales-summary" element={<SaleSummary/>}/> {/* 매출 요약 */}
+            <Route path="/payment-history" element={<PaymentHistory />} /> {/* 결제내역 */}
           </Routes>
         </Router>
       </TableProvider>

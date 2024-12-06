@@ -6,7 +6,6 @@ import MoveTableModal from "./MoveTableModal";
 import { TableContext } from "./TableContext";
 import AlertBar from "./AlertBar";
 import axios from "axios";
-import useOrder from "./../../hooks/useOrder";
 import useOrderDetail from "../../hooks/useOrderDetail";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -15,9 +14,7 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function Dining() {
     const {tables, fetchTables} = useContext(TableContext);
-    const { orderNo, fetchOrder } = useOrder();
-    const {orderDetails, fetchOrderDetails} = useOrderDetail();
-    const totalAmount = orderDetails.reduce((acc, item) => acc + item.totalAmount, 0);
+    const {orderDetails, setOrderDetails} = useOrderDetail();
     
     
     // Alert 상태
@@ -31,26 +28,69 @@ function Dining() {
     const location = useLocation();
 
 
-    // // 테이블 정보를 가져오는 useEffect
-    // useEffect(() => {
-    //     fetchTables(); // 테이블 정보 가져오기
-    // }, []);
+    // 특정 테이블 번호(tableNo)에 연결된 주문 정보와 메뉴 이름을 가져온다
+    const fetchTableDetails = async (tableNo) => {
+        const response = await axios.get(`${BASE_URL}/dining/${tableNo}/details`);
+        return response.data;
+    };
 
-    // // 주문 상세 정보를 가져오는 useEffect
-    // useEffect(() => {
-    //     console.log(fetchOrder)
-    //     if (tables && tables.length > 0) {
-    //         tables.forEach((table) => {
-    //             fetchOrderDetails(table.orderNo); // 각 테이블의 주문번호로 상세 정보 가져오기
-    //         });
-    //     }
-    // }, [tables]);
+    // 주문 상세 내역(orderDetails)과 메뉴 이름(menuNames)을 표시
+    const renderTableDetails = ({ orderDetails, menuNames }) => {
+        const totalAmount = orderDetails.reduce(
+            (acc, detail) => acc + detail.unitPrice * detail.quantity,
+            0
+        );
+        return (
+            <div className="dining-order-details">
+                {orderDetails.map((detail, index) => (
+                    <div key={detail.ordDetailNo} className="dining-order-item">
+                        <div className="menu-name">{menuNames[index]}</div>
+                        <div className="menu-quantity">{detail.quantity}</div>
+                    </div>
+                ))}
+                {/* 총 금액 표시 */}
+                <div className="total-price">
+                    {totalAmount.toLocaleString()}원
+                </div>
+            </div>
+        );
+    };
+
+    useEffect(() => {
+        const fetchDetails = async () => {
+            try {
+                const updatedDetails = [];
+                for (let table of tables) {
+                    if (table.status === "OCCUPIED") {
+                        const response = await fetchTableDetails(table.tableNo);
+                        console.log(response);
+                        if (response) {
+                            updatedDetails.push({
+                                tableNo: table.tableNo,
+                                orderDetails: response.orderDetails || [],
+                                menuNames: response.menuNames || [],
+                            });
+                        }
+                    }
+                }
+                setOrderDetails(updatedDetails); // 데이터를 배열로 저장
+            } catch (error) {
+                console.error("Error fetching table details:", error);
+            }
+        };
+    
+        if (tables && tables.length > 0) {
+            fetchDetails();
+        }
+    }, [tables]);
+
     useEffect(() => {
         // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
         if (location.state?.refreshTables) {
             fetchTables();
         }
     }, [location.state]);
+
 
     const showAlert = (message) => {
         setAlertMessage(message);
@@ -99,7 +139,10 @@ function Dining() {
             ) : (
                 <div className="table-list">
                     <SettingDropDown showAlert={showAlert} onTableMove={() => setIsMoveModalOpen(true)} />
-                    {tables.map((table)=> (
+                    {tables.map((table) => {
+                    const tableData  =orderDetails.find((data) => data.tableNo === table.tableNo) || {};
+                    const { orderDetails: details = [], menuNames = [] } = tableData ;
+                    return (
                         <div
                             key={table.tableNo}
                             className="table-item"
@@ -108,32 +151,23 @@ function Dining() {
                                 top: `${table.yPosition}px`,
                                 width: `${table.width}px`,
                                 height: `${table.height}px`,
-                                backgroundColor: table.status === "EMPTY"? "white" : table.tableColor, // 테이블이 비어있는지 아닌지에따라 색상변경
-                                color: table.status === "EMPTY"? "gray": "white",
+                                backgroundColor: table.status === "EMPTY" ? "white" : table.tableColor,
+                                color: table.status === "EMPTY" ? "gray" : "white",
                                 border: `2px solid ${table.tableColor}`,
                                 position: "absolute",
                             }}
                             onClick={() => handleOrderTable(table.tableNo)}
                         >
-                            <div className="table-number"
-                                >
-                                    <p>테이블 {table.tableNo}</p>
-                                    <div className="dining-order-item">
-                                        {orderDetails
-                                        .filter((detail)=>detail.orderNo === table.orderNo)
-                                        .map((detail) => (
-                                            <div key={detail.ordDetailNo} className="dining-order-item">
-                                                <div className="dining-order-info">
-                                                    <p>{detail.menuName}</p>
-                                                    <p>{detail.quantity}</p>
-                                                    <p>{totalAmount.toLocaleString()}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                            <div className="table-number">
+                                <p>테이블 {table.tableNo}</p>
+                                {table.status === "OCCUPIED" && renderTableDetails({
+                                    orderDetails: details,
+                                    menuNames
+                                })}
                             </div>
                         </div>
-                    ))}
+                    );
+                })}
                 </div>
             )}
             {/* 테이블 이동 모달 */}

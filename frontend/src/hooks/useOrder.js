@@ -21,7 +21,6 @@ export const useOrder = () => {
             if(res.data) {
                 setOrderNo(res.data);
             }
-            console.log(res.data);
         } catch(error) {
             console.error("주문조회 중 오류 발생", error);
         }
@@ -29,15 +28,15 @@ export const useOrder = () => {
     
 
     // 테이블번호와 연결된 주문 가져오기
-    const fetchOrder = async () => {
+    const fetchOrder = async (tableNo) => {
         try {
-        const res = await axios.get(`${BASE_URL}/order/${tableNo}`);
-        if(res.data) {
-            setOrderNo(res.data);
-        }
-        return res.data;
+            const res = await axios.get(`${BASE_URL}/order/${tableNo}`);
+            if(res.data) {
+                setOrderNo(res.data);
+            }
+            return res.data;
         } catch (error) {
-        console.error("주문조회중 오류발생", error);
+            console.error("주문조회중 오류발생", error);
         }
     };
 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DiningService {
@@ -41,12 +42,42 @@ public class DiningService {
 
 
     /* 테이블을 생성하는 메서드 */
-    public Dining saveTable(Dining dining){
-        return diningRepo.save(dining);
+    public Dining saveTable(Dining dining) {
+        System.out.println("Saving table: " + dining);
+
+        Dining existingDining = diningRepo.findById(dining.getTableNo()).orElse(null);
+
+        if (existingDining != null) {
+            System.out.println("Existing dining found: " + existingDining);
+            existingDining.setTableColor(dining.getTableColor());
+            existingDining.setxPosition(dining.getxPosition());
+            existingDining.setyPosition(dining.getyPosition());
+            existingDining.setWidth(dining.getWidth());
+            existingDining.setHeight(dining.getHeight());
+            return diningRepo.save(existingDining);
+        } else {
+            return diningRepo.save(dining);
+        }
     }
 
-    public List<Dining> saveTableAll(List<Dining> dining) {
-        return diningRepo.saveAll(dining);
+    public List<Dining> saveTableAll(List<Dining> diningList) {
+        for (Dining dining : diningList) {
+            Dining existingDining = diningRepo.findById(dining.getTableNo()).orElse(null);
+
+            if (existingDining != null) {
+                // 기존 엔터티가 있으면 업데이트
+                existingDining.setTableColor(dining.getTableColor());
+                existingDining.setxPosition(dining.getxPosition());
+                existingDining.setyPosition(dining.getyPosition());
+                existingDining.setWidth(dining.getWidth());
+                existingDining.setHeight(dining.getHeight());
+                diningRepo.save(existingDining);
+            } else {
+                // 기존 엔터티가 없으면 새로 저장
+                diningRepo.save(dining);
+            }
+        }
+        return diningRepo.findAll(); // 모든 테이블 반환
     }
 
     /* 하나의 테이블을 삭제 */

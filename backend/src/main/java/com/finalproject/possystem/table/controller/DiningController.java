@@ -1,9 +1,15 @@
 package com.finalproject.possystem.table.controller;
 
+import com.finalproject.possystem.menu.entity.Menu;
+import com.finalproject.possystem.menu.repository.MenuRepository;
+import com.finalproject.possystem.order.entity.Order;
+import com.finalproject.possystem.order.entity.OrderDetail;
+import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.table.service.DiningService;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +25,12 @@ public class DiningController {
 
     @Autowired
     private DiningRepository diningRepo;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepo;
+
+    @Autowired
+    private MenuRepository menuRepo;
 
     @GetMapping("/dining")
     public List<Dining> getDining(){
@@ -71,6 +83,45 @@ public class DiningController {
         Map<String, String> res = new HashMap<>();
         res.put("msg", msg);
         System.out.println("res: "+res);
+        return ResponseEntity.ok(res);
+    }
+
+    /* 특정 테이블번호에 연결된 주문및 주문상세 데이터를 반환 */
+    @GetMapping("/dining/{tableNo}/details")
+    public ResponseEntity<?> getTableOrderDetail(@PathVariable Integer tableNo) {
+        Dining dining = diningRepo.findById(tableNo).orElse(null);
+
+        if (dining == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("테이블을 찾을수없습니다.");
+        }
+
+        /* 테이블이 비어있는 상태일 경우 */
+        if (dining.getStatus() == Dining.Status.EMPTY) {
+            Map<String, Object> res = new HashMap<>();
+            res.put("tableNo", dining.getTableNo());
+            res.put("status", "EMPTY");
+            res.put("message", "No order associated with this table");
+            return ResponseEntity.ok(res);
+        }
+
+        /* 테이블이 주문과 연결된 경우 */
+        Order order = dining.getCurrentOrder();
+        List<OrderDetail> orderDetails = orderDetailRepo.findByOrderNo(order.getOrderNo());
+        List<String> menuNames = orderDetails.stream()
+                .map(detail -> {
+                    // MenuRepo에서 menuId로 Menu를 조회하고 menuName을 반환
+                    return menuRepo.findById(detail.getMenuId())
+                            .map(Menu::getMenuName) // Menu가 존재하면 menuName 반환
+                            .orElse("Unknown"); // Menu가 없으면 "Unknown" 반환
+                })
+                .toList();
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("tableNo", dining.getTableNo());
+        res.put("status", "OCCUPIED");
+        res.put("orderDetails", orderDetails);
+        res.put("menuNames", menuNames);
+
         return ResponseEntity.ok(res);
     }
 }

@@ -19,7 +19,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
             console.error("테이블번호가 없습니다");
         }
 
-        fetchOrder();
+        fetchOrder(tableNo);
         if(orderNo){
             fetchOrderDetails(orderNo);
         }

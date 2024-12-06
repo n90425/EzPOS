@@ -37,4 +37,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     int deleteOrderDetail(@Param("ordDetailNo") Integer ordDetailNo,
                           @Param("orderNo") String orderNo,
                           @Param("tableNo") Integer tableNo);
+
+    List<OrderDetail> findByOrderNo(String orderNo);
 }

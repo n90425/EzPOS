@@ -70,7 +70,7 @@ const PaymentPage = ({ totalAmount, onBack }) => {
 
 
      // 카드 결제 클릭 시 모달 열기
-     const handleCardClick = () => {
+    const handleCardClick = () => {
         setCardModalOpen(true);
     };
 

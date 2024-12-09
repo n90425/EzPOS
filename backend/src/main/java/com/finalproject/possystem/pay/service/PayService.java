@@ -3,14 +3,16 @@ package com.finalproject.possystem.pay.service;
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.pay.entity.Pay;
+import com.finalproject.possystem.pay.entity.PaymentHistoryResponse;
 import com.finalproject.possystem.pay.repository.PayRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -132,5 +134,17 @@ public class PayService {
         order.disconnectTable();
         orderRepository.save(order);
     }
+
+    //결제내역
+    @Transactional(readOnly = true)
+    public List<PaymentHistoryResponse> getPaymentHistory(
+            String startDate,
+            String endDate,
+            String posNumber,
+            String tableNumber,
+            String receiptNumber) {
+        return payRepository.findPaymentHistory(startDate, endDate, posNumber, tableNumber, receiptNumber);
+    }
+
 
 }

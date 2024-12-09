@@ -37,7 +37,7 @@ function Main() {
   const menuItems = [
     { name: '영업 개시', path: '/shop/open', color: "red" },
     { name: '매출 요약', path: '/sales-summary', color: "blue" },
-    { name: '판매 내역', path: '/sales-history', color: "blue" },
+    { name: '판매 내역', path: '/payment-history', color: "blue" },
     { name: '영수증 반품', path: '/receipt-return', color: "blue" },
     { name: '영업 준비금', path: '/operating-fund', color: "gray"  },
     { name: '고객 조회', path: '/customer-inquiry', color: "gray"  },

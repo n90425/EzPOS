@@ -12,6 +12,7 @@ import EditDining from "./components/Dining/EditDining.js" // 테이블수정
 import { TableProvider } from './components/Dining/TableContext.js';
 import { SaleSummary } from './components/SaleSummary/SaleSummary.js'; //매출 요약
 import Header from './components/Header.js';
+import PaymentHistory from "./components/Pay/PaymentHistory"; // 결제 내역 페이지
 
 function App() {
   return (

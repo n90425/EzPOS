@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import useOrder from "./../../hooks/useOrder";
-import "./orderAll.css";
+import useOrder from "../../hooks/useOrder";
+import "./orderHistory.css";
 
 const OrderAll = () => {
     const { orderNo, setOrderNo, fetchOrders } = useOrder();
@@ -54,7 +54,6 @@ const OrderAll = () => {
 
     return (
         <div className="order-all-container">
-            <h1 className="order-title">주문 내역</h1>
             <div className="filter-section">
                 {/* 필터 영역 */}
                 <div>

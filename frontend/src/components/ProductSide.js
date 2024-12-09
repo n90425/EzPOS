@@ -14,7 +14,6 @@ function Sidebar({ onCategoryClick, onItemClick }) {
 
     return (
         <div className="sidebar">
-            <h3>상품관리</h3>
             <ul>
                 <li
                     className={`category ${selectedMenu === "category" ? "active" : ""}`}

@@ -41,7 +41,7 @@ function Main() {
     { name: '영수증 반품', path: '/receipt-return', color: "blue" },
     { name: '영업 준비금', path: '/operating-fund', color: "gray"  },
     { name: '고객 조회', path: '/customer-inquiry', color: "gray"  },
-    { name: '주문 내역', path: '/order/all', color: "gray"  },
+    { name: '주문 내역', path: '/order-history', color: "gray"  },
     { name: '테이블 관리', path: '/dining', color: "gray"  },
     { name: '담당자', path: '/manager', color: "gray"  },
     { name: '상품관리', path: '/product-management', color: "gray"  },
@@ -51,8 +51,6 @@ function Main() {
 
   return (
     <div className="mainpage-container">
-      {/* 상단 헤더 */}
-      <h1 className="mainpage-header">메인 페이지</h1>
 
       {/* 콘텐츠 섹션 */}
       <div className="mainpage-content">

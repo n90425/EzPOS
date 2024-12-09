@@ -29,7 +29,7 @@ public class OrderController {
 
 
     /* 기간별주문조회 */
-    @GetMapping("/order/all")
+    @GetMapping("/order-history")
     public List<Order> getOrderByDateRange(
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "endDate", required = false) String endDate,

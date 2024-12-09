@@ -11,7 +11,7 @@ export const useOrder = () => {
     // 오더 전체 가져오기
     const fetchOrders = useCallback(async (startDate, endDate, status) => {
         try {
-            const res = await axios.get(`${BASE_URL}/order/all`, {
+            const res = await axios.get(`${BASE_URL}/order-history`, {
                 params: {
                     startDate: startDate || null,
                     endDate: endDate || null,

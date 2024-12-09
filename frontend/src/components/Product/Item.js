@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ItemHeader from './ItemHead';
 import ItemList from './ItemList';
 import ItemModal from './ItemModal';
-import useItem from '../hooks/useItem'; // useItem 훅 사용
-import useCategory from '../hooks/useCategory'; // useCategory 훅 사용
+import useItem from '../../hooks/useItem'; // useItem 훅 사용
+import useCategory from '../../hooks/useCategory'; // useCategory 훅 사용
 
 function Item() {
     const [itemModalOpen, setItemModalOpen] = useState(false);

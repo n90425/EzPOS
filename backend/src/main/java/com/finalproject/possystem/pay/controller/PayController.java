@@ -115,6 +115,7 @@ public class PayController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(required = false) String posNumber,
+            @RequestParam(required = false) String payMethCd,
             @RequestParam(required = false) String tableNumber,
             @RequestParam(required = false) String receiptNumber) {
 
@@ -122,9 +123,11 @@ public class PayController {
                 startDate != null ? startDate.toString() : null,
                 endDate != null ? endDate.toString() : null,
                 posNumber,
+                payMethCd,
                 tableNumber,
                 receiptNumber
         );
+        System.out.println("paymentMethod11111" + payMethCd);
         return ResponseEntity.ok(paymentHistories);
     }
 

@@ -32,26 +32,6 @@ grid-gap: 10px;
 width: 70%; /* 왼쪽 영역 */
 }
 
-/* 매출 요약 */
-.mainpage-summary-container {
-width: 30%; /* 오른쪽 영역 */
-background-color: #383838;
-padding: 20px;
-border-radius: 8px;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-margin-left: 20px; /* 왼쪽 여백 */
-}
-
-.mainpage-summary-header {
-font-size: 18px;
-margin-bottom: 10px;
-color: #f39c12;
-}
-
-.mainpage-summary-item {
-font-size: 14px;
-margin-bottom: 5px;
-}
 
 /* 버튼 스타일 */
 .mainpage-menu-item {
@@ -82,4 +62,32 @@ background-color: #95a5a6;
 
 .mainpage-menu-item:hover {
 transform: scale(1.05);
+}
+
+
+/* SalesSummary 관련 스타일 */
+.sales-summary {
+    background-color: #2b2b2b;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sales-summary h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.summary-item span:last-child {
+    font-weight: bold;
+    color: #ff6b6b;
 }

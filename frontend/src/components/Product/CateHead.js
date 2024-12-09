@@ -1,5 +1,5 @@
 import React from 'react';
-import "../css/catehead.css";
+import './catehead.css';
 
 function Header( { onAddCategory }) {
     return (

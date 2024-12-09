@@ -1,5 +1,5 @@
 import React from 'react';
-import "../css/catelist.css";
+import './catelist.css';
 
 function CategoryList({ categories, toggleVisibility }) {
     return (

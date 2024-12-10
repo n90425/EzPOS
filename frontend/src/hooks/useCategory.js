@@ -34,15 +34,23 @@ const useCategory = () => {
         }
     };
 
-    // 카테고리 삭제
+  // 카테고리 삭제
     const deleteCategory = async (categoryId) => {
         try {
             await axios.post(`${BASE_URL}/deletecategory`, { category_id: categoryId });
             fetchCategories(); // 삭제 후 업데이트
+            alert("카테고리가 성공적으로 삭제되었습니다.");
         } catch (error) {
-            console.error("Failed to delete category:", error);
+            // 서버에서 반환된 에러 메시지 확인
+            if (error.response && error.response.status === 400) {
+                alert(error.response.data.message || "카테고리 삭제 중 문제가 발생했습니다.");
+            } else {
+                console.error("Failed to delete category:", error);
+                alert("카테고리 삭제 중 문제가 발생했습니다.");
+            }
         }
     };
+
 
     // 카테고리 수정
     const updateCategory = async (updatedCategory) => {

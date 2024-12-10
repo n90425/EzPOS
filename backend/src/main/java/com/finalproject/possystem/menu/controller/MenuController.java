@@ -53,6 +53,9 @@ public class MenuController {
         Boolean isVisible = (Boolean) payload.get("isVisible");
 
         menuService.updatemenuVisibility(menuId, isVisible);
+
+        System.out.println("menuId: " + menuId + ", isVisible: " + isVisible);
+
         return ResponseEntity.ok().build();
     }
 
@@ -60,7 +63,17 @@ public class MenuController {
     @PostMapping("/deletemenu")
     public List<Menu> menuDelete(@RequestBody Map<String, Integer> requestData) {
         Integer menuId = requestData.get("menuId");
+
+        if (menuId == null) {
+            System.err.println("menuId is null");
+            throw new IllegalArgumentException("menuId cannot be null");
+        }
+
+        System.out.println("menuId11: " + menuId);
+
         menuService.menuDelete(menuId);
+
         return menuService.getMenuBy();
     }
+
 }

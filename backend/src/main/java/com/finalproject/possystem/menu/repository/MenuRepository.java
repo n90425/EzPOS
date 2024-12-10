@@ -18,5 +18,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     //메뉴이름으로 조회
     List<Menu> findMenuByMenuName(String menuName);
 
+    // 카테고리에 속한 아이템 수를 반환
+    int countByCategoryId(Integer categoryId);
 
 }

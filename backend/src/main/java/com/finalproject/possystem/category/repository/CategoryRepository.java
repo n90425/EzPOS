@@ -19,4 +19,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     // 대분류만 조회
     List<Category> findByParentIsNull();
+
+
 }

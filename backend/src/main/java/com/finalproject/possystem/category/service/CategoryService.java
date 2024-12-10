@@ -2,6 +2,7 @@ package com.finalproject.possystem.category.service;
 
 import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.category.repository.CategoryRepository;
+import com.finalproject.possystem.menu.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import java.util.List;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
     /*부모가 null인 대분류 category만 반환*/
     public List<Category> getAllMainCategory(){
@@ -24,11 +27,6 @@ public class CategoryService {
         Category parent = categoryRepository.findByCategoryId(parentId);
         return categoryRepository.findByParent(parent);
     }
-
-    /*category insert*/
-//    public Category categoryInsert(Category category){
-//        return categoryRepository.save(category);
-//    }
 
     // 카테고리 추가
     public Category categoryInsert(Category category) {
@@ -61,8 +59,19 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-    /*category delete*/
+
+    // 특정 카테고리에 아이템 존재 여부 확인
+    public boolean hasItemsInCategory(Integer categoryId) {
+        return menuRepository.countByCategoryId(categoryId) > 0;
+    }
+    /*category 삭제*/
     public void categoryDelete(Integer category_id){
         categoryRepository.deleteById(category_id);
     }
+
+    // 모든 카테고리 가져오기
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
+
 }

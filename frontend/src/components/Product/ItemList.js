@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/itemlist.css";
+import './itemlist.css';
 
 function ItemList({ items = [], categories = [], onDelete, onEdit, onToggleVisibility, onCategorySelect, selectedCategory }) {
     return (

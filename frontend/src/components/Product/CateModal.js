@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../css/catemodal.css";
+import './catemodal.css';
 
 function CategoryModal({ isOpen, onClose, onSave, categories, onDelete, onUpdate }) {
     const [newCategory, setNewCategory] = useState('');

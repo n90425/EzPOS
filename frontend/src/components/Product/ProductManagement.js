@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/ProductSide';
-import Category from '../components/Category';
-import Item from '../components/Item';
-import "../css/product.css";
+import Sidebar from './ProductSide';
+import Category from './Category';
+import Item from './Item';
+import './product.css';
 
 function ProductManagement() {
     const [showCategoryManagement, setShowCategoryManagement] = useState(false);

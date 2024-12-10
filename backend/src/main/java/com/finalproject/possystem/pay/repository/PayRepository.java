@@ -38,19 +38,25 @@ public interface PayRepository extends JpaRepository<Pay, byte[]> {
 
 
     //결제내역
-    @Query(value = "SELECT p.payDt AS paymentTime, o.storedTableNo AS tableNumber, p.odPayAmt AS paymentAmount, p.cash_receipt_number AS receiptNumber " +
+    @Query(value = "SELECT p.payDt AS paymentTime, " +
+            "       o.storedTableNo AS tableNumber, " +
+            "       p.payMethCd AS payMethCd, " +
+            "       p.odPayAmt AS paymentAmount, " +
+            "       p.cash_receipt_number AS receiptNumber " +
             "FROM pay p " +
             "JOIN `order` o ON p.orderNo = o.orderNo " +
             "WHERE (:startDate IS NULL OR p.payDt >= :startDate) " +
-            "AND (:endDate IS NULL OR p.payDt <= :endDate) " +
-            "AND (:posNumber IS NULL OR p.transType = :posNumber) " +
-            "AND (:tableNumber IS NULL OR o.storedTableNo = :tableNumber) " +
-            "AND (:receiptNumber IS NULL OR p.cash_receipt_number = :receiptNumber)",
+            "  AND (:endDate IS NULL OR p.payDt <= :endDate) " +
+            "  AND (:posNumber IS NULL OR p.transType = :posNumber) " +
+            "  AND (:payMethCd IS NULL OR p.payMethCd = :payMethCd) " +
+            "  AND (:tableNumber IS NULL OR o.storedTableNo = :tableNumber) " +
+            "  AND (:receiptNumber IS NULL OR p.cash_receipt_number = :receiptNumber)",
             nativeQuery = true)
     List<PaymentHistoryResponse> findPaymentHistory(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("posNumber") String posNumber,
+            @Param("payMethCd") String payMethCd,
             @Param("tableNumber") String tableNumber,
             @Param("receiptNumber") String receiptNumber);
 }

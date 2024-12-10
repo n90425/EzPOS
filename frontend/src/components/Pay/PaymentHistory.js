@@ -46,6 +46,7 @@ const PaymentHistory = () => {
                     status: status || "ALL",
                 }
             });
+            console.log(response.data);
             setPaymentHistory(response.data);
         } catch (error) {
             console.error("결제 내역 조회 실패:", error);
@@ -87,20 +88,26 @@ const PaymentHistory = () => {
                     <tr>
                         <th>결제 시간</th>
                         <th>테이블 번호</th>
+                        <th>현금/카드</th>
                         <th>결제 금액</th>
                         <th>영수증 번호</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {paymentHistory.map((item, index) => (
+                {paymentHistory.map((item, index) => {
+                    console.log(item.payMethCd);
+                    return (
                         <tr key={index}>
                             <td>{item.paymentTime}</td>
                             <td>{item.tableNumber}</td>
+                            <td>{item.payMethCd}</td>
                             <td>{item.paymentAmount.toLocaleString()}원</td>
                             <td>{item.receiptNumber || "N/A"}</td>
                         </tr>
-                    ))}
+                    );
+                })}
                 </tbody>
+                    
             </table>
         </div>
     );

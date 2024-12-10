@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ProductManagement from './components/ProductManagement';
+import ProductManagement from './components/Product/ProductManagement';
 import Main from './components/Main.js';  // 메인 페이지
 import Open from './components/Open/OpenAndClose.js';  // 테이블 페이지
 import Order from './components/Order/Order.js';  // 주문 페이지
@@ -13,6 +13,7 @@ import { TableProvider } from './components/Dining/TableContext.js';
 import { SaleSummary } from './components/SaleSummary/SaleSummary.js'; //매출 요약
 import Header from './components/Header.js';
 import PaymentHistory from "./components/Pay/PaymentHistory"; // 결제 내역 페이지
+
 
 function App() {
   return (

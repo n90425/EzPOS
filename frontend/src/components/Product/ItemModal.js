@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/itemmodal.css"; // ItemModal 전용 CSS
+import './itemmodal.css'; // ItemModal 전용 CSS
 
 function ItemModal({ isOpen, onClose, onSave, onUpdate, selectedItem, categories = [] }) {
     const [newItem, setNewItem] = useState({

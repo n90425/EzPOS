@@ -141,10 +141,10 @@ public class PayService {
             String startDate,
             String endDate,
             String posNumber,
+            String payMethCd,
             String tableNumber,
             String receiptNumber) {
-        return payRepository.findPaymentHistory(startDate, endDate, posNumber, tableNumber, receiptNumber);
+        return payRepository.findPaymentHistory(startDate, endDate, posNumber, payMethCd, tableNumber, receiptNumber);
     }
-
 
 }

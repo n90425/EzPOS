@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Header from './CateHead';
 import CategoryList from './CateList';
 import CategoryModal from './CateModal';
-import useCategories from '../hooks/useCategory';
-import "../css/catehead.css";
-import "../css/catelist.css";
+import useCategories from '../../hooks/useCategory';
+import './catehead.css';
+import './catelist.css';
 
 function Category() {
     const [isModalOpen, setIsModalOpen] = useState(false);

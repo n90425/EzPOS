@@ -24,10 +24,10 @@ overflow: hidden;
 .mainpage-menu-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 15px;
-    width: 70%; /* 왼쪽 영역 */
-    height: 90%; /* 부모 높이 채움 */
-    box-sizing: border-box;
+    grid-gap: 20px;
+    width: 65%;
+    height: 90%;
+    margin-top: 15px;
 }
 
 /* 매출 요약 */
@@ -84,29 +84,29 @@ transform: scale(1.05);
 }
 
 
-/*!* SalesSummary 관련 스타일 *!*/
-/*.sales-summary {*/
-/*    background-color: #2b2b2b;*/
-/*    color: white;*/
-/*    padding: 20px;*/
-/*    border-radius: 10px;*/
-/*    width: 30%;*/
-/*    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);*/
-/*}*/
+/* SalesSummary 관련 스타일 */
+.sales-summary {
+    background-color: #2b2b2b;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-/*.sales-summary h2 {*/
-/*    font-size: 20px;*/
-/*    font-weight: bold;*/
-/*    margin-bottom: 10px;*/
-/*}*/
+.sales-summary h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 
-/*.summary-item {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    margin-bottom: 5px;*/
-/*}*/
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
 
-/*.summary-item span:last-child {*/
-/*    font-weight: bold;*/
-/*    color: #ff6b6b;*/
-/*}*/
+.summary-item span:last-child {
+    font-weight: bold;
+    color: #ff6b6b;
+}

@@ -87,3 +87,9 @@
 .delete-button:hover {
   color: #e60000;
 }
+
+.order-detail-tableNo {
+  color:#565656;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}

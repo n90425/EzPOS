@@ -17,12 +17,6 @@ body {
 
 
 
-.category-tabs button.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
 .category-tabs button:hover {
     background-color: #f0f0f0;
     color: #007bff;

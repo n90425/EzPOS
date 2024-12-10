@@ -48,7 +48,6 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                 <>
                     {/* 좌측: 메뉴 리스트 */}
                     <div className="menu-list-section">
-                        <h2>메뉴</h2>
                         <MenuList menus={menus} onAddToOrder={addOrderDetail} />
                     </div>
                     {/* 주문 상세 리스트 */}

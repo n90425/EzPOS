@@ -28,16 +28,27 @@ function SettingsDropDown({showAlert, onTableMove}){
     }, []);
 
 
+
     // 테이블 편집을 눌렀을때 이동
     const tableNavi = useNavigate();
     const handleEditTable = () => {
         tableNavi("/editDining");
     }
 
+    const handleTableMerge = () => {
+        tableNavi("/tableMerge")
+    }
+
+    // 매출요약을 눌렀을때 이동
+    const handleSaleSummary= () => {
+        tableNavi("/sales-summary");
+    }
+
     return (
         <div className="top-bar">
+            <button className="top-bar-button" onClick={handleSaleSummary}>매출요약</button>
             <button className="top-bar-button" onClick={onTableMove}>자리이동</button>
-            <button className="top-bar-button">합석</button>
+            <button className="top-bar-button" onClick={handleTableMerge}>합석</button>
             <button className="top-bar-button">단체 손님 관리</button>
             <button className="top-bar-button">재출력</button>
             <div className="settings-container" ref={dropdownRef}>

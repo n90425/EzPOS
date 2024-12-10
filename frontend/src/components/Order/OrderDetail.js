@@ -52,6 +52,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                     </div>
                     {/* 주문 상세 리스트 */}
                     <div className="order-detail-section">
+                        <h3 className="order-detail-tableNo">테이블 {tableNo}</h3>
                         <h2>주문 목록</h2>
                         {orderDetails.length === 0 ? (
                             <p>주문이 없습니다</p>

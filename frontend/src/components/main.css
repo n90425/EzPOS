@@ -14,7 +14,7 @@ overflow: hidden;
 .mainpage-content {
     display: flex;
     flex: 1;
-    padding: 10px;
+    padding: 40px;
     align-items: stretch; /* 자식 요소의 높이를 동일하게 */
     overflow: hidden;
     box-sizing: border-box;
@@ -28,6 +28,7 @@ overflow: hidden;
     width: 65%;
     height: 90%;
     margin-top: 15px;
+    padding: 0px 20px;
 }
 
 /* 매출 요약 */

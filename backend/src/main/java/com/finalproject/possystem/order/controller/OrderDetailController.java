@@ -34,7 +34,7 @@ public class OrderDetailController {
         String orderNo = (String) payload.get("orderNo");
         Integer tableNo = (Integer) payload.get("tableNo");
 
-        System.out.println("삭제 요청 - ordDetailNo: " + ordDetailNo + ", tableNo: " + tableNo);
+        System.out.println("삭제 요청 - ordDetailNo: " + ordDetailNo + ",  orderNo:" + orderNo+ ", tableNo: " + tableNo);
         orderDetailService.deleteOrderDetail(ordDetailNo, orderNo, tableNo);
         return ResponseEntity.noContent().build();
     }

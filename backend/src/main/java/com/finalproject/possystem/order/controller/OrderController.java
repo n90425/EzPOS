@@ -5,6 +5,8 @@ import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.OrderDetail;
 import com.finalproject.possystem.order.service.OrderDetailService;
 import com.finalproject.possystem.order.service.OrderService;
+import com.finalproject.possystem.table.entity.Dining;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +112,16 @@ public class OrderController {
         }
     }
 
-    /* 주문 업데이트 */
+    /* 주문 삭제 */
+    @PostMapping("/order/delete/{tableNo}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Integer tableNo){
+        try {
+            boolean isDeleted = orderService.delOrder(tableNo);
+            return ResponseEntity.ok(isDeleted);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
 
 }

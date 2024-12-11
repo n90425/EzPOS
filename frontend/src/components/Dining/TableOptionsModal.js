@@ -42,7 +42,7 @@ function TableOptionsModal({table, onClose, onUpdate, onDelete, position}){
             <div className="option-group">
                 <label>테이블 색상</label>
                 <div className="color-options">
-                    {["orange", "blue", "red", "purple"].map((color) => (
+                    {["#FB8800", "#2272EB", "#E42939", "#9128B4"].map((color) => ( // 오렌지, 블루, 레드, 퍼플순
                         <button
                             key={color}
                             style={{backgroundColor: color}}
@@ -50,6 +50,7 @@ function TableOptionsModal({table, onClose, onUpdate, onDelete, position}){
                             onClick={() => onUpdate({...table, tableColor:color })}
                         />
                     ))}
+                    
                 </div>
             </div>
 

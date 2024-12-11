@@ -33,7 +33,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     /* 주문상세번호, 주문번호, 테이블번호와 일치하는 데이터를 삭제 */
     @Modifying
     @Transactional
-    @Query("DELETE FROM OrderDetail od WHERE od.ordDetailNo = :ordDetailNo AND od.orderNo =:orderNo AND od.order.dining.tableNo = :tableNo")
+    @Query("DELETE FROM OrderDetail od WHERE od.ordDetailNo = :ordDetailNo AND od.order.orderNo =:orderNo AND od.order.dining.tableNo = :tableNo")
     int deleteOrderDetail(@Param("ordDetailNo") Integer ordDetailNo,
                           @Param("orderNo") String orderNo,
                           @Param("tableNo") Integer tableNo);

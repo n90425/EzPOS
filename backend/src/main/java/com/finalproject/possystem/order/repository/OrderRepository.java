@@ -58,4 +58,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     /* 선택된 테이블의 번호와 주문이 UNPAID 된 주문을 찾는다 */
     @Query(value = "SELECT * FROM `order` WHERE tableNo = :tableNo AND orderPayStatus='UNPAID' ORDER BY orderTime DESC LIMIT 1", nativeQuery = true)
     Optional<Order> findByTableNo(Integer tableNo);
+
+
 }

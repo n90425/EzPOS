@@ -12,10 +12,10 @@ export const useOrderDetail = () => {
 
     // 주문 상세 데이터 가져오기
     const fetchOrderDetails = async (currentOrderNo) => {
+        
         try {
             const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
             setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
-            console.log("fetchOrderDetails: ", res.data);
             return res.data;
         } catch (error) {
             console.error("주문 상세 데이터를 가져오는 중 오류 발생: ", error);
@@ -66,12 +66,10 @@ export const useOrderDetail = () => {
 
     // 주문상세 삭제
     const delOrderDetail = async (ordDetailNo) => {
-        console.log("orderNo: ",orderNo);
         try {
-            let currentOrderNo = orderNo;
             await axios.post(`${BASE_URL}/order/delete/ordDetail`, {
                 ordDetailNo: Number(ordDetailNo),
-                orderNo: currentOrderNo,
+                orderNo: orderNo,
                 tableNo: Number(tableNo),
             });
             

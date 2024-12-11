@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -76,9 +77,27 @@ public class OrderService {
         return orderRepo.save(order);
     }
 
-    /* 선택 주문삭제 */
-    public void delOrder(String orderNo){
-        orderRepo.deleteById(orderNo);
+    /* 주문이 존재하고 orderDetail이 비어있을경우 주문을 삭제 */
+    @Transactional
+    public boolean delOrder(int tableNo){
+        Optional<Order> optionalOrder  = orderRepo.findByTableNo(tableNo);
+
+        if(optionalOrder.isPresent()){
+            Order order = optionalOrder.get();
+            /* 주문상세가 비어있는지 확인 */
+            if(order.getOrderDetails().isEmpty()){
+                /* Dining 테이블에서 상태와 현재 주문을 연결해제 */
+                Dining dining = diningRepo.findById(tableNo).orElseThrow(()-> new RuntimeException("Dining not fount"));
+
+                dining.setStatus(Dining.Status.EMPTY);
+                dining.setCurrentOrder(null);
+
+                /* 주문삭제 */
+                orderRepo.delete(order);
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -157,19 +176,6 @@ public class OrderService {
     }
 
 
-//    /* 주문의 상태를 PAID 로 바꾸고, 연결되어있는 테이블과의 연관관계를 해제한다 */
-//    @Transactional
-//    public void orderAfterPayment(String orderNo){
-//        Order order = orderRepo.findById(orderNo)
-//                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다."));
-//
-//        /* 결제상태를 PAID로 변경 */
-//        order.setOrderPayStatus("PAID");
-//        /* 테이블번호를 직접 storedTableNo 컬럼에 저장하고 다이닝 테이블과의 관계끊기 */
-//        order.disconnectTable();
-//        /* 주문저장 */
-//        orderRepo.save(order);
-//    }
 
 
 }

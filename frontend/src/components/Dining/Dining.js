@@ -7,6 +7,7 @@ import { TableContext } from "./TableContext";
 import AlertBar from "./AlertBar";
 import axios from "axios";
 import useOrderDetail from "../../hooks/useOrderDetail";
+import useOrder from "../../hooks/useOrder";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -15,7 +16,7 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 function Dining() {
     const {tables, fetchTables} = useContext(TableContext);
     const {orderDetails, setOrderDetails} = useOrderDetail();
-    
+    const { deleteOrder } = useOrder();
     
     // Alert 상태
     const [alertMessage, setAlertMessage] = useState("");
@@ -30,6 +31,7 @@ function Dining() {
 
     // 특정 테이블 번호(tableNo)에 연결된 주문 정보와 메뉴 이름을 가져온다
     const fetchTableDetails = async (tableNo) => {
+        
         const response = await axios.get(`${BASE_URL}/dining/${tableNo}/details`);
         return response.data;
     };
@@ -63,13 +65,17 @@ function Dining() {
                 for (let table of tables) {
                     if (table.status === "OCCUPIED") {
                         const response = await fetchTableDetails(table.tableNo);
-                        console.log(response);
                         if (response) {
-                            updatedDetails.push({
-                                tableNo: table.tableNo,
-                                orderDetails: response.orderDetails || [],
-                                menuNames: response.menuNames || [],
-                            });
+                            if (response.orderDetails.length === 0){
+                                
+                                await deleteOrder(table.tableNo);
+                            } else {
+                                updatedDetails.push({
+                                    tableNo: table.tableNo,
+                                    orderDetails: response.orderDetails || [],
+                                    menuNames: response.menuNames || [],
+                                });
+                            }
                         }
                     }
                 }

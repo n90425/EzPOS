@@ -4,6 +4,7 @@ import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.category.service.CategoryService;
 import com.finalproject.possystem.table.entity.Dining;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,26 +37,62 @@ public class CateController {
 //        return categoryService.getSubCategoryByParent(parentId);
 //    }
 
+
+
     @PostMapping("/deletecategory")
-    public List<Category> categoryDelete(@RequestBody Map<String, Integer> requestData) {
-        Integer category_id = requestData.get("category_id");
-        categoryService.categoryDelete(category_id);
-        System.out.println("category_id는 김뙈지" + category_id);
-        return categoryService.getAllMainCategory();
-    }
+    public ResponseEntity<?> categoryDelete(@RequestBody Map<String, Integer> requestData) {
+        Integer categoryId = requestData.get("category_id");
 
-    @PostMapping("/updatecategory")
-    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
-        // 서비스 로직 호출
-        Category updatedCategory = categoryService.categoryUpdate(category);
-
-        // 업데이트된 카테고리가 없는 경우 (예: ID가 존재하지 않는 경우)
-        if (updatedCategory == null) {
-            return ResponseEntity.badRequest().build(); // 400 Bad Request 반환
+        // 아이템 존재 여부 확인
+        boolean hasItems = categoryService.hasItemsInCategory(categoryId);
+        if (hasItems) {
+            // HTTP 400 에러와 메시지 반환
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "카테고리에 속한 아이템이 있습니다. 먼저 아이템을 삭제해주세요."));
         }
-        // 성공적으로 업데이트된 경우
-        return ResponseEntity.ok(updatedCategory);
+
+        // 카테고리 삭제 처리
+        categoryService.categoryDelete(categoryId);
+
+        // 성공적으로 삭제된 후 최신 카테고리 목록 반환
+        List<Category> updatedCategories = categoryService.getAllCategories();
+        return ResponseEntity.ok(updatedCategories);
     }
+
+
+
+//    @PostMapping("/deletecategory")
+//    public List<Category> categoryDelete(@RequestBody Map<String, Integer> requestData) {
+//        Integer categoryId = requestData.get("category_id");
+//
+//        // 아이템 존재 여부 확인
+//        boolean hasItems = categoryService.hasItemsInCategory(categoryId);
+//        if (hasItems) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body(Map.of("message", "카테고리에 속한 아이템이 있습니다. 먼저 아이템을 삭제해주세요."));
+//        }
+//
+//        // 카테고리 삭제 처리
+//        categoryService.categoryDelete(categoryId);
+//        return ResponseEntity.ok().build();
+//    }
+
+//    public ResponseEntity<?> deleteCategory(@RequestBody Map<String, Integer> payload) {
+
+
+
+//    @PostMapping("/updatecategory")
+//    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
+//        // 서비스 로직 호출
+//        Category updatedCategory = categoryService.categoryUpdate(category);
+//
+//        // 업데이트된 카테고리가 없는 경우 (예: ID가 존재하지 않는 경우)
+//        if (updatedCategory == null) {
+//            return ResponseEntity.badRequest().build(); // 400 Bad Request 반환
+//        }
+//        // 성공적으로 업데이트된 경우
+//        return ResponseEntity.ok(updatedCategory);
+//    }
 
     @PostMapping("/category/toggle-visibility")
     public ResponseEntity<?> toggleVisibility(@RequestBody Map<String, Object> payload) {

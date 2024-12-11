@@ -4,6 +4,7 @@ import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.category.repository.CategoryRepository;
 import com.finalproject.possystem.menu.entity.Menu;
 import com.finalproject.possystem.menu.repository.MenuRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,15 @@ public class MenuService {
     }
 
     //menuId로 삭제
-    public void menuDelete(Integer menuId) { menuRepository.deleteById(menuId);}
+//    public void menuDelete(Integer menuId) { menuRepository.deleteById(menuId);}
+
+    public void menuDelete(Integer menuId) {
+        if (!menuRepository.existsById(menuId)) {
+            throw new EntityNotFoundException("Menu with ID " + menuId + " does not exist.");
+        }
+
+        menuRepository.deleteById(menuId);
+    }
+
 
 }

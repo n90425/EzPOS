@@ -30,6 +30,7 @@ public class OrderDetailService {
     public void deleteOrderDetail(Integer ordDetailNo, String orderNo, Integer tableNo) {
         // 특정 주문 상세를 삭제
         int deletedRows = orderDetailRepo.deleteOrderDetail(ordDetailNo, orderNo, tableNo);
+        System.out.println(deletedRows);
         if (deletedRows == 0) {
             throw new IllegalArgumentException("삭제할 데이터가 없습니다.");
         }

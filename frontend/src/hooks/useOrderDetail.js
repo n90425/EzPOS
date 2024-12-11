@@ -66,13 +66,15 @@ export const useOrderDetail = () => {
 
     // 주문상세 삭제
     const delOrderDetail = async (ordDetailNo) => {
+        console.log("orderNo: ",orderNo);
         try {
+            let currentOrderNo = orderNo;
             await axios.post(`${BASE_URL}/order/delete/ordDetail`, {
                 ordDetailNo: Number(ordDetailNo),
-                orderNo,
+                orderNo: currentOrderNo,
                 tableNo: Number(tableNo),
             });
-
+            
             setOrderDetails((prev) => prev.filter((detail)=> detail.ordDetailNo !== ordDetailNo));
 
         } catch (error) {

@@ -37,6 +37,26 @@ public interface PayRepository extends JpaRepository<Pay, byte[]> {
     List<Pay> findCancelledPayments();
 
 
+
+
+    // 오늘의 총 매출액
+    @Query("SELECT SUM(p.odPayAmt) FROM Pay p WHERE p.payStatCd = 'COMPLETED' AND DATE(p.payDt) = CURRENT_DATE")
+    Integer getTodayTotalSales();
+
+    // 오늘의 현금 매출액
+    @Query("SELECT SUM(p.odPayAmt) FROM Pay p WHERE p.payStatCd = 'COMPLETED' AND p.payMethCd = 'CASH' AND DATE(p.payDt) = CURRENT_DATE")
+    Integer getTodayCashSales();
+
+    // 오늘의 카드 매출액
+    @Query("SELECT SUM(p.odPayAmt) FROM Pay p WHERE p.payStatCd = 'COMPLETED' AND p.payMethCd = 'CARD' AND DATE(p.payDt) = CURRENT_DATE")
+    Integer getTodayCardSales();
+
+    // 오늘의 영수증/결제 건수
+    @Query("SELECT COUNT(p.payNo) FROM Pay p WHERE p.payStatCd = 'COMPLETED' AND DATE(p.payDt) = CURRENT_DATE")
+    Integer getTodayReceiptCount();
+
+
+
     //결제내역
     @Query(value = "SELECT p.payDt AS paymentTime, " +
             "       o.storedTableNo AS tableNumber, " +

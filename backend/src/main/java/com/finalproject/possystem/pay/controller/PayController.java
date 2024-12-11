@@ -6,7 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,6 +131,14 @@ public class PayController {
         );
         System.out.println("paymentMethod11111" + payMethCd);
         return ResponseEntity.ok(paymentHistories);
+    }
+
+
+    // main페이지에  일일 매출요약 가져오기
+    @GetMapping("/today-summary")
+    public ResponseEntity<Map<String, Object>> getTodaySalesSummary() {
+        Map<String, Object> summary = payService.getTodaySalesSummary();
+        return ResponseEntity.ok(summary);
     }
 
 

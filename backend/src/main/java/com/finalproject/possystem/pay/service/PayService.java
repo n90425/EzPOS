@@ -12,7 +12,9 @@ import com.finalproject.possystem.table.repository.DiningRepository;
 
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -146,5 +148,35 @@ public class PayService {
             String receiptNumber) {
         return payRepository.findPaymentHistory(startDate, endDate, posNumber, payMethCd, tableNumber, receiptNumber);
     }
+
+
+    // main페이지에 매출요약 가져오기
+    public Map<String, Object> getTodaySalesSummary() {
+        Integer totalSales = payRepository.getTodayTotalSales();
+        Integer cashSales = payRepository.getTodayCashSales();
+        Integer cardSales = payRepository.getTodayCardSales();
+        Integer receiptCount = payRepository.getTodayReceiptCount();
+
+        // 부가세 계산 (예: 10%)
+        Integer vatAmount = (totalSales != null) ? (int) (totalSales * 0.1) : 0;
+        Integer netSales = (totalSales != null) ? totalSales - vatAmount : 0;
+
+        // Null 값 방지
+        totalSales = totalSales == null ? 0 : totalSales;
+        cashSales = cashSales == null ? 0 : cashSales;
+        cardSales = cardSales == null ? 0 : cardSales;
+        receiptCount = receiptCount == null ? 0 : receiptCount;
+
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("totalSales", totalSales);
+        summary.put("cashSales", cashSales);
+        summary.put("cardSales", cardSales);
+        summary.put("receiptCount", receiptCount);
+        summary.put("vatAmount", vatAmount);
+        summary.put("netSales", netSales);
+
+        return summary;
+    }
+
 
 }

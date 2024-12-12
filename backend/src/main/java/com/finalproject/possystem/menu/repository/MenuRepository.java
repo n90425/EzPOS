@@ -21,4 +21,8 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     // 카테고리에 속한 아이템 수를 반환
     int countByCategoryId(Integer categoryId);
 
+
+    //토글 활성화만 조회
+    List<Menu> findByIsVisible(boolean isVisible);
+
 }

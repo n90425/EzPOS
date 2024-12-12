@@ -1,5 +1,6 @@
 package com.finalproject.possystem.menu.controller;
 
+import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.menu.entity.Menu;
 import com.finalproject.possystem.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,16 @@ public class MenuController {
 
         return ResponseEntity.ok().build();
     }
+
+
+    //활성화 된 카테고리만 가져오기
+    @GetMapping("/menu/visibility")
+    public ResponseEntity<List<Menu>> getVisibleCategories() {
+        List<Menu> menus = menuService.getVisibleCategories();
+        return ResponseEntity.ok(menus);
+    }
+
+
 
     //menu삭제
     @PostMapping("/deletemenu")

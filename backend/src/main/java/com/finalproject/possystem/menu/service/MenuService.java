@@ -67,9 +67,14 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
-    //menuId로 삭제
-//    public void menuDelete(Integer menuId) { menuRepository.deleteById(menuId);}
 
+    // 활성화된 카테고리 조회
+    public List<Menu> getVisibleCategories() {
+        return menuRepository.findByIsVisible(true);
+    }
+
+
+    //menuId로 삭제
     public void menuDelete(Integer menuId) {
         if (!menuRepository.existsById(menuId)) {
             throw new EntityNotFoundException("Menu with ID " + menuId + " does not exist.");

@@ -5,7 +5,7 @@ import Item from './Item';
 import './product.css';
 
 function ProductManagement() {
-    const [showCategoryManagement, setShowCategoryManagement] = useState(false);
+    const [showCategoryManagement, setShowCategoryManagement] = useState("category");
     const [showItemManagement, setShowItemManagement] = useState(false); 
     // const [categories, setCategories] = useState([]); // 카테고리 상태
     // const [items, setItems] = useState([]); // 상품 상태

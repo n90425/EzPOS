@@ -21,4 +21,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findByParentIsNull();
 
 
+    //토글 활성화만 조회
+    List<Category> findByIsVisible(boolean isVisible);
 }

@@ -26,12 +26,17 @@ const Order = () => {
 
   return (
     <div className="order-container">
-      {/* 카테고리 탭 */}
-      <CategoryTabs
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-      />
+      <div className="header-row">
+        {/* 카테고리 탭 */}
+        <CategoryTabs
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+        <div className="table-info">
+          테이블 {tableNo}
+        </div>
+      </div>
 
       {/* 메뉴 리스트와 주문 상세 */}
       <OrderDetail

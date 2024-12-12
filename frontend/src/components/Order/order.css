@@ -10,7 +10,7 @@ body {
 .order-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - 70px);
     box-sizing: border-box;
 }
 
@@ -98,13 +98,12 @@ body {
     padding: 16px;
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .confirm-button {
-    background-color: #007bff;
+    background-color: #3182F6;
     color: white;
-    padding: 12px 24px;
+    padding: 20px 40px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
@@ -139,4 +138,24 @@ body {
         padding: 10px 20px;
         font-size: 14px;
     }
+}
+
+.header-row {
+    display: flex;
+    align-items: center; /* 세로 정렬 중앙 정렬 */
+    justify-content: space-between; /* 좌우로 배치 */
+    gap: 20px; /* menu-list-section과 동일한 간격 */
+    background-color: #f8f9fa; /* 배경색 (선택 사항) */
+    border-bottom: 2px solid #ddd; /* 구분선 (선택 사항) */
+    box-sizing: border-box;
+}
+
+.header-row .table-info {
+    flex: 1; /* order-detail-section과 동일한 flex 비율 */
+    text-align: right;
+    font-weight: bold;
+    color: #6B7684; /* 텍스트 색상 */
+    font-size: 17px;
+    padding: 10px; /* 내부 여백 */
+    display: flex;
 }

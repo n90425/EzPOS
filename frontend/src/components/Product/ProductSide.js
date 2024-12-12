@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Sidebar({ onCategoryClick, onItemClick }) {
-    const [selectedMenu, setSelectedMenu] = useState(null); // 선택된 메뉴 관리
+    const [selectedMenu, setSelectedMenu] = useState("category"); // 선택된 메뉴 관리
 
     const handleMenuClick = (menu) => {
         setSelectedMenu(menu); // 선택된 메뉴 업데이트

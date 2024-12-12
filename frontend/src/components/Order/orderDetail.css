@@ -3,13 +3,13 @@
   height: 100vh;
   background-color: #f9f9f9;
   gap: 20px;
-  padding: 20px;
 }
 
 .menu-list-section {
   flex: 3; /* 좌측 메뉴 리스트: 3:1 비율 */
-  border-right: 1px solid #ddd;
-  padding: 10px;
+  background-color: #D1D6DB; /* 배경색 추가 */
+  border-right: 1px solid #ddd; /* 구분선 */
+  padding: 10px 10px 0 10px; /* 내부 여백 */
 }
 
 .order-detail-section {
@@ -86,10 +86,4 @@
 
 .delete-button:hover {
   color: #e60000;
-}
-
-.order-detail-tableNo {
-  color:#565656;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
 }

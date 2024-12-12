@@ -1,11 +1,8 @@
 .category-tabs {
-    display: flex;
-    gap: 12px; /* 버튼 간의 간격 */
-    overflow-x: auto; /* 스크롤 가능 */
-    white-space: nowrap;
-    justify-content: flex-start;
-    background-color: #f8f9fa; /* 배경색 */
-    border-bottom: 2px solid #ddd; /* 전체 하단 구분선 */
+    flex: 3; /* menu-list-section과 동일한 flex 비율 */
+    background-color: #D1D6DB; /* 배경색 추가 */
+    padding: 10px 10px 0 10px; /* 내부 여백 */
+    border-right: 1px solid #bbb; /* 구분선 추가 (선택 사항) */
 }
 
 .category-tabs button {
@@ -17,7 +14,7 @@
     text-align: center;
     white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     background-color: transparent; /* 배경색 없음 */
-    color: #333; /* 기본 텍스트 색 */
+    color: #6B7684; /* 기본 텍스트 색 */
     transition: color 0.3s ease, border-bottom 0.3s ease; /* 부드러운 전환 */
     border-bottom: 3px solid transparent; /* 기본 아래쪽 보더 제거 */
     border-radius: 0;

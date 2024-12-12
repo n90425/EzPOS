@@ -85,4 +85,12 @@ public class CateController {
     }
 
 
+    //활성화 된 카테고리만 가져오기
+    @GetMapping("/category/visibility")
+    public ResponseEntity<List<Category>> getVisibleCategories() {
+        List<Category> categories = categoryService.getVisibleCategories();
+        return ResponseEntity.ok(categories);
+    }
+
+
 }

@@ -8,41 +8,49 @@ import useOrder from "./../../hooks/useOrder";
 import "./order.css";
 
 const Order = () => {
-  const { categories } = useCategories(); // Custom Hook 사용
-  const { items, loading: itemLoading, error: itemError } = useItem(); // 메뉴 데이터 Custom Hook
   const [selectedCategory, setSelectedCategory] = useState(null); // 선택된 카테고리
   const { orderNo, setOrderNo, fetchOrder, createOrGetOrder } = useOrder();
   const { tableNo } = useParams();
 
+  const { visibleCategories, fetchVisibleCategories } = useCategories();
+  const { visibleItem, fetchVisibleItem } = useItem(); // 활성화된 메뉴(Custom Hook)
+
 
   // 선택된 카테고리 초기값 설정
   useEffect(() => {
-    console.log("Order.JS: ",orderNo);
-    if (categories.length > 0) {
-      setSelectedCategory(categories[0].categoryId); // 첫 번째 카테고리 선택
+    if (visibleCategories.length > 0) {
+      const defaultCategoryId = visibleCategories[0].categoryId; // 기본 카테고리 ID
+      setSelectedCategory(defaultCategoryId); // 첫 번째 활성화된 카테고리 선택
     }
-  }, [categories]);
+  }, [visibleCategories]);
+
+
+  useEffect(() => {
+    fetchVisibleCategories(); // 활성화된 카테고리만 가져오기
+    fetchVisibleItem(); // 활성화된 메뉴 가져오기
+  }, []);
 
 
   return (
     <div className="order-container">
       <div className="header-row">
-        {/* 카테고리 탭 */}
-        <CategoryTabs
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
+          {/* 카테고리 탭 */}
+          <CategoryTabs
+              categories={visibleCategories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+          />
         <div className="table-info">
           테이블 {tableNo}
         </div>
       </div>
 
+
       {/* 메뉴 리스트와 주문 상세 */}
       <OrderDetail
         orderNo={orderNo} // 주문 번호 전달
         setOrderNo={setOrderNo}
-        menus={items.filter((menu) => menu.categoryId === selectedCategory)} // 선택된 카테고리에 따른 메뉴 필터링
+        menus={visibleItem.filter((menu) => menu.categoryId === selectedCategory)} // 선택된 카테고리에 따른 메뉴 필터링
         tableNo={tableNo}
         createOrGetOrder={createOrGetOrder}
         fetchOrder={fetchOrder}

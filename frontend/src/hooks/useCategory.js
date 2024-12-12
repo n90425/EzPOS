@@ -7,6 +7,8 @@ const useCategory = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [visibleCategories, setVisibleCategories] = useState([]); // 활성화된 카테고리
+
 
     //데어터 불러오
     const fetchCategories = async () => {
@@ -62,7 +64,6 @@ const useCategory = () => {
         }
     };
 
-    
     // 사용 여부 토글
     const toggleVisibility = async (categoryId, isVisible) => {
         try {
@@ -82,11 +83,28 @@ const useCategory = () => {
         }
     };
 
+
+    // 활성화된 카테고리만 가져오기
+    const fetchVisibleCategories = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${BASE_URL}/category/visibility`);
+            setVisibleCategories(res.data); // 활성화된 카테고리 설정
+            console.log("Fetched visible categories:", res.data);
+        } catch (err) {
+            console.error("Failed to fetch visible categories:", err);
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     useEffect(() => {
         fetchCategories();
     }, []);
     
-    return { categories, setCategories, fetchCategories, addCategory, deleteCategory, updateCategory, toggleVisibility, loading, error };
+    return { categories, setCategories, fetchCategories, fetchVisibleCategories, visibleCategories, addCategory, deleteCategory, updateCategory, toggleVisibility, loading, error };
 };
 
 

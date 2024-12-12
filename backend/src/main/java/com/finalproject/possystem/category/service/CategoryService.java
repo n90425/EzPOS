@@ -59,7 +59,10 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-
+    // 활성화된 카테고리 조회
+    public List<Category> getVisibleCategories() {
+        return categoryRepository.findByIsVisible(true);
+    }
 
     // 특정 카테고리에 아이템 존재 여부 확인
     public boolean hasItemsInCategory(Integer categoryId) {

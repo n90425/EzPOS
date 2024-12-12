@@ -7,6 +7,7 @@ export const useItem = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [visibleItem, setVisibleItem] = useState([]); // 활성화된 메뉴
 
     // 메뉴 데이터 가져오기 함수
     const fetchItems = async () => {
@@ -74,12 +75,31 @@ export const useItem = () => {
         }
     };
 
+
+    // 활성화된 카테고리만 가져오기
+    const fetchVisibleItem = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(`${BASE_URL}/menu/visibility`);
+            setVisibleItem(res.data); // 활성화된 카테고리 설정
+            console.log("Fetched visible item:", res.data);
+        } catch (err) {
+            console.error("Failed to fetch visible item:", err);
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+
  // 컴포넌트가 마운트될 때 메뉴 데이터 가져오기
     useEffect(() => {
         fetchItems();
     }, []);
 
-    return { items, setItems, fetchItems, addItem, deleteItem, updateItem, toggleVisibility, loading, error,};
+    return { items, setItems,  fetchVisibleItem, visibleItem, fetchItems, addItem, deleteItem, updateItem, toggleVisibility, loading, error,};
 };
 
 export default useItem;

@@ -60,6 +60,7 @@ public class CategoryService {
     }
 
 
+
     // 특정 카테고리에 아이템 존재 여부 확인
     public boolean hasItemsInCategory(Integer categoryId) {
         return menuRepository.countByCategoryId(categoryId) > 0;

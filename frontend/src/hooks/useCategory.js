@@ -62,6 +62,7 @@ const useCategory = () => {
         }
     };
 
+    
     // 사용 여부 토글
     const toggleVisibility = async (categoryId, isVisible) => {
         try {

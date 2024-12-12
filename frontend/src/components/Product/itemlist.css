@@ -1,3 +1,12 @@
+/* 스크롤 가능한 컨테이너 */
+.scrollable-container {
+    height: 100vh; /* 뷰포트 높이를 꽉 채움 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    overflow-x: hidden; /* 가로 스크롤 비활성화 */
+    padding: 20px; /* 선택적 여백 */
+    box-sizing: border-box; /* 여백 포함 */
+}
+
 .category-buttons {
     display: flex;
     gap: 10px;
@@ -24,7 +33,7 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* 가로 스크롤 추가 */
+    margin-bottom: 150px;
 }
 
 .item-table {

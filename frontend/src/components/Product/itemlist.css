@@ -1,0 +1,145 @@
+.category-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.category-buttons button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-buttons button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.item-list {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* 가로 스크롤 추가 */
+}
+
+.item-table {
+    width: 100%; /* 테이블이 부모 컨테이너에 맞게 확장 */
+    max-width: 100%; /* 테이블이 부모 요소를 넘지 않음 */
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+}
+
+.item-table th,
+.item-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.item-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.item-table td {
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.item-image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px); /* 이동 거리 수정 */
+}
+
+input:not(:checked) + .slider:hover {
+    background-color: #b5b5b5; /* 비활성 상태에서 hover 효과 */
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+}
+
+.edit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+td:last-child,
+td:nth-last-child(2) {
+    white-space: nowrap; /* 수정, 삭제 버튼 줄바꿈 방지 */
+}
+

@@ -1,0 +1,113 @@
+/* 전체 컨테이너 */
+.mainpage-container {
+display: flex;
+flex-direction: column;
+height: 100vh;
+background-color: #2c2c2c;
+color: white;
+font-family: Arial, sans-serif;
+overflow: hidden;
+}
+
+
+/* 콘텐츠 섹션 */
+.mainpage-content {
+    display: flex;
+    flex: 1;
+    padding: 40px;
+    align-items: stretch; /* 자식 요소의 높이를 동일하게 */
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* 메뉴 리스트 */
+.mainpage-menu-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    width: 65%;
+    height: 90%;
+    margin-top: 15px;
+    padding: 0px 20px;
+}
+
+/* 매출 요약 */
+.mainpage-summary-container {
+width: 30%; /* 오른쪽 영역 */
+height: 87%; /* 부모 높이 채움 */
+background-color: #383838;
+padding: 15px;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+margin-left: 20px; /* 왼쪽 여백 */
+}
+
+.mainpage-summary-header {
+font-size: 18px;
+margin-bottom: 10px;
+color: #f39c12;
+}
+
+.mainpage-summary-item {
+font-size: 14px;
+margin-bottom: 5px;
+}
+
+/* 버튼 스타일 */
+.mainpage-menu-item {
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 17px;
+font-weight: bold;
+color: white;
+border-radius: 8px;
+text-align: center;
+background-color: #7f8c8d; /* 기본 회색 배경 */
+cursor: pointer;
+transition: transform 0.2s, background-color 0.3s;
+}
+
+.mainpage-menu-item.red {
+background-color: #e74c3c;
+}
+
+.mainpage-menu-item.blue {
+background-color: #3498db;
+}
+
+.mainpage-menu-item.gray {
+background-color: #95a5a6;
+}
+
+.mainpage-menu-item:hover {
+transform: scale(1.05);
+}
+
+
+/* SalesSummary 관련 스타일 */
+.sales-summary {
+    background-color: #2b2b2b;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sales-summary h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.summary-item span:last-child {
+    font-weight: bold;
+    color: #ff6b6b;
+}

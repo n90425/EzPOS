@@ -10,7 +10,7 @@ function Tables() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
         {Array.from({ length: tableCount }).map((_, index) => (
           <Link to={`/table/${index + 1}`} key={index}>
-            <button>테이블 </button>
+            <button> {index + 1}테이블</button>
           </Link>
         ))}
       </div>

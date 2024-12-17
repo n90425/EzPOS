@@ -1,0 +1,109 @@
+.category-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.category-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.category-modal-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.category-modal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.edit-input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.add-input {
+    width: 70%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.category-save-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.category-save-button:hover {
+    background-color: #0056b3;
+}
+
+.category-cancel-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.category-cancel-button:hover {
+    background-color: #c82333;
+}
+
+.category-edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.category-edit-button:hover {
+    background-color: #0056b3;
+}
+
+.category-delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.category-delete-button:hover {
+    background-color: #c82333;
+}
+
+.category-add {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: space-between;
+}

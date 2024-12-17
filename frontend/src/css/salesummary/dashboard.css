@@ -1,0 +1,57 @@
+.stats {
+    display: flex;
+    flex-wrap: wrap; /* Flexbox wrapping을 활성화 */
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px; /* 마진을 줄여 공간 확보 */
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box {
+    flex: 1 1 calc(50% - 20px); /* 각 stat-box를 한 행에 두 개씩 배치 */
+    text-align: center;
+    margin: 10px; /* 각 stat-box 사이에 간격 추가 */
+}
+
+.stat-box h3 {
+    font-size: 1rem; /* 글꼴 크기를 줄임 */
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.stat-box p {
+    font-size: 1.2rem; /* 글꼴 크기를 줄임 */
+    font-weight: bold;
+    color: #4caf50;
+}
+.chart {
+    margin: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 100%; /* 차트의 최대 너비 설정 */
+    max-height: 500px; /* 차트의 최대 높이 설정 */
+    overflow: hidden; /* 차트가 컨테이너를 넘어가지 않도록 설정 */
+    display: flex;
+    justify-content: center; /* 차트 중앙 정렬 */
+    align-items: center;
+}
+
+.chart canvas {
+    width: 100%; /* 차트가 컨테이너에 맞게 크기 조정 */
+    height: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px; /* 요소들 간의 간격 추가 */
+    max-width: 1200px; /* 최대 너비를 설정하여 화면 중앙에 배치 */
+    margin: 0 auto;
+}

@@ -2,27 +2,25 @@ package com.finalproject.possystem.category.repository;
 
 import com.finalproject.possystem.category.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<Category, Integer> {
-    @Query("SELECT c FROM Category c WHERE c.categoryid2 IS NOT NULL AND c.isvisible = 'Y'")
-    List<Category> findVisibleCategoriesWithSelfJoin();
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    //categoryId로 category엔티티 조회
+    Category findByCategoryId(Integer categoryId);
 
-//    @Repository
-//    public interface CategoryRepository extends JpaRepository<Category, Integer> {
-//        List<Category> findByParentCategoryIsNull();  // 대분류 조회
-//        List<Category> findByParentCategory_Categoryid(Integer parentId);  // 특정 대분류에 속하는 중분류 조회
-//    }
+    //categoryname으로 category엔티티 리스트 조회
+    List<Category> findCategoryByCategoryname(String categoryname);
 
-    List<Category> findCategoryByCategoryname(String category_name);
+    //부모 category로 자식category리스트 조회
+    List<Category> findByParent(Category parent);
 
-    List<Category> findByCategoryid2(Integer category_id2);
+    // 대분류만 조회
+    List<Category> findByParentIsNull();
 
 
+    //토글 활성화만 조회
+    List<Category> findByIsVisible(boolean isVisible);
 }

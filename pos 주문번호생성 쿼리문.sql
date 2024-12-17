@@ -15,12 +15,12 @@ select CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD('1','6','0')) AS padded_or
 
 set @num = 0;
 select CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(@num := @num + 1,'6','0')) AS order_no
-from `Order`
+from `order`
 LIMIT 10;
 
 
 --  Dining 가라데이터
-INSERT INTO `Dining` (Table_no, x_position, y_position)
+INSERT INTO `dining` (tableNo, xPosition, yPosition)
 VALUES 
 (1, 10, 20),
 (2, 15, 25),
@@ -33,12 +33,12 @@ VALUES
 (9, 50, 60),
 (10, 55, 65);
 
-select * from Dining;
+select * from dining;
 -- --------------------------------------------------------------------------------------------------------------------------------------------
 -- Order 가라데이터
 SET @num = -1;
 
-INSERT INTO `Order` (order_no, table_no, order_time, order_pay_status, order_amount, order_vat)
+INSERT INTO `order` (order_no, table_no, order_time, order_pay_status, order_amount, order_vat)
 VALUES 
 (CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(@num := @num + 1, 6, '0')), 1, NOW(), 'pending', 100.00, 10.00),
 (CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(@num := @num + 1, 6, '0')), 2, NOW(), 'pending', 200.00, 20.00),
@@ -50,7 +50,7 @@ VALUES
 (CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(@num := @num + 1, 6, '0')), 8, NOW(), 'pending', 160.00, 16.00),
 (CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(@num := @num + 1, 6, '0')), 9, NOW(), 'completed', 130.00, 13.00),
 (CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(@num := @num + 1, 6, '0')), 10, NOW(), 'pending', 250.00, 25.00);
-select * from `Order`;
+select * from `order`;
 -- --------------------------------------------------------------------------------------------------------------------------------------------
 
 -- OrderDetail 가라데이터

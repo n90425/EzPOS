@@ -4,8 +4,11 @@ import './catelist.css';
 function CategoryList({ categories, toggleVisibility }) {
     return (
         <div className="category-list">
-            <h2>카테고리</h2>
             <ul>
+                <div className='category-head'>
+                    <div>카테고리명</div>
+                    <div>키오스크 노출</div>
+                </div>
                 {categories.map((category) => (
                     <li key={category.categoryId}
                         className={category.isVisible ? "visible-category" : "hidden-category"}

@@ -86,6 +86,20 @@ public class DiningController {
         return ResponseEntity.ok(res);
     }
 
+    /* 테이블 합산 구현 : source 기존테이블을 target 테이블과 합석 */
+    @PostMapping("/dining/merge")
+    public ResponseEntity<Map<String, String>> mergeTable(@RequestBody Map<String, Integer> request){
+        int sourceTableNo = request.get("sourceTableNo");
+        int targetTableNo = request.get("targetTableNo");
+
+        String msg = diningService.mergeTable(sourceTableNo, targetTableNo);
+
+        Map<String, String> res = new HashMap<>();
+        res.put("msg", msg);
+        System.out.println("Dining Merge res: "+res);
+        return ResponseEntity.ok(res);
+    }
+
     /* 특정 테이블번호에 연결된 주문및 주문상세 데이터를 반환 */
     @GetMapping("/dining/{tableNo}/details")
     public ResponseEntity<?> getTableOrderDetail(@PathVariable Integer tableNo) {

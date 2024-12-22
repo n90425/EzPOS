@@ -1,37 +1,31 @@
 import React, { useEffect, useState } from "react";
-import "./moveTableModal.css";
 
-function MoveTableModal({tables, onClose, onMove}) {
+function MergeTableModal({tables, onClose, onMerge}) {
     const [selectedTables, setSelectedTables] = useState([]);
-    
 
     const handleTableClick = (tableNo) => {
-        if (selectedTables.includes(tableNo)) {
-            // 이미 선택된 테이블 클릭 시 선택 해제
-            setSelectedTables(selectedTables.filter((t) => t !== tableNo));
-        } else if (selectedTables.length < 2) {
+        if(selectedTables.includes(tableNo)){
+            setSelectedTables(selectedTables.filter((t) => t!=tableNo));
+        } else if(selectedTables.length < 2){
             setSelectedTables([...selectedTables, tableNo]);
         }
     };
 
-    // 테이블 두개가 선택되면 이동 실행
-    useEffect(() => {
-        if(selectedTables.length === 2) {
+    useEffect(()=> {
+        if(selectedTables.length === 2){
             const [sourceTableNo, targetTableNo] = selectedTables;
-            // 이동실행
-            onMove(sourceTableNo, targetTableNo);
-            // 선택 초기화
+
+            onMerge(sourceTableNo, targetTableNo);
             setSelectedTables([]);
             onClose();
         }
-    }, [selectedTables, onMove, onClose]);
-
+    }, [selectedTables, onMerge, onClose]);
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h5>이동할 테이블을 선택하세요</h5>
+                    <h5>합석할 테이블을 선택하세요</h5>
                     <button className="close-button" onClick={onClose}>닫기</button>
                 </div>
                 <div className="table-grid">
@@ -60,4 +54,4 @@ function MoveTableModal({tables, onClose, onMove}) {
     )
 }
 
-export default MoveTableModal;
+export default MergeTableModal;

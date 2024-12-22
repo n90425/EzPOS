@@ -1,7 +1,7 @@
 .main {
-    margin-left: 230px;
+    margin-left: 25%;
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: white;
     min-height: 100vh;
     position: relative;
 }
@@ -9,9 +9,9 @@
 .sidebar {
     position: fixed;   
     left: 0;
-    width: 200px;
+    width: 20%;
     height: 100%;
-    background-color: #f8f9fa;
+    background-color: #F2F4F6;
     padding: 20px;
     border-right: 1px solid #ddd;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);

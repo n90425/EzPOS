@@ -1,16 +1,14 @@
-.sidebar {
+/* .sidebar {
     position: fixed;    
-    /* 화면의 왼쪽에 고정 */
     top: 60;
     left: 0;
     width: 200px;
     height: calc(100vh - 60px);
-    /* 화면 전체 높이 */
     background-color: #f8f9fa;
     padding: 20px;
     border-right: 1px solid #ddd;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .sidebar h3 {
     font-size: 1.2rem;
@@ -24,7 +22,7 @@
 }
 
 .sidebar ul li {
-    margin: 10px 0;
+    margin: 25px 0;
     font-size: 1rem;
     color: #555;
     cursor: pointer;
@@ -32,7 +30,7 @@
 
 .sidebar ul li.active {
     font-weight: bold;
-    color: #007bff;
+    color: #3182F6;
 }
 
 .sidebar button {
@@ -42,7 +40,7 @@
     padding: 10px;
     font-size: 0.9rem;
     color: #ffffff;
-    background-color: #007bff;
+    background-color: #3182F6;
     border: none;
     border-radius: 5px;
     cursor: pointer;

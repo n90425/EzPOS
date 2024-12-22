@@ -2,7 +2,6 @@
     flex: 3; /* menu-list-section과 동일한 flex 비율 */
     background-color: #D1D6DB; /* 배경색 추가 */
     padding: 10px 10px 0 10px; /* 내부 여백 */
-    border-right: 1px solid #bbb; /* 구분선 추가 (선택 사항) */
 }
 
 .category-tabs button {

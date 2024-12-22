@@ -3,6 +3,7 @@ import "./dining.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import SettingDropDown  from "./SettingsDropDown";
 import MoveTableModal from "./MoveTableModal";
+import MergeTableModal from "./MergeTableModal";
 import { TableContext } from "./TableContext";
 import AlertBar from "./AlertBar";
 import axios from "axios";
@@ -24,6 +25,8 @@ function Dining() {
 
      // 테이블 이동 모달 상태
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
+    // 테이블 합석 모달 상태
+    const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
     
     // useLocation으로 전달받은 상태
     const location = useLocation();
@@ -66,14 +69,16 @@ function Dining() {
                     if (table.status === "OCCUPIED") {
                         const response = await fetchTableDetails(table.tableNo);
                         if (response) {
-                            if (response.orderDetails.length === 0){
-                                
+                            const orderDetails = response.orderDetails || [];
+                            const menuNames = response.menuNames || [];
+
+                            if (orderDetails.length === 0){
                                 await deleteOrder(table.tableNo);
                             } else {
                                 updatedDetails.push({
                                     tableNo: table.tableNo,
-                                    orderDetails: response.orderDetails || [],
-                                    menuNames: response.menuNames || [],
+                                    orderDetails,
+                                    menuNames,
                                 });
                             }
                         }
@@ -121,6 +126,20 @@ function Dining() {
         }
     };
 
+    const handleTableMerge = async (sourceTableNo, targetTableNo) => {
+        try {
+            await axios.post(`${BASE_URL}/dining/merge`, {
+                sourceTableNo,
+                targetTableNo,
+            });
+            showAlert(`테이블 ${sourceTableNo}번이 ${targetTableNo}번으로 합석이 완료되었습니다.`);
+            fetchTables();
+        } catch (error) {
+            console.error("테이블 합석중 오류:",error.response?.data || error.message);
+            showAlert("테이블 합석이 실패했습니다.");
+        }
+    };
+
 
     // 테이블만들기 이동 navi
     const tableNavi = useNavigate();
@@ -144,7 +163,7 @@ function Dining() {
                 </div>
             ) : (
                 <div className="table-list">
-                    <SettingDropDown showAlert={showAlert} onTableMove={() => setIsMoveModalOpen(true)} />
+                    <SettingDropDown showAlert={showAlert} onTableMove={() => setIsMoveModalOpen(true)} onTableMerge={()=>setIsMergeModalOpen(true)}/>
                     {tables.map((table) => {
                     const tableData  =orderDetails.find((data) => data.tableNo === table.tableNo) || {};
                     const { orderDetails: details = [], menuNames = [] } = tableData ;
@@ -182,6 +201,14 @@ function Dining() {
                     tables={tables}
                     onClose={() => setIsMoveModalOpen(false)}
                     onMove={handleTableMove}
+                />
+            )}
+            {/* 테이블 합석 모달 */}
+            {isMergeModalOpen && (
+                <MergeTableModal
+                    tables={tables}
+                    onClose={() => setIsMergeModalOpen(false)}
+                    onMerge={handleTableMerge}    
                 />
             )}
         </div>

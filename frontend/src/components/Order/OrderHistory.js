@@ -97,32 +97,34 @@ const OrderAll = () => {
             </div>
 
             {orderNo && Array.isArray(orderNo) ? (
-                <table className="order-table">
-                    <thead>
-                        <tr>
-                            <th>주문번호</th>
-                            <th>주문시간</th>
-                            <th>테이블번호</th>
-                            <th>상태</th>
-                            <th>주문금액</th>
-                            <th>부가세</th>
-                            <th>합계</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orderNo.map((order) => (
-                            <tr key={order.orderNo}>
-                                <td>{order.orderNo}</td>
-                                <td>{formatDateTime(order.orderTime)}</td>
-                                <td>{order.tableNo || "-"}</td>
-                                <td>{order.orderPayStatus}</td>
-                                <td className="amount">{format(order.orderAmount || 0)}</td>
-                                <td className="amount">{format(order.orderVat || 0)}</td>
-                                <td className="amount">{format((order.orderAmount || 0) + (order.orderVat || 0))}</td>
+                <div className="order-his-table-container">
+                    <table className="order-table">
+                        <thead>
+                            <tr>
+                                <th>주문번호</th>
+                                <th>주문시간</th>
+                                <th>테이블번호</th>
+                                <th>상태</th>
+                                <th>주문금액</th>
+                                <th>부가세</th>
+                                <th>합계</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {orderNo.map((order) => (
+                                <tr key={order.orderNo}>
+                                    <td>{order.orderNo}</td>
+                                    <td>{formatDateTime(order.orderTime)}</td>
+                                    <td>{order.tableNo || "-"}</td>
+                                    <td>{order.orderPayStatus}</td>
+                                    <td className="amount">{format(order.orderAmount || 0)}</td>
+                                    <td className="amount">{format(order.orderVat || 0)}</td>
+                                    <td className="amount">{format((order.orderAmount || 0) + (order.orderVat || 0))}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <p className="no-data">주문 데이터가 없습니다.</p>
             )}

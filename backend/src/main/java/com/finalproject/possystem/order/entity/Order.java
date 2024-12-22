@@ -58,12 +58,6 @@ public class Order {
         this.orderVat = orderVat;
     }
 
-    /* 주문시간 yyyy-mm-dd AM/PM hh:mm:ss 포맷 */
-    public String getOrderDateFormatter(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm:ss");
-        return this.orderTime.format(formatter);
-    }
-
     /* 기간별 주문조회시 JSON 직렬화를 위한 tableNo 필드 추가 */
     @Transient
     @JsonProperty("tableNo") // JSON에 tableNo 필드로 포함

@@ -11,6 +11,7 @@ const Order = () => {
   const [selectedCategory, setSelectedCategory] = useState(null); // 선택된 카테고리
   const { orderNo, setOrderNo, fetchOrder, createOrGetOrder } = useOrder();
   const { tableNo } = useParams();
+  const [isPaymentPage] = useState(false); // 결제 페이지 여부
 
   const { visibleCategories, fetchVisibleCategories } = useCategories();
   const { visibleItem, fetchVisibleItem } = useItem(); // 활성화된 메뉴(Custom Hook)
@@ -26,19 +27,27 @@ const Order = () => {
 
 
   useEffect(() => {
+    console.log(orderNo);
     fetchVisibleCategories(); // 활성화된 카테고리만 가져오기
     fetchVisibleItem(); // 활성화된 메뉴 가져오기
   }, []);
 
-
   return (
     <div className="order-container">
-      {/* 카테고리 탭 */}
-      <CategoryTabs
-        categories={visibleCategories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-      />
+      {!isPaymentPage && (
+          <div className="header-row">
+          {/* 카테고리 탭 */}
+          <CategoryTabs
+              categories={visibleCategories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+          />
+            <div className="table-info">
+              테이블 {tableNo}
+            </div>
+          </div>
+      )}
+
 
       {/* 메뉴 리스트와 주문 상세 */}
       <OrderDetail
@@ -49,6 +58,7 @@ const Order = () => {
         createOrGetOrder={createOrGetOrder}
         fetchOrder={fetchOrder}
       />
+    
     </div>
   );
 };

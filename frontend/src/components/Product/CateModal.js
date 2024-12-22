@@ -36,7 +36,7 @@ function CategoryModal({ isOpen, onClose, onSave, categories, onDelete, onUpdate
     return (
         <div className="category-modal-overlay">
             <div className="category-modal-content">
-                <h2>카테고리 관리</h2>
+                <h2 className='category-modal-head'>카테고리 관리</h2>
                 <ul className="category-modal-list">
                     {categories.map((category) => (
                         <li key={category.categoryId} className="category-modal-item">

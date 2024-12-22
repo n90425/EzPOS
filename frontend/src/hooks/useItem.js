@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios"
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -9,18 +9,18 @@ export const useItem = () => {
     const [error, setError] = useState(null);
     const [visibleItem, setVisibleItem] = useState([]); // 활성화된 메뉴
 
-    // 메뉴 데이터 가져오기 함수
-    const fetchItems = async () => {
+    // 메뉴 데이터 가져오기
+    const fetchItems = useCallback(async () => {
         try {
             setLoading(true);
             const response = await axios.get(`${BASE_URL}/menu`);
             setItems(response.data); // 서버에서 받아온 데이터 설정
         } catch (err) {
             setError(err);
-        }finally {
+        } finally {
             setLoading(false);
         }
-    };
+    }, []); // 빈 의존성 배열
 
     //메뉴 추가 
     const addItem = async (newItem) => {
@@ -77,11 +77,11 @@ export const useItem = () => {
 
 
     // 활성화된 카테고리만 가져오기
-    const fetchVisibleItem = async () => {
+    const fetchVisibleItem = useCallback(async () => {
         try {
             setLoading(true);
             const res = await axios.get(`${BASE_URL}/menu/visibility`);
-            setVisibleItem(res.data); // 활성화된 카테고리 설정
+            setVisibleItem(res.data); // 활성화된 메뉴 설정
             console.log("Fetched visible item:", res.data);
         } catch (err) {
             console.error("Failed to fetch visible item:", err);
@@ -89,15 +89,12 @@ export const useItem = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []); // 빈 의존성 배열
 
-
-
-
- // 컴포넌트가 마운트될 때 메뉴 데이터 가져오기
+    // 처음 마운트될 때 메뉴 데이터를 가져옴
     useEffect(() => {
         fetchItems();
-    }, []);
+    }, [fetchItems]);
 
     return { items, setItems,  fetchVisibleItem, visibleItem, fetchItems, addItem, deleteItem, updateItem, toggleVisibility, loading, error,};
 };

@@ -24,18 +24,18 @@ const PaymentHistory = () => {
         fetchPaymentHistory();
     }, []);
 
-    const formatDateTime = (dateTime) => {
-        const date = new Date(dateTime);
-        const options = {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true, // 오전오후
-        };
-        return date.toLocaleString("ko-KR", options);
-    };
+    // const formatDateTime = (dateTime) => {
+    //     const date = new Date(dateTime);
+    //     const options = {
+    //         year: "numeric",
+    //         month: "2-digit",
+    //         day: "2-digit",
+    //         hour: "2-digit",
+    //         minute: "2-digit",
+    //         hour12: true, // 오전오후
+    //     };
+    //     return date.toLocaleString("ko-KR", options);
+    // };
 
     const fetchPaymentHistory = async () => {
         try {

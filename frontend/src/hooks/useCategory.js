@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -10,21 +10,20 @@ const useCategory = () => {
     const [visibleCategories, setVisibleCategories] = useState([]); // 활성화된 카테고리
 
 
-    //데어터 불러오
-    const fetchCategories = async () => {
+    // 카테고리 데이터 가져오기
+    const fetchCategories = useCallback(async () => {
         try {
             setLoading(true);
             const res = await axios.get(`${BASE_URL}/category`);
             setCategories(res.data);
-            // console.log(formattedCategories);
             console.log(res.data);
         } catch (err) {
             console.error("Failed to fetch categories: ", err);
             setError(err);
-            } finally {
+        } finally {
             setLoading(false);
         }
-    };
+    }, []); // 빈 의존성 배열
 
      // 카테고리 추가
     const addCategory = async (newCategoryName) => {
@@ -85,7 +84,7 @@ const useCategory = () => {
 
 
     // 활성화된 카테고리만 가져오기
-    const fetchVisibleCategories = async () => {
+    const fetchVisibleCategories = useCallback(async () => {
         try {
             setLoading(true);
             const res = await axios.get(`${BASE_URL}/category/visibility`);
@@ -97,12 +96,13 @@ const useCategory = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []); // 빈 의존성 배열
 
 
+     // 처음 마운트될 때만 카테고리 전체 데이터를 가져옴
     useEffect(() => {
         fetchCategories();
-    }, []);
+    }, [fetchCategories]);
     
     return { categories, setCategories, fetchCategories, fetchVisibleCategories, visibleCategories, addCategory, deleteCategory, updateCategory, toggleVisibility, loading, error };
 };

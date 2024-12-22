@@ -2,6 +2,8 @@ package com.finalproject.possystem.order.repository;
 
 import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.entity.QOrderSequence;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,10 +15,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderSequenceRepository extends JpaRepository<OrderSequence, Date>, OrderSequenceRepositoryCustom {
-    @Query("SELECT COUNT(o), SUM(o.orderAmount) FROM Order o WHERE DATE(o.orderTime) = :orderDate")
+    @Query("SELECT o.totalOrders, o.totalSales FROM OrderSequence o WHERE DATE(o.openDate) = :orderDate")
     List<Integer> findCountAndSumByOrderDate(@Param("orderDate") Date orderDate);
 
     OrderSequence findByIsOpenTrue();
 
-    Optional<OrderSequence> findByOpenDate(Date targetDate);
+    @Query("SELECT o from OrderSequence o where o.openDate = :targetDate")
+    Optional<OrderSequence> findByOpenDate(LocalDateTime targetDate);
+
+    @Query("SELECT o FROM OrderSequence o WHERE o.openDate BETWEEN :startDate AND :endDate")
+    List<OrderSequence> findByOpenDateBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+
 }

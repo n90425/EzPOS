@@ -34,4 +34,5 @@ public class OrderSequence {
     @Column
     private int totalSales; /* 총 매출액 */
 
+    
 }

@@ -1,5 +1,6 @@
 package com.finalproject.possystem.order.service;
 
+import com.finalproject.possystem.order.dto.DateType;
 import com.finalproject.possystem.order.dto.response.OrderSequenceResponseDto;
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.OrderSequence;
@@ -9,8 +10,10 @@ import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -144,16 +147,19 @@ public class OrderSequenceService {
         return String.format("%s-%06d", today.toString().replace("-", ""), currentSequence);
     }
 
-    public OrderSequenceResponseDto getOrderDashInfo(Date searchDate){
-        Date targetDate = (searchDate == null) ? new Date() : searchDate;
-
+    public OrderSequenceResponseDto getOrderDashInfo(LocalDateTime searchDate, DateType dateType){
+        LocalDateTime targetDate=DateType.resolveTargetDate(searchDate);
+        if(dateType == DateType.YESTERDAY)
+            targetDate=targetDate.minusDays(1);
         // 대상 날짜로 OrderSequence 조회
         OrderSequence sequence = orderSequenceRepo.findByOpenDate(targetDate)
                 .orElseThrow(() -> new IllegalStateException(
                         "영업이 시작되지 않았습니다. 영업을 시작하세요."
                 ));
+        LocalDateTime startDate = dateType.calculateStartDate(targetDate);
         OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
-        orderSequenceResponseDto.updateweeklySales(orderSequenceRepo.findByOrderDate(searchDate));
+        System.out.println(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
+        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
         return orderSequenceResponseDto;
     }
 

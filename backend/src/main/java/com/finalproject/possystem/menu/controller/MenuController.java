@@ -1,6 +1,5 @@
 package com.finalproject.possystem.menu.controller;
 
-import com.finalproject.possystem.category.entity.Category;
 import com.finalproject.possystem.menu.entity.Menu;
 import com.finalproject.possystem.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;

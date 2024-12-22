@@ -1,11 +1,16 @@
 package com.finalproject.possystem.order.controller;
 
+import com.finalproject.possystem.order.dto.DateType;
 import com.finalproject.possystem.order.dto.response.OrderSequenceResponseDto;
 import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.service.OrderSequenceService;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +77,8 @@ public class OrderSequenceController {
         }
     }
     @GetMapping("/order-sequence-info")
-    public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam Date searchDate) {
-        return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(searchDate));
+    public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate searchDate, DateType dateType) {
+        LocalDateTime endDay = searchDate.atStartOfDay();
+        return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(endDay, dateType));
     }
 }

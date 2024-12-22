@@ -9,7 +9,6 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-
 }
 
 .header-content {
@@ -24,6 +23,7 @@
     font-size: 1.1rem;
     font-weight: bold;
 }
+
 
 /* 이전 페이지로 가는 버튼 */
 

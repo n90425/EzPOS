@@ -27,7 +27,6 @@ const Order = () => {
 
 
   useEffect(() => {
-    console.log(orderNo);
     fetchVisibleCategories(); // 활성화된 카테고리만 가져오기
     fetchVisibleItem(); // 활성화된 메뉴 가져오기
   }, []);
@@ -58,7 +57,6 @@ const Order = () => {
         createOrGetOrder={createOrGetOrder}
         fetchOrder={fetchOrder}
       />
-    
     </div>
   );
 };

@@ -1,35 +1,44 @@
 package com.finalproject.possystem.order.repository;
 
-import com.finalproject.possystem.order.entity.QOrderDetail;
-import com.finalproject.possystem.order.entity.QOrderSequence;
+import com.finalproject.possystem.order.dto.DateType;
+import com.finalproject.possystem.order.entity.OrderSequence;
+import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Timestamp;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
+import static com.finalproject.possystem.order.entity.QOrderSequence.orderSequence;
 
-@Service
+@Repository
 public class OrderSequenceRepositoryCustomImpl implements OrderSequenceRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    private final EntityManager entityManager;
 
-    /* em과 factory 초기화 */
-    public OrderSequenceRepositoryCustomImpl(EntityManager entityManager){
-        this.entityManager = entityManager;
-        this.queryFactory = new JPAQueryFactory(entityManager);
+    public OrderSequenceRepositoryCustomImpl(JPAQueryFactory queryFactory) {
+        this.queryFactory = queryFactory;
     }
 
     @Override
-    public List<Integer> findByOrderDate(Date orderDate) {
-        return queryFactory.
-                select(QOrderSequence.orderSequence.totalSales)
-                .from(QOrderSequence.orderSequence)
-                .where(QOrderSequence.orderSequence.openDate.eq(orderDate))
-                .stream().toList();
+    public List<OrderSequence> findOrderSequencesByDateRange(
+            LocalDateTime startDate, LocalDateTime endDate, DateType dateType) {
+        System.out.println(Timestamp.valueOf(startDate));
+        System.out.println(Timestamp.valueOf(endDate));
+        var query = queryFactory.select(orderSequence)
+                .from(orderSequence)
+                .where(orderSequence.openDate.between(Timestamp.valueOf(startDate),
+                        Timestamp.valueOf(endDate)));
+
+        // 그룹핑 조건 추가
+        if (dateType == DateType.WEEK) {
+            query.groupBy(orderSequence.openDate.year(), orderSequence.openDate.week());
+        } else if (dateType == DateType.MONTH) {
+            query.groupBy(orderSequence.openDate.year(), orderSequence.openDate.month());
+        }
+
+        return query.fetch();
     }
 }

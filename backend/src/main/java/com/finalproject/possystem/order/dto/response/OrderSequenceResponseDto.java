@@ -1,6 +1,8 @@
 package com.finalproject.possystem.order.dto.response;
 
+import com.finalproject.possystem.order.dto.DateType;
 import com.finalproject.possystem.order.entity.OrderSequence;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import java.text.SimpleDateFormat;
@@ -30,12 +32,11 @@ public class OrderSequenceResponseDto {
                 orderSequence.getTotalSales());
     }
 
-    public void updateWeeklySales(List<OrderSequence> sequences) {
+    public void updateWeeklySales(List<OrderSequence> sequences, DateType dateType) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        this.totalOrders = sequences.stream()
-                .mapToInt(OrderSequence::getTotalOrders).sum();
-        this.totalSales = sequences.stream()
-                .mapToInt(OrderSequence::getTotalSales).sum();
+        List<Integer> total = dateType.totalOrdersandSales(sequences);
+        this.totalOrders = total.get(0);
+        this.totalSales = total.get(1);
         this.weeklySales = sequences.stream()
                 .map(OrderSequence::getTotalSales)
                 .toList();

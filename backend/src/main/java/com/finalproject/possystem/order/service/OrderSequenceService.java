@@ -165,6 +165,7 @@ public class OrderSequenceService {
         if(dateType == DateType.YESTERDAY)
             targetDate=targetDate.minusDays(1);
         // 대상 날짜로 OrderSequence 조회
+        System.out.println(targetDate);
         OrderSequence sequence = orderSequenceRepo.findByOpenDate(targetDate)
                 .orElseThrow(() -> new IllegalStateException(
                         "영업이 시작되지 않았습니다. 영업을 시작하세요."
@@ -172,7 +173,7 @@ public class OrderSequenceService {
         LocalDateTime startDate = dateType.calculateStartDate(targetDate);
         OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
         System.out.println(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
-        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
+        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType), dateType);
         return orderSequenceResponseDto;
     }
 

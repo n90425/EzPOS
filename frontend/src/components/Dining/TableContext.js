@@ -13,15 +13,10 @@ export const TableProvider = ({children}) => {
             const res = await axios.get(`${BASE_URL}/dining`);
             setTables(res.data);
         } catch(error){
-        
             console.error("테이블 데이터를 불러오는중 오류 발생 TableContext: ", error);
             setTables([]); // 에러 시 빈 배열로 초기화
         }
     };
-
-    useEffect(()=> {
-        fetchTables();
-    }, []);
 
     return (
         <TableContext.Provider value={{ tables, setTables, fetchTables }}>

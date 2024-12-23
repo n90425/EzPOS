@@ -56,7 +56,7 @@ const PaymentHistory = () => {
 
     return (
         <div className="payment-history">
-            <h1>결제 내역</h1>
+
             <div className="filter-section flex">
                 <div>
                     <label>
@@ -75,40 +75,41 @@ const PaymentHistory = () => {
                     </label>
                 </div>
                 <div className="filter-buttons flex">
-                    <button className="search-button" onClick={(handleSearch)}>
-                        조회하기
-                    </button>
                     <button className="search-button" onClick={() => setStatus("ALL")}>
                         전체 조회
                     </button>
+                    <button className="search-button" onClick={(handleSearch)}>
+                        조회하기
+                    </button>
                 </div>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>결제 시간</th>
-                        <th>테이블 번호</th>
-                        <th>현금/카드</th>
-                        <th>결제 금액</th>
-                        <th>영수증 번호</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {paymentHistory.map((item, index) => {
-                    console.log(item.payMethCd);
-                    return (
-                        <tr key={index}>
-                            <td>{item.paymentTime}</td>
-                            <td>{item.tableNumber}</td>
-                            <td>{item.payMethCd}</td>
-                            <td>{item.paymentAmount.toLocaleString()}원</td>
-                            <td>{item.receiptNumber || "N/A"}</td>
+            <div className="payment-his-table-container">
+                <table className="payment-table">
+                    <thead>
+                        <tr>
+                            <th>결제 시간</th>
+                            <th>테이블 번호</th>
+                            <th>현금/카드</th>
+                            <th>결제 금액</th>
+                            <th>영수증 번호</th>
                         </tr>
-                    );
-                })}
-                </tbody>
-                    
-            </table>
+                    </thead>
+                    <tbody>
+                    {paymentHistory.map((item, index) => {
+                        console.log(item.payMethCd);
+                        return (
+                            <tr key={index}>
+                                <td>{formatDateTime(item.paymentTime)}</td>
+                                <td>{item.tableNumber}</td>
+                                <td>{item.payMethCd == 'CASH' ? "현금" : "카드"}</td>
+                                <td>{item.paymentAmount.toLocaleString()}원</td>
+                                <td>{item.receiptNumber || "N/A"}</td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

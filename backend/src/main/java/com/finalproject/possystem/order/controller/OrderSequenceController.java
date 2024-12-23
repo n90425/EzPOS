@@ -67,18 +67,22 @@ public class OrderSequenceController {
     }
 
     /* 주문번호 시퀀스 증가 */
-    @PostMapping("/increment-sequence")
-    public ResponseEntity<String> incrementSequence(){
-        try {
-            String today = orderSequenceService.generateOrderNumber();
-            return ResponseEntity.ok("주문 번호가 증가되엇습니다"+today);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("주문번호 증가중 오류가 발생하였습니다");
-        }
-    }
+//    @PostMapping("/increment-sequence")
+//    public ResponseEntity<String> incrementSequence(){
+//        try {
+//            String today = orderSequenceService.generateOrderNumber();
+//            return ResponseEntity.ok("주문 번호가 증가되엇습니다"+today);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("주문번호 증가중 오류가 발생하였습니다");
+//        }
+//    }
+
+
     @GetMapping("/order-sequence-info")
     public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate searchDate, DateType dateType) {
         LocalDateTime endDay = searchDate.atStartOfDay();
         return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(endDay, dateType));
     }
+
+
 }

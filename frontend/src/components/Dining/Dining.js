@@ -74,6 +74,7 @@ function Dining() {
 
                             if (orderDetails.length === 0){
                                 await deleteOrder(table.tableNo);
+                                table.status = "EMPTY";
                             } else {
                                 updatedDetails.push({
                                     tableNo: table.tableNo,
@@ -89,10 +90,8 @@ function Dining() {
                 console.error("Error fetching table details:", error);
             }
         };
-    
-        if (tables && tables.length > 0) {
-            fetchDetails();
-        }
+        fetchDetails();
+        
     }, [tables]);
 
     useEffect(() => {

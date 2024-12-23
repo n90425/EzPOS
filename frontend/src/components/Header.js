@@ -47,6 +47,8 @@ const Header = () => {
                 return "테이블 관리";
             case "/product-management":
                 return "상품관리";
+            case "/payment-history":
+                return "결제내역";
         };
     }
 

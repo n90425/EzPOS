@@ -8,15 +8,6 @@
 }
 
 
-
-/* 제목 스타일 */
-.order-title {
-    text-align: center;
-    font-size: 24px;
-    margin: 20px 0;
-    color: #333;
-}
-
 /* 필터 섹션 */
 .filter-section {
     display: flex;

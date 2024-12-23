@@ -29,7 +29,6 @@ public class OrderDetailController {
     /* 주문 상세 삭제 */
     @PostMapping("/order/delete/ordDetail")
     public ResponseEntity<Void> deleteOrderDetail(@RequestBody Map<String, Object> payload) {
-        System.out.println(payload);
         Integer ordDetailNo = (Integer) payload.get("ordDetailNo");
         String orderNo = (String) payload.get("orderNo");
         Integer tableNo = (Integer) payload.get("tableNo");

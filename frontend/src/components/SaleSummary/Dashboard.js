@@ -6,7 +6,10 @@ import "../../css/salesummary/dashboard.css";
 import { getMappingData } from "../../api/apiService";
 
 const Dashboard = ({ activeTab: initialTab = "today" }) => {
-  const selectedDay = "2015-01-15"; // 기본 날짜 설정
+  const today = new Date();
+  const formattedDate = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
+  const selectedDay = formattedDate; // 오늘날짜 지정
+
   const [chartData, setChartData] = useState({ dates: [], weeklySales: [] });
   const [revenueData, setRevenueData] = useState({ totalSales: 0, totalOrders: 0 });
   const [loading, setLoading] = useState(true);

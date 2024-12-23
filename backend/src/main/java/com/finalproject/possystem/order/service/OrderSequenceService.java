@@ -7,6 +7,8 @@ import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.entity.QOrderSequence;
 import com.finalproject.possystem.order.repository.OrderSequenceRepository;
 import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom;
+import com.finalproject.possystem.pay.repository.PayRepository;
+import com.finalproject.possystem.pay.service.PayService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 
@@ -29,12 +31,14 @@ import java.util.Optional;
 
 @Service
 public class OrderSequenceService {
+    private final PayRepository payRepository;
 
     private final JPAQueryFactory queryFactory;
     private final EntityManager entityManager;
 
     /* em과 factory 초기화 */
-    public OrderSequenceService(EntityManager entityManager){
+    public OrderSequenceService(PayRepository payRepository, EntityManager entityManager){
+        this.payRepository = payRepository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
@@ -61,6 +65,7 @@ public class OrderSequenceService {
     /* 영업이 시작됨 */
     @Transactional
     public void startOpen() {
+        /* 오늘날짜를 yyyy-MM-dd 형식으로 생성 */
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> exist = getOrderSequenceToday();
@@ -70,7 +75,6 @@ public class OrderSequenceService {
             OrderSequence newSequence = new OrderSequence();
             newSequence.setOpenDate(today);
             newSequence.setIsOpen(true);
-            newSequence.setCurrentSequence(0);
             newSequence.setTotalOrders(0);
             newSequence.setTotalSales(0);
 
@@ -86,7 +90,6 @@ public class OrderSequenceService {
 
             /* 기존데이터가 있지만 영업이 종료된경우 다시 영업버튼을 누를경우 */
             sequence.setIsOpen(true); /* 영업상태를 열림으로 변경 */
-            sequence.setCurrentSequence(0); /* 새로운 주문번호 시퀀스를 0으로 초기화 */
             entityManager.merge(sequence); /* 이렇게하면 기존 판매 데이터는 유지할수있다 */
         }
     }
@@ -109,6 +112,16 @@ public class OrderSequenceService {
             throw new IllegalStateException("이미 영업이 종료되었습니다.");
         }
 
+        /* 마감시 하루치 결제 총금액 가져오기 */
+        Integer totalSales = payRepository.getTodayTotalSales();
+        totalSales = totalSales == null ? 0 : totalSales;
+        sequence.setTotalSales(totalSales);
+
+        /* 하루치 영수 건수 가져오기 */
+        Integer receipCount = payRepository.getTodayReceiptCount();
+        receipCount = receipCount == null ? 0 : receipCount;
+        sequence.setTotalOrders(receipCount);
+
         /* 영업상태를 종료로 변경 */
         sequence.setIsOpen(false);
         entityManager.merge(sequence);
@@ -116,36 +129,36 @@ public class OrderSequenceService {
 
 
     /* 주문번호 시퀀스 증가 */
-    public void updateCurrentSequence(Date openDate){
-        QOrderSequence orderSequence = QOrderSequence.orderSequence;
-
-        queryFactory.update(orderSequence)
-                .set(orderSequence.currentSequence, orderSequence.currentSequence.add(1))
-                .where(orderSequence.openDate.eq(openDate))
-                .execute();
-    }
+//    public void updateCurrentSequence(Date openDate){
+//        QOrderSequence orderSequence = QOrderSequence.orderSequence;
+//
+//        queryFactory.update(orderSequence)
+//                .set(orderSequence.currentSequence, orderSequence.currentSequence.add(1))
+//                .where(orderSequence.openDate.eq(openDate))
+//                .execute();
+//    }
 
     /* 주문번호 생성 */
-    public String generateOrderNumber() {
-        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        /* 오늘날짜와 일치하는 id 가져오기 */
-        Optional<OrderSequence> sequenceOpt = getOrderSequenceToday();
-
-        /* id가 없거나, open상태가 false 인경우 */
-        if(sequenceOpt.isEmpty() || !sequenceOpt.get().getIsOpen()){
-            throw new IllegalStateException("영업이 시작되지 않았습니다. 영업을 시작하세요.");
-        }
-        /* 시퀀스 증가 */
-        updateCurrentSequence(today);
-
-        /* id가 null일경우 예외발생 */
-        OrderSequence sequence = getOrderSequenceToday().orElseThrow();
-        /* 객체의 현재 주문번호 sequence를 가져온다 */
-        int currentSequence = sequence.getCurrentSequence();
-
-        /* 주문번호 생성 */
-        return String.format("%s-%06d", today.toString().replace("-", ""), currentSequence);
-    }
+//    public String generateOrderNumber() {
+//        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//        /* 오늘날짜와 일치하는 id 가져오기 */
+//        Optional<OrderSequence> sequenceOpt = getOrderSequenceToday();
+//
+//        /* id가 없거나, open상태가 false 인경우 */
+//        if(sequenceOpt.isEmpty() || !sequenceOpt.get().getIsOpen()){
+//            throw new IllegalStateException("영업이 시작되지 않았습니다. 영업을 시작하세요.");
+//        }
+//        /* 시퀀스 증가 */
+//        updateCurrentSequence(today);
+//
+//        /* id가 null일경우 예외발생 */
+//        OrderSequence sequence = getOrderSequenceToday().orElseThrow();
+//        /* 객체의 현재 주문번호 sequence를 가져온다 */
+//        int currentSequence = sequence.getCurrentSequence();
+//
+//        /* 주문번호 생성 */
+//        return String.format("%s-%06d", today.toString().replace("-", ""), currentSequence);
+//    }
 
     public OrderSequenceResponseDto getOrderDashInfo(LocalDateTime searchDate, DateType dateType){
         LocalDateTime targetDate=DateType.resolveTargetDate(searchDate);

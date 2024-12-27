@@ -158,7 +158,7 @@ const PaymentPage = () => {
                                     <p>{detail.quantity}</p>
                                 </div>
                                 <div className="payment-price-container">
-                                    <p>{detail.unitPrice.toLocaleString()}</p>
+                                    <p>{(detail.unitPrice*detail.quantity).toLocaleString()}</p>
                                 </div>
                             </div>
                         ))}

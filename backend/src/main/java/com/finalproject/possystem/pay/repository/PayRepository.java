@@ -70,7 +70,8 @@ public interface PayRepository extends JpaRepository<Pay, byte[]> {
             "  AND (:posNumber IS NULL OR p.transType = :posNumber) " +
             "  AND (:payMethCd IS NULL OR p.payMethCd = :payMethCd) " +
             "  AND (:tableNumber IS NULL OR o.storedTableNo = :tableNumber) " +
-            "  AND (:receiptNumber IS NULL OR p.cash_receipt_number = :receiptNumber)",
+            "  AND (:receiptNumber IS NULL OR p.cash_receipt_number = :receiptNumber)" +
+            "ORDER BY p.payDt ASC",
             nativeQuery = true)
     List<PaymentHistoryResponse> findPaymentHistory(
             @Param("startDate") String startDate,

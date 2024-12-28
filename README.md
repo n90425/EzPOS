@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   
-- ![banner](https://github.com/n90425/EzPOS/images/logo.png)
+<img src="./images/logo.png" alt="logo Page" height="250px" />
 
   <br />
   <h1>EZ - POS</h1>

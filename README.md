@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-![banner]<img src="./images/logo.png" alt="Logo"/>
+![banner](https://github.com/n90425/EzPOS/images/logo.png)
   <br />
   <h1>EZ - POS</h1>
   <a href="#">

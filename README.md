@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-![banner](./images/logo.png)
+![banner]<img src="./images/logo.png" alt="Logo"/>
   <br />
   <h1>EZ - POS</h1>
   <a href="#">

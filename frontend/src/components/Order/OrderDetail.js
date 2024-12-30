@@ -2,16 +2,18 @@ import React, {useEffect, useState, use} from "react";
 import MenuList from "../Category/MenuList";
 import "./orderDetail.css"; // CSS 파일 연결
 import PaymentPage from "../Pay/PaymentPage";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
 
 
 const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
     const {orderDetails, fetchOrderDetails, addOrderDetail, delOrderDetail} = useOrderDetail(); // 주문 상세 데이터
     const totalAmount = orderDetails.reduce((acc, item) => acc + item.totalAmount, 0);
     const [isPaymentPage, setIsPaymentPage] = useState(false); // 결제 페이지 여부
-
+    const navigate = useNavigate();
 
     // 주문번호가 변경되면 주문상세 데이터 가져오기
     useEffect(() => {
@@ -19,33 +21,22 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
             console.error("테이블번호가 없습니다");
         }
 
-        console.log("orderDetails: ",orderDetails);
-
         fetchOrder(tableNo);
         if(orderNo){
             fetchOrderDetails(orderNo);
         }
     }, [orderNo, tableNo]);
 
-
-
-
     const handlePaymentClick = () => {
         setIsPaymentPage(true); //결제페이지로 전환
+        navigate("/pay", { state: { orderDetails, totalAmount } }); // 상태 전달
     };
-
-
-
-    const handleBackToOrder = () => {
-        setIsPaymentPage(false); //주문페이지로 돌아가기
-    }
-
 
 
     return (
         <div className="order-detail-container">
             {isPaymentPage ? (
-                <PaymentPage totalAmount={totalAmount} onBack={handleBackToOrder} />
+                <PaymentPage totalAmount={totalAmount} orderDetails={orderDetails} />
             ) : (
                 <>
                     {/* 좌측: 메뉴 리스트 */}
@@ -60,27 +51,31 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                         ) : (
                             <div className="order-items">
                                 {orderDetails.map((detail) => (
-                                    <div key={`${detail.orderNo}-${detail.ordDetailNo}`} className="order-item">
-                                        <div className="order-item-info">
-                                            <p>{detail.menuName}</p>
-                                            <p>수량: {detail.quantity}</p>
-                                            <p>가격: {detail.unitPrice.toLocaleString()}원</p>
+                                    <div key={`${detail.orderNo}-${detail.ordDetailNo}`} className="payment-order-item">
+
+                            
+                                        <div className="order-main">
+                                            <div className="payment-orderdetail-continer">
+                                                <p>{detail.menuName}</p>
+                                                <p><FontAwesomeIcon icon={faXmark} size="1x"/></p>
+                                                <p>{detail.quantity}</p>
+                                            </div>
+                                            <div className="payment-price-container">
+                                                <p>{detail.unitPrice.toLocaleString()}</p>
+                                            </div>
                                         </div>
                                         <button
                                             className="delete-button"
                                             onClick={() => delOrderDetail(detail.ordDetailNo)}
-                                        >
-                                            <FontAwesomeIcon icon={faTimes}/>
-                                        </button>
+                                        >삭제</button>
                                     </div>
                                 ))}
-                                <div className="total-amount">총 금액: {totalAmount.toLocaleString()}원</div>
                             </div>
                         )}
                         {/* 하단 결제 버튼 */}
                         <div className="order-footer">
-                        <button className="confirm-button" onClick={handlePaymentClick}>
-                                결제
+                            <button className="confirm-button" onClick={handlePaymentClick}>
+                                {totalAmount.toLocaleString()}원 결제
                             </button>
                         </div>
                     </div>

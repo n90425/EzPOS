@@ -26,6 +26,8 @@ public class PayController {
     @PostMapping("/cash-receipt")
     public ResponseEntity<CashReceiptResponse> handleCashPayment(@RequestBody CashReceiptRequest request) {
         CashReceiptResponse response = new CashReceiptResponse();
+        System.out.println("request:::::"+request);
+        System.out.println("response:::::"+response);
 
         try {
             if (request.getReceiptNumber() == null) {

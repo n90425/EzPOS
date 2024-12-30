@@ -1,6 +1,8 @@
 package com.finalproject.possystem.table.service;
 
 import com.finalproject.possystem.order.entity.Order;
+import com.finalproject.possystem.order.entity.OrderDetail;
+import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
 import com.finalproject.possystem.table.repository.DiningRepository;
@@ -19,6 +21,9 @@ public class DiningService {
 
     @Autowired
     private OrderRepository orderRepo;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepo;
 
     /* 전체의 테이블개수 세기 */
     public long count(){
@@ -208,5 +213,95 @@ public class DiningService {
         orderRepo.save(order);
 
         return String.format("테이블 %d번이 %d번으로 이동되었습니다.", sourceTableNo, targetTableNo);
+    }
+
+    /* 주문상세 삭제후 주문삭제 */
+    @Transactional
+    public void deleteOrder(String orderNo){
+        orderDetailRepo.deleteByOrderNo(orderNo);
+        orderRepo.deleteById(orderNo);
+    }
+
+    /* 테이블 합석 구현 */
+    @Transactional
+    public String mergeTable(int sourceTableNo, int targetTableNo){
+        /* 원본테이블 찾기 */
+        Dining sourceTable = diningRepo.findById(sourceTableNo)
+                .orElseThrow(() -> new IllegalArgumentException("기존테이블을 찾을수 없습니다."));
+        /* 대상테이블 찾기 */
+        Dining targetTable = diningRepo.findById(targetTableNo)
+                .orElseThrow(() -> new IllegalArgumentException("대상테이블을 찾을수 없습니다"));
+        /* 원본테이블과 대상테이블이 EMPTY 일경우 throw 발생 */
+        if(sourceTable.getStatus() == Dining.Status.EMPTY ){
+            throw new IllegalArgumentException("원본 테이블이 비어있습니다");
+        }
+
+        if(targetTable.getStatus() == Dining.Status.EMPTY){
+            throw new IllegalArgumentException("대상 테이블이 비어있습니다");
+        }
+
+        /* 원본테이블의 연결된 order 객체 가져오기 */
+        Order sourceOrder = sourceTable.getCurrentOrder();
+        if(sourceOrder == null){
+            throw new IllegalArgumentException("원본테이블에 연결된 주문이 없습니다");
+        }
+        /* 대상테이블의 연결된 order 객체 가져오기 */
+        Order targetOrder = targetTable.getCurrentOrder();
+        if(targetOrder == null){
+            throw new IllegalArgumentException("대상테이블에 연결된 주문이 없습니다");
+        }
+
+        /* 주문병합 */
+        for (OrderDetail sourceDetail : sourceOrder.getOrderDetails()){
+            /* 대상테이블에 원본테이블의 메뉴과 같은게 있는지 확인 */
+            Optional<OrderDetail> existingDetail = targetOrder.getOrderDetails().stream()
+                    .filter(detail -> detail.getMenuId().equals(sourceDetail.getMenuId()))
+                    .findFirst();
+
+            if(existingDetail.isPresent()){
+                /* 동일한메뉴가 있을경우 수량을 합산 */
+                existingDetail.get().setQuantity(existingDetail.get().getQuantity()+sourceDetail.getQuantity());
+            } else {
+                /* 동일한메뉴가 없을경우 추가 */
+                OrderDetail newDetail = new OrderDetail();
+                newDetail.setMenuId(sourceDetail.getMenuId());
+                newDetail.setQuantity(sourceDetail.getQuantity());
+                newDetail.setUnitPrice(sourceDetail.getUnitPrice());
+                newDetail.setOrder(targetOrder);
+                /* orderAddNo의 최대값을 가져온다 */
+                int maxOrdAddNo = orderDetailRepo.findMaxOrdAddByOrderNo(targetOrder.getOrderNo()).orElse(0);
+                /* ordAddNo 1씩 증가 */
+                newDetail.setOrdAddNo(maxOrdAddNo+1);
+                targetOrder.getOrderDetails().add(newDetail);
+            }
+        }
+
+        /* 금액 합산 */
+        targetOrder.setOrderAmount(sourceOrder.getOrderAmount()+targetOrder.getOrderAmount());
+
+        /* 선택테이블을 초기화 (orderNo 와 dinng 상태) */
+        sourceTable.setCurrentOrder(null);
+        sourceTable.setStatus(Dining.Status.EMPTY);
+
+        /* 원본 주문 삭제 */
+        sourceOrder.getOrderDetails().forEach(detail -> {
+            if (detail.getOrder() == null) {
+                throw new RuntimeException("OrderDetail에 Order가 설정되지 않았습니다.");
+            }
+            detail.setOrder(null); // Order와의 관계 해제
+            orderDetailRepo.delete(detail); // OrderDetail 개별 삭제
+        });
+        sourceOrder.getOrderDetails().clear(); // OrderDetails 리스트 초기화
+        orderRepo.delete(sourceOrder);
+
+        /* 테이블 저장 */
+        orderRepo.save(targetOrder);
+        diningRepo.save(targetTable);
+
+
+
+
+
+        return String.format("테이블 %d번이 %d번으로 합석이 완료 되었습니다.", sourceTableNo, targetTableNo);
     }
 }

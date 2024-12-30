@@ -20,9 +20,13 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
-    margin-bottom: 20px;
-    text-align: center;
+.category-modal-head {
+    font-size: 17px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    color: #676767;
+    text-align: start;
+    border-bottom: 1px solid #b5b5b5;
 }
 
 .category-modal-list {
@@ -35,7 +39,12 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    padding: 15px 0;
+    border-bottom: 1px solid #d2d2d2;
+    color: #474747;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 10px 15px;
 }
 
 .edit-input {
@@ -45,7 +54,7 @@ h2 {
 }
 
 .add-input {
-    width: 70%;
+    width: 60%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -65,40 +74,27 @@ button {
     cursor: pointer;
 }
 
-.category-save-button {
-    background-color: #007bff;
-    color: white;
+.category-save-button,
+.category-cancel-button, 
+.category-edit-button,
+.category-delete-button,
+.itemlist-tbody button,
+.item-save-button,
+.item-cancel-button {
+    background-color: #F2F4F6;
+    color: #7e7e7e;
+    font-weight: bold;
 }
 
-.category-save-button:hover {
-    background-color: #0056b3;
-}
-
-.category-cancel-button {
-    background-color: #dc3545;
-    color: white;
-}
-
-.category-cancel-button:hover {
-    background-color: #c82333;
-}
-
-.category-edit-button {
-    background-color: #007bff;
-    color: white;
-}
-
-.category-edit-button:hover {
-    background-color: #0056b3;
-}
-
-.category-delete-button {
-    background-color: #dc3545;
-    color: white;
-}
-
-.category-delete-button:hover {
-    background-color: #c82333;
+.category-save-button:hover,
+.category-cancel-button:hover,
+.category-edit-button:hover,
+.category-delete-button:hover,
+.itemlist-tbody button:hover,
+.item-save-button:hover,
+.item-cancel-button:hover  {
+    background-color: #E8F3FF;
+    color: #3B87F6;
 }
 
 .category-add {
@@ -106,4 +102,10 @@ button {
     align-items: center;
     margin-top: 10px;
     justify-content: space-between;
+}
+
+.category-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin: 10px 15px;
 }

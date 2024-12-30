@@ -98,6 +98,7 @@ public class OrderController {
     public ResponseEntity<String> readOrder(@PathVariable Integer tableNo){
         try {
             Optional<Order> order = orderService.getOrder(tableNo); // 서비스에서 주문을 가져옴
+            System.out.println("order=================="+order);
             if (order.isEmpty()) {
                 // 주문이 없는 경우
                 return ResponseEntity.ok("해당 테이블 번호에 대한 주문이 없습니다.");

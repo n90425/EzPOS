@@ -39,7 +39,6 @@ export const useItem = () => {
     // 메뉴 삭제
     const deleteItem = async (menuId) => {
         try {
-            console.log("menuId", menuId);
             await axios.post(`${BASE_URL}/deletemenu`, { menuId });
             setItems((prevItems) => prevItems.filter((item) => item.menuId !== menuId));
         } catch (error) {

@@ -76,6 +76,9 @@ public class OrderDetailService {
                 .orElseThrow(()-> new IllegalArgumentException("유효하지않은 메뉴입니다"));
         orderDetail.setUnitPrice(unitPrice);
 
+        // Order 설정
+        orderDetail.setOrder(order);
+
         /* 주문상세저장 */
         OrderDetail saveDetail = orderDetailRepo.save(orderDetail);
         /* Order 테이블 업데이트 */

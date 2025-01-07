@@ -1,0 +1,21 @@
+services:
+  backend:
+    image: kimdani/pos-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - pos_system_network
+
+  frontend:
+    image: kimdani/pos-front
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - pos_system_network
+
+networks:
+  pos_system_network :
+    name: pos_system_network
+    driver: bridge

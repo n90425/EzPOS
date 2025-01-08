@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "소스 코드 가져오는 중..."
-                git branch: 'main', url: 'https://github.com/n90425/EzPOS'
+                git branch: 'dev', url: 'https://github.com/n90425/EzPOS'
             }
         }
 

@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "소스 코드 가져오는 중..."
-                git branch: 'main', url: 'https://github.com/rlaeksl0124/EzPOS'
+                git branch: 'main', url: 'https://github.com/n90425/EzPOS'
             }
         }
 
@@ -57,5 +57,15 @@ pipeline {
         failure {
             echo "배포 중 문제가 발생했습니다."
         }
+
+        stage('Deploy') {
+                    steps {
+                        echo "Docker Compose로 애플리케이션 배포 중..."
+                        sh '''
+                        docker-compose down
+                        docker-compose up -d
+                        '''
+                    }
+                }
     }
 }

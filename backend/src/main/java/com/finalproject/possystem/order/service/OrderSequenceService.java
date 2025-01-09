@@ -7,6 +7,8 @@ import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.entity.QOrderSequence;
 import com.finalproject.possystem.order.repository.OrderSequenceRepository;
 import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom;
+import com.finalproject.possystem.pay.repository.PayRepository;
+import com.finalproject.possystem.pay.service.PayService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 
@@ -29,12 +31,14 @@ import java.util.Optional;
 
 @Service
 public class OrderSequenceService {
+    private final PayRepository payRepository;
 
     private final JPAQueryFactory queryFactory;
     private final EntityManager entityManager;
 
     /* em과 factory 초기화 */
-    public OrderSequenceService(EntityManager entityManager){
+    public OrderSequenceService(PayRepository payRepository, EntityManager entityManager){
+        this.payRepository = payRepository;
         this.entityManager = entityManager;
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
@@ -61,6 +65,7 @@ public class OrderSequenceService {
     /* 영업이 시작됨 */
     @Transactional
     public void startOpen() {
+        /* 오늘날짜를 yyyy-MM-dd 형식으로 생성 */
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
         /* 오늘날짜와 일치하는 id 가져오기 */
         Optional<OrderSequence> exist = getOrderSequenceToday();
@@ -107,13 +112,23 @@ public class OrderSequenceService {
             throw new IllegalStateException("이미 영업이 종료되었습니다.");
         }
 
+        /* 마감시 하루치 결제 총금액 가져오기 */
+        Integer totalSales = payRepository.getTodayTotalSales();
+        totalSales = totalSales == null ? 0 : totalSales;
+        sequence.setTotalSales(totalSales);
+
+        /* 하루치 영수 건수 가져오기 */
+        Integer receipCount = payRepository.getTodayReceiptCount();
+        receipCount = receipCount == null ? 0 : receipCount;
+        sequence.setTotalOrders(receipCount);
+
         /* 영업상태를 종료로 변경 */
         sequence.setIsOpen(false);
         entityManager.merge(sequence);
     }
 
 
-//    /* 주문번호 시퀀스 증가 */
+    /* 주문번호 시퀀스 증가 */
 //    public void updateCurrentSequence(Date openDate){
 //        QOrderSequence orderSequence = QOrderSequence.orderSequence;
 //
@@ -122,8 +137,8 @@ public class OrderSequenceService {
 //                .where(orderSequence.openDate.eq(openDate))
 //                .execute();
 //    }
-//
-//    /* 주문번호 생성 */
+
+    /* 주문번호 생성 */
 //    public String generateOrderNumber() {
 //        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 //        /* 오늘날짜와 일치하는 id 가져오기 */
@@ -157,7 +172,7 @@ public class OrderSequenceService {
         LocalDateTime startDate = dateType.calculateStartDate(targetDate);
         OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
         System.out.println(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
-        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
+        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType), dateType);
         return orderSequenceResponseDto;
     }
 

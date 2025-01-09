@@ -57,6 +57,7 @@ public class OrderDetailService {
             existingOrderDetail.setQuantity(existingOrderDetail.getQuantity()+1);
             /* 주문금액 수정 = 수량 * 금액 */
             existingOrderDetail.setTotalAmount(existingOrderDetail.getQuantity()* existingOrderDetail.getUnitPrice());
+            updateOrder(orderDetail.getOrderNo());
             return orderDetailRepo.save(existingOrderDetail);
         }
 
@@ -89,12 +90,14 @@ public class OrderDetailService {
     /* 주문 업데이트 */
     public void updateOrder(String orderNo){
         Double totalAmount = orderDetailRepo.calTotalAmount(orderNo);
+
         if(totalAmount==null)
             totalAmount=0.0;
         Double netAmount = totalAmount/1.1;
         Double vat = totalAmount - netAmount;
 
         Order ord = orderRepo.findById(orderNo).orElseThrow(()-> new RuntimeException("주문을 찾을수 없습니다"));
+
 
         ord.setOrderAmount(netAmount);
         ord.setOrderVat(vat);

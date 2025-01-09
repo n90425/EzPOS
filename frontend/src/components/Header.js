@@ -47,6 +47,10 @@ const Header = () => {
                 return "테이블 관리";
             case "/product-management":
                 return "상품관리";
+            case "/payment-history":
+                return "결제내역";
+            case "/pay":
+                return "결제";
         };
     }
 
@@ -57,11 +61,14 @@ const Header = () => {
 
     return (
         <div className="header-container">
-            {location.pathname !== "/" && (
-                <button className="back-button" onClick={() => navigate(-1)}>
-                <FontAwesomeIcon icon={faChevronLeft}/>
-                </button>
-            )}
+            {
+                (location.pathname !== "/") && (
+                    <button className="back-button" 
+                    onClick={() => (location.pathname==="/pay" || location.pathname==="/dining") ? navigate("/") : navigate(-1)}>
+                        <FontAwesomeIcon icon={faChevronLeft}/>
+                    </button>
+                )
+            }
             <div className="header-content">
                 <h2>{getPageTitme()}</h2>
                 <div className="header-time">{formatTime(currentTime)}</div>

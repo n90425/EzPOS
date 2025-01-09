@@ -158,7 +158,7 @@ public class PayService {
         Integer receiptCount = payRepository.getTodayReceiptCount();
 
         // 부가세 계산 (예: 10%)
-        Integer vatAmount = (totalSales != null) ? (int) (totalSales * 0.1) : 0;
+        Integer vatAmount = (totalSales != null) ? (int) (totalSales /1.1) : 0;
         Integer netSales = (totalSales != null) ? totalSales - vatAmount : 0;
 
         // Null 값 방지

@@ -31,6 +31,7 @@ function App() {
               <Route path="/dining" element={<Dining/>}/> {/* 테이블가져오기 */}
               <Route path="/editDining" element={<EditDining/>}/> {/*테이블수정하기*/}
               <Route path="/sales-summary" element={<SaleSummary/>}/> {/* 매출 요약 */}
+              <Route path="/payment-history" element={<PaymentHistory/>}/> {/* 판매 내역 */}
               <Route path="/pay" element={<Payment/>}/> {/* 결제 */}
             </Routes>
         </Router>

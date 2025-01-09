@@ -76,10 +76,11 @@ public class OrderSequenceController {
 //            return ResponseEntity.status(500).body("주문번호 증가중 오류가 발생하였습니다");
 //        }
 //    }
+
+
     @GetMapping("/order-sequence-info")
     public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate searchDate, DateType dateType) {
         LocalDateTime endDay = searchDate.atStartOfDay();
-        System.out.println(endDay);
         return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(endDay, dateType));
     }
 }

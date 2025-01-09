@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useOrder from "../../hooks/useOrder";
 import "./orderHistory.css";
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const OrderAll = () => {
-    const { orderNo, setOrderNo, fetchOrders } = useOrder();
+    const { orderNo, fetchOrders } = useOrder();
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [orderDetails, setOrderDetails] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -51,6 +57,22 @@ const OrderAll = () => {
             amount = 0;
         return Math.round(amount).toLocaleString("ko-KR");
     };
+
+    // 주문내역 하단에 주문상세내역 표시
+    const handleRowClick = async(order) => {
+        setSelectedRow(order);
+        setLoading(true);
+        
+        try {
+            const details = await axios.get(`${BASE_URL}/order/${order.orderNo}/ordDetail`);
+            console.log("details",details);
+            setOrderDetails(details);
+        } catch (error) {
+            console.error("주문내역화면 - 주문상세 데이터 가져오기 에러", error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <div className="order-all-container">
@@ -112,7 +134,7 @@ const OrderAll = () => {
                         </thead>
                         <tbody>
                             {orderNo.map((order) => (
-                                <tr key={order.orderNo}>
+                                <tr key={order.orderNo} onClick={()=>handleRowClick(order)}>
                                     <td>{order.orderNo}</td>
                                     <td>{formatDateTime(order.orderTime)}</td>
                                     <td>{order.tableNo || "-"}</td>
@@ -124,6 +146,36 @@ const OrderAll = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {/* 주문상세 정보 표시 */}
+                    {loading && <p>로딩중...</p>}
+                    {orderDetails && !loading && (
+                        <div className="order-his-table-container">
+                        <h3 className="order-his-title">주문상세내역</h3>
+                        <table className="order-table">
+                            <thead>
+                                <tr>
+                                    <th>순번</th>
+                                    <th>상품명</th>
+                                    <th>단가</th>
+                                    <th>수량</th>
+                                    <th>주문금액</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orderDetails.data.map((detail, index) => (
+                                    <tr key={index}>
+                                        <td>{detail.ordDetailNo}</td>
+                                        <td>{detail.menuName}</td>
+                                        <td>{detail.unitPrice.toLocaleString()}</td>
+                                        <td>{detail.quantity}</td>
+                                        <td>{(detail.quantity*detail.unitPrice).toLocaleString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    )}
                 </div>
             ) : (
                 <p className="no-data">주문 데이터가 없습니다.</p>

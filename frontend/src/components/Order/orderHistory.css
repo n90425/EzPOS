@@ -8,15 +8,6 @@
 }
 
 
-
-/* 제목 스타일 */
-.order-title {
-    text-align: center;
-    font-size: 24px;
-    margin: 20px 0;
-    color: #333;
-}
-
 /* 필터 섹션 */
 .filter-section {
     display: flex;
@@ -95,6 +86,10 @@
     border: 1px solid #ddd;
 }
 
+.order-table tbody tr:hover {
+    cursor: pointer;
+}
+
 .order-table tbody td {
     padding: 10px;
     font-size: 14px;
@@ -119,4 +114,11 @@
     font-size: 18px;
     color: #999;
     margin-top: 20px;
+}
+
+
+.order-his-title{
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 20px;
 }

@@ -11,9 +11,12 @@ export const useOrderDetail = () => {
     const { tableNo } = useParams();
 
     // 주문 상세 데이터 가져오기
-    const fetchOrderDetails = async (currentOrderNo) => {
-        
+    const fetchOrderDetails = async () => {
         try {
+            let currentOrderNo = orderNo;
+            currentOrderNo = await createOrGetOrder();
+            setOrderNo(currentOrderNo);
+            
             const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
             setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
             return res.data;

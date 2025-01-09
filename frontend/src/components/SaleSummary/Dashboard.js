@@ -7,7 +7,7 @@ import { getMappingData } from "../../api/apiService";
 
 const Dashboard = ({ activeTab: initialTab = "today" }) => {
   const today = new Date();
-  const formattedDate = `${2015}-${today.getMonth()+1}-${today.getDate()}`
+  const formattedDate = `${2024}-${today.getMonth()+1}-${today.getDate()}`
   const selectedDay = formattedDate; // 오늘날짜 지정
 
   const [chartData, setChartData] = useState({ dates: [], weeklySales: [] });

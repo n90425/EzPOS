@@ -87,3 +87,4 @@ ehthumbs.db
 
 # db 쿼리문
 *.sql
+*.pem

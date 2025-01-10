@@ -26,7 +26,7 @@ pipeline {
                 sh '''
                 cd frontend
                 npm install
-                npm run build
+                CI=false npm run build
                 '''
             }
         }

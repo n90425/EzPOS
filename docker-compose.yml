@@ -3,7 +3,8 @@ services:
   backend:
     build:
       context: ./backend
-    image: kimdani/pos-backend
+      dockerfile: Dockerfile
+    image: pos-backend
     ports:
       - "8080:8080"
     restart: always
@@ -13,7 +14,8 @@ services:
   frontend:
     build:
       context: ./frontend
-    image: kimdani/pos-front
+      dockerfile: Dockerfile
+    image: pos-front
     ports:
       - "80:80"
     restart: always

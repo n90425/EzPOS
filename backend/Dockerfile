@@ -10,7 +10,7 @@ CMD ["./mvnw", "clean", "package"]
 VOLUME /tmp
 
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+COPY ${JAR_FILE} /app.jar
 
 EXPOSE 80
 

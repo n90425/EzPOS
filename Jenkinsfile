@@ -1,6 +1,6 @@
 pipeline {
-    agent { label 'agent-server' } // Agent 서버 지정 (Jenkins 노드 설정에 따라 변경)
-
+    agent any
+    
     stages {
         stage('Checkout') {
             steps {

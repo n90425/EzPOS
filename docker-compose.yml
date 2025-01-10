@@ -2,19 +2,19 @@ version: '3.8'
 services:
   backend:
     build:
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     image: pos-backend
     ports:
-      - "8080:8080"
+      - "8080:80"
     restart: always
     networks:
       - pos_system_network
 
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     image: pos-front
     ports:
       - "80:80"

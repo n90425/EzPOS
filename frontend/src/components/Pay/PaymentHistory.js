@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./payhistory.css";
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const PaymentHistory = () => {
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [startDate, setStartDate] = useState("");
@@ -39,7 +41,7 @@ const PaymentHistory = () => {
 
     const fetchPaymentHistory = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/pay/payhistory", {
+            const response = await axios.get(`${BASE_URL}/pay/payhistory`, {
                 params: {
                     startDate: startDate ? `${startDate}T00:00:00` : null,
                     endDate: endDate ? `${endDate}T23:59:59` : null,

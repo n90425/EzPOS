@@ -29,8 +29,8 @@ pipeline {
                 echo "React 프론트엔드 빌드 중..."
                 sh '''
                 cd frontend
-                npm ci
-                npm run build
+                npm ci --silent
+                npm run build CI=false --silent
                 '''
             }
         }

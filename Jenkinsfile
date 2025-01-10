@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'REACT_APP_API_BASE_URL', defaultValue: 'http://3.34.46.145/api', description: 'API base URL for the React frontend')
+    }
+
+
     stages {
         stage('Checkout') {
             steps {
@@ -29,6 +34,7 @@ pipeline {
                 echo "React 프론트엔드 빌드 중..."
                 sh '''
                 cd frontend
+                echo "REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}" > .env
                 npm ci --silent
                 CI=false npm run build --silent
                 '''

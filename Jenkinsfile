@@ -44,8 +44,8 @@ pipeline {
                 cp -r build ../backend/src/main/resources/static
 
                 cd ..
-                docker build -t ezpos-backend -f backend/Dockerfile .
-                docker build -t ezpos-frontend -f frontend/Dockerfile .
+                docker-compose build backend
+                docker-compose build frontend
                 '''
             }
         }

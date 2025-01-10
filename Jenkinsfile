@@ -1,6 +1,6 @@
 pipeline {
-    agent { label 'agent-server' } // Agent 서버 지정 (Jenkins 노드 설정에 따라 변경)
-
+    agent any
+    
     stages {
         stage('Checkout') {
             steps {
@@ -14,7 +14,8 @@ pipeline {
                 echo "Spring Boot 백엔드 빌드 중..."
                 sh '''
                 cd backend
-                ./mvnw clean package -DskipTests
+                chmod +x mvnw
+                ./mvnw clean package -Dmaven.repo.local=/var/jenkins_home/.m2/repository -DskipTests -e -B
                 '''
             }
         }
@@ -34,7 +35,7 @@ pipeline {
             steps {
                 echo "Docker 이미지 생성 중..."
                 sh '''
-                docker-compose build
+                docker-compose build --no-cache
                 '''
             }
         }
@@ -44,7 +45,7 @@ pipeline {
                 echo "애플리케이션 배포 중..."
                 sh '''
                 docker-compose down
-                docker-compose up -d
+                docker-compose up -d --remove-orphans
                 '''
             }
         }
@@ -57,15 +58,5 @@ pipeline {
         failure {
             echo "배포 중 문제가 발생했습니다."
         }
-
-        stage('Deploy') {
-                    steps {
-                        echo "Docker Compose로 애플리케이션 배포 중..."
-                        sh '''
-                        docker-compose down
-                        docker-compose up -d
-                        '''
-                    }
-                }
     }
 }

@@ -88,3 +88,4 @@ yarn-error.log*
 
 # db 쿼리문
 *.sql
+*.pem

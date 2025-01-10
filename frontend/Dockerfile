@@ -5,11 +5,11 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 # frontend의 package.json 복사
-COPY frontend/package.json .
+COPY package.json .
 # 의존성 설치
 RUN npm install
 # frontend 폴더의 모든 파일 복사
-COPY frontend/ .
+COPY . ./
 # 리액트 앱 빌드
 RUN npm run build
 
@@ -17,7 +17,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Nginx 설정 파일 복사
-COPY frontend/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # 빌드된 리액트 앱을 Nginx의 HTML 디렉토리로 복사
 COPY --from=build /app/build /usr/share/nginx/html

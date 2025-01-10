@@ -4,11 +4,14 @@ FROM node:18-alpine AS build
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# 의존성 설치 및 빌드(CI)
-COPY frontend/package.json .   # frontend의 package.json 복사
-RUN npm install                # 의존성 설치
-COPY frontend/ .               # frontend 폴더의 모든 파일 복사
-RUN npm run build              # 리액트 앱 빌드
+# frontend의 package.json 복사
+COPY frontend/package.json .
+# 의존성 설치
+RUN npm install
+# frontend 폴더의 모든 파일 복사
+COPY frontend/ .
+# 리액트 앱 빌드
+RUN npm run build
 
 # Nginx를 기반으로 하는 최종 이미지
 FROM nginx:alpine

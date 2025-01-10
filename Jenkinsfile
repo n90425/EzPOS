@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -16,6 +16,10 @@ pipeline {
                 cd backend
                 chmod +x mvnw
                 ./mvnw clean package -Dmaven.repo.local=/var/jenkins_home/.m2/repository -DskipTests -e -B
+                if [ ! -f target/*.jar ]; then
+                    echo "JAR 파일이 생성되지 않았습니다."
+                    exit 1
+                fi
                 '''
             }
         }
@@ -25,7 +29,7 @@ pipeline {
                 echo "React 프론트엔드 빌드 중..."
                 sh '''
                 cd frontend
-                npm install
+                npm ci
                 npm run build
                 '''
             }
@@ -35,7 +39,13 @@ pipeline {
             steps {
                 echo "Docker 이미지 생성 중..."
                 sh '''
-                docker-compose build --no-cache
+                cd frontend
+                mkdir -p ../backend/src/main/resources/static
+                cp -r build ../backend/src/main/resources/static
+
+                cd ..
+                docker build -t ezpos-backend -f backend/Dockerfile .
+                docker build -t ezpos-frontend -f frontend/Dockerfile .
                 '''
             }
         }

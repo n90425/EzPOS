@@ -36,6 +36,7 @@ pipeline {
                 echo "Docker 이미지 생성 중..."
                 sh '''
                 cd frontend
+                mkdir -p ../backend/src/main/resources/static
                 cp -r build ../backend/src/main/resources/static
 
                 cd ..

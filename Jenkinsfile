@@ -15,7 +15,7 @@ pipeline {
                 sh '''
                 cd backend
                 chmod +x mvnw
-                ./mvnw clean package -DskipTests
+                ./mvnw clean package -Dmaven.repo.local=/var/jenkins_home/.m2/repository -DskipTests -e -B
                 '''
             }
         }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo "Docker 이미지 생성 중..."
                 sh '''
-                docker-compose build
+                docker-compose build --no-cache
                 '''
             }
         }
@@ -45,7 +45,7 @@ pipeline {
                 echo "애플리케이션 배포 중..."
                 sh '''
                 docker-compose down
-                docker-compose up -d
+                docker-compose up -d --remove-orphans
                 '''
             }
         }

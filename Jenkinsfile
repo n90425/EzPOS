@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -35,7 +35,12 @@ pipeline {
             steps {
                 echo "Docker 이미지 생성 중..."
                 sh '''
-                docker-compose build --no-cache
+                cd frontend
+                cp -r build ../backend/src/main/resources/static
+
+                cd ..
+                docker build -t ezpos-backend -f backend/Dockerfile .
+                docker build -t ezpos-frontend -f frontend/Dockerfile .
                 '''
             }
         }

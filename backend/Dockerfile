@@ -9,12 +9,12 @@ CMD ["./mvnw", "clean", "package"]
 
 VOLUME /tmp
 
-ARG JAR_FILE=target/*.jar
+ARG JAR_FILE=backend/target/*.jar
 # or Maven
 # ARG JAR_FILE_PATH=target/*.jar
 
 COPY ${JAR_FILE} app.jar
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["java","-jar","/app.jar"]

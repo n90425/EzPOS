@@ -30,7 +30,7 @@ pipeline {
                 sh '''
                 cd frontend
                 npm ci --silent
-                npm run build CI=false --silent
+                CI=false npm run build --silent
                 '''
             }
         }

@@ -3,9 +3,10 @@ services:
   backend:
     build:
       context: ./backend
-    image: kimdani/pos-backend
+      dockerfile: Dockerfile
+    image: pos-backend
     ports:
-      - "8080:8080"
+      - "8081:80"
     restart: always
     networks:
       - pos_system_network
@@ -13,7 +14,8 @@ services:
   frontend:
     build:
       context: ./frontend
-    image: kimdani/pos-front
+      dockerfile: Dockerfile
+    image: pos-frontend
     ports:
       - "80:80"
     restart: always
@@ -24,5 +26,4 @@ services:
 
 networks:
   pos_system_network:
-    name: pos_system_network
     driver: bridge

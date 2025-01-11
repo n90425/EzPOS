@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'REACT_APP_API_BASE_URL', defaultValue: 'http://3.34.46.145/api', description: 'API base URL for the React frontend')
+    }
+
+
     stages {
         stage('Checkout') {
             steps {
@@ -29,8 +34,9 @@ pipeline {
                 echo "React 프론트엔드 빌드 중..."
                 sh '''
                 cd frontend
-                npm ci
-                npm run build
+                echo "REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}" > .env
+                npm ci --silent
+                CI=false npm run build --silent
                 '''
             }
         }
@@ -39,13 +45,10 @@ pipeline {
             steps {
                 echo "Docker 이미지 생성 중..."
                 sh '''
-                cd frontend
-                mkdir -p ../backend/src/main/resources/static
-                cp -r build ../backend/src/main/resources/static
+                cp backend/target/*.jar backend/app.jar
+                cp -r frontend/build backend/src/main/resources/static
 
-                cd ..
-                docker build -t ezpos-backend -f backend/Dockerfile .
-                docker build -t ezpos-frontend -f frontend/Dockerfile .
+                docker-compose build
                 '''
             }
         }

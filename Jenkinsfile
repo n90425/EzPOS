@@ -1,5 +1,10 @@
 pipeline {
-    agent { label 'agent-server' } // Agent 서버 지정 (Jenkins 노드 설정에 따라 변경)
+    agent any
+
+    parameters {
+        string(name: 'REACT_APP_API_BASE_URL', defaultValue: 'http://3.34.46.145/api', description: 'API base URL for the React frontend')
+    }
+
 
     stages {
         stage('Checkout') {
@@ -15,7 +20,11 @@ pipeline {
                 sh '''
                 cd backend
                 chmod +x mvnw
-                ./mvnw clean package -DskipTests
+                ./mvnw clean package -Dmaven.repo.local=/var/jenkins_home/.m2/repository -DskipTests -e -B
+                if [ ! -f target/*.jar ]; then
+                    echo "JAR 파일이 생성되지 않았습니다."
+                    exit 1
+                fi
                 '''
             }
         }
@@ -25,8 +34,9 @@ pipeline {
                 echo "React 프론트엔드 빌드 중..."
                 sh '''
                 cd frontend
-                npm install
-                npm run build
+                echo "REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}" > .env
+                npm ci --silent
+                CI=false npm run build --silent
                 '''
             }
         }
@@ -35,6 +45,9 @@ pipeline {
             steps {
                 echo "Docker 이미지 생성 중..."
                 sh '''
+                cp backend/target/*.jar backend/app.jar
+                cp -r frontend/build backend/src/main/resources/static
+
                 docker-compose build
                 '''
             }
@@ -45,7 +58,7 @@ pipeline {
                 echo "애플리케이션 배포 중..."
                 sh '''
                 docker-compose down
-                docker-compose up -d
+                docker-compose up -d --remove-orphans
                 '''
             }
         }

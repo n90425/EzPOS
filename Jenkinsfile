@@ -4,13 +4,16 @@ pipeline {
     parameters {
         string(name: 'REACT_APP_API_BASE_URL', defaultValue: 'http://3.34.46.145/api', description: 'API base URL for the React frontend')
     }
+    environment {
+        DB_CREDENTIALS = credentials('SPRING_DATASOURCE_USERNAME_PASSWORD')
+    }
 
 
     stages {
         stage('Checkout') {
             steps {
                 echo "소스 코드 가져오는 중..."
-                git branch: 'dev', url: 'https://github.com/n90425/EzPOS'
+                git branch: 'main', url: 'https://github.com/rlaeksl0124/EzPOS'
             }
         }
 
@@ -20,7 +23,11 @@ pipeline {
                 sh '''
                 cd backend
                 chmod +x mvnw
-                ./mvnw clean package -Dmaven.repo.local=/var/jenkins_home/.m2/repository -DskipTests -e -B
+                ./mvnw clean package \
+                    -Dmaven.repo.local=/var/jenkins_home/.m2/repository \
+                    -Dspring.datasource.username=$DB_CREDENTIALS_USR \
+                    -Dspring.datasource.password=$DB_CREDENTIALS_PSW \
+                    -DskipTests -e -B
                 if [ ! -f target/*.jar ]; then
                     echo "JAR 파일이 생성되지 않았습니다."
                     exit 1

@@ -17,6 +17,17 @@ pipeline {
             }
         }
 
+        stage('Prepare Secret File') {
+            steps {
+                echo "Secret 파일 준비 중..."
+                withCredentials([file(credentialsId: 'application-properties-secret', variable: 'APP_PROPERTIES')]) {
+                    sh '''
+                    cp $APP_PROPERTIES backend/src/main/resources/application.properties
+                    '''
+                }
+            }
+        }
+
         stage('Build Backend') {
             steps {
                 echo "Spring Boot 백엔드 빌드 중..."
@@ -25,8 +36,6 @@ pipeline {
                 chmod +x mvnw
                 ./mvnw clean package \
                     -Dmaven.repo.local=/var/jenkins_home/.m2/repository \
-                    -Dspring.datasource.username=$DB_CREDENTIALS_USR \
-                    -Dspring.datasource.password=$DB_CREDENTIALS_PSW \
                     -DskipTests -e -B
                 if [ ! -f target/*.jar ]; then
                     echo "JAR 파일이 생성되지 않았습니다."
@@ -64,6 +73,7 @@ pipeline {
             steps {
                 echo "애플리케이션 배포 중..."
                 sh '''
+                cd /var/jenkins_home/workspace/ezpos
                 docker-compose down
                 docker-compose up -d --remove-orphans
                 '''
@@ -72,6 +82,9 @@ pipeline {
     }
 
     post {
+        always {
+            cleanWs() // 워크스페이스 정리
+        }
         success {
             echo "배포가 성공적으로 완료되었습니다!"
         }

@@ -7,7 +7,6 @@ services:
     image: pos-backend
     ports:
       - "8081:80"
-    restart: always
     networks:
       - pos_system_network
 
@@ -17,10 +16,7 @@ services:
       dockerfile: Dockerfile
     image: pos-frontend
     ports:
-      - "80:80"
-    restart: always
-    depends_on:
-      - backend
+      - "8082:80"
     networks:
       - pos_system_network
 

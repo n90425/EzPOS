@@ -81,10 +81,11 @@ yarn-error.log*
 
 # 환경설정파일
 .env
-
+*.pem
 # 기타 캐시 파일
 .cache/
 
 
 # db 쿼리문
 *.sql
+*.pem

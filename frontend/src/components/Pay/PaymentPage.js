@@ -60,7 +60,7 @@ const PaymentPage = () => {
     const handlePaymentComplete = async (receiptNumber, receiptType) => {
         try {
             // 서버에 현금 영수증 발급 요청
-            const response = await axios.post("http://localhost:8080/api/pay/cash-receipt", {
+            const response = await axios.post(`${BASE_URL}/pay/cash-receipt`, {
                 orderNo, 
                 receiptNumber,
                 receiptType,
@@ -85,7 +85,7 @@ const PaymentPage = () => {
     // 카드 결제 완료 처리
     const handleCardPayment = async (cardNumber, expiryDate, cvv) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/pay/card-payment", {
+            const response = await axios.post(`${BASE_URL}/pay/card-payment`, {
                 orderNo,
                 totalAmount: Math.round(totalAmount),
                 cardNumber,
@@ -158,7 +158,7 @@ const PaymentPage = () => {
                                     <p>{detail.quantity}</p>
                                 </div>
                                 <div className="payment-price-container">
-                                    <p>{detail.unitPrice.toLocaleString()}</p>
+                                    <p>{(detail.unitPrice*detail.quantity).toLocaleString()}</p>
                                 </div>
                             </div>
                         ))}

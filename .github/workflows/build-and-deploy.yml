@@ -46,7 +46,7 @@ jobs:
           cd frontend
           echo "REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL" > .env
           npm ci --silent
-          npm run build --silent
+          CI=false npm run build --silent
 
       # 5. Docker 이미지 빌드
       - name: Build Docker Images

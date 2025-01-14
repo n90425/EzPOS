@@ -76,13 +76,11 @@ jobs:
 
 
 
-      - name: Verify Files
+      - name: Verify nginx.conf File
         run: |
-          echo "Listing workspace files..."
-          ls -al
-          echo "Listing nginx directory..."
-          ls -al frontend/nginx
-      
+          ls -al frontend/nginx/nginx.conf
+          cat frontend/nginx/nginx.conf
+            
 
       # 8. 로컬 파일(docker-compose.yml, nginx.conf) EC2로 복사
       - name: Copy Docker Compose and Nginx Config to EC2
@@ -97,15 +95,6 @@ jobs:
           target: /home/ec2-user/
           overwrite: true
           debug: true
-
-      - name: Verify Copied Files
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            ls -al /home/ec2-user/
 
       # 9. EC2에서 Docker Compose 실행
       - name: Deploy on EC2

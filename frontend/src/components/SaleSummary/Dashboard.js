@@ -10,7 +10,7 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Dashboard = ({ activeTab: initialTab = "today" }) => {
   const today = new Date();
-  const formattedDate = `${2025}-${today.getMonth()+1}-${today.getDate()}`
+  const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const selectedDay = formattedDate; // 오늘날짜 지정
 
   const [chartData, setChartData] = useState({ dates: [], weeklySales: [] });

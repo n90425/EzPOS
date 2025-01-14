@@ -5,11 +5,11 @@ FROM openjdk:17-alpine AS build
 WORKDIR /app
 
 # 의존성만 먼저 복사하고 설치 (캐싱 활용)
-COPY backend/pom.xml .
+COPY pom.xml .
 RUN ./mvnw dependency:go-offline -B
 
 # 소스 코드 복사 및 빌드
-COPY backend/src ./src
+COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Runtime Stage

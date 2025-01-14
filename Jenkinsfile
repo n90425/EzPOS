@@ -22,6 +22,8 @@ pipeline {
                 echo "Secret 파일 준비 중..."
                 withCredentials([file(credentialsId: 'application-properties-secret', variable: 'APP_PROPERTIES')]) {
                     sh '''
+                    mkdir -p backend/src/main/resources
+                    chmod -R u+w backend/src/main/resources
                     cp $APP_PROPERTIES backend/src/main/resources/application.properties
                     '''
                 }

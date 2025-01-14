@@ -85,7 +85,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: |
             ./docker-compose.yml
-            ./nginx/nginx.conf
+            ./frontend/nginx/nginx.conf
           target: /home/ec2-user/
 
       # 9. EC2에서 Docker Compose 실행

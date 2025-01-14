@@ -38,7 +38,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
         setLoading(true);
         const dateType = getDateType(activeTab); // activeTab에 따라 dateType 설정
         const data = await getMappingData(
-          `/api/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
+          `/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
         );
         setChartData({dates: data.dates || [], weeklySales: data.weeklySales|| []}); // salesData로 차트 데이터 설정
         setRevenueData({ totalSales: data.totalSales, totalOrders: data.totalOrders }); // revenueData로 매출 데이터 설정

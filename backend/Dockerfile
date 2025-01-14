@@ -23,7 +23,7 @@ RUN ./mvnw clean package -DskipTests
 FROM openjdk:17-alpine
 
 # JAR 파일 위치 및 복사
-ARG JAR_FILE=app.jar
+ARG JAR_FILE=POS-System-0.0.1-SNAPSHOT.jar
 COPY --from=build /app/target/${JAR_FILE} app.jar
 
 # 포트 설정

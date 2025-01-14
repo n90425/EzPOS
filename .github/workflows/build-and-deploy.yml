@@ -74,6 +74,8 @@ jobs:
           docker tag my-frontend kimdani/pos-front:latest
           docker push kimdani/pos-front:latest
 
+
+
       - name: Verify Files
         run: |
           echo "Listing workspace files..."
@@ -89,9 +91,21 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: docker-compose.yml
+          source: |
+            docker-compose.yml
             frontend/nginx/nginx.conf
           target: /home/ec2-user/
+          overwrite: true
+          debug: true
+
+      - name: Verify Copied Files
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            ls -al /home/ec2-user/
 
       # 9. EC2에서 Docker Compose 실행
       - name: Deploy on EC2

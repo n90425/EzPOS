@@ -172,7 +172,6 @@ public class OrderSequenceService {
                 ));
         LocalDateTime startDate = dateType.calculateStartDate(targetDate);
         OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
-        System.out.println(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType));
         orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType), dateType);
         return orderSequenceResponseDto;
     }

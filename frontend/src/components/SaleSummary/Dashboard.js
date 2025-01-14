@@ -7,8 +7,14 @@ import { getMappingData } from "../../api/apiService";
 
 const Dashboard = ({ activeTab: initialTab = "today" }) => {
   const today = new Date();
-  const formattedDate = `${2015}-${today.getMonth()+1}-${today.getDate()}`
-  const selectedDay = formattedDate; // 오늘날짜 지정
+  const year = today.getFullYear(); // 연도 추출
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // 월 추출 (2자리로 보정)
+  const day = String(today.getDate()).padStart(2, '0'); // 일 추출 (2자리로 보정)
+  const formattedDate = `${year}-${month}-${day}`; // 포맷팅
+  const selectedDay = formattedDate; // 오늘 날짜 지정
+
+console.log(selectedDay); // 결과 예시: 2025-01-14
+
 
   const [chartData, setChartData] = useState({ dates: [], weeklySales: [] });
   const [revenueData, setRevenueData] = useState({ totalSales: 0, totalOrders: 0 });

@@ -35,6 +35,7 @@ public class OrderSequenceResponseDto {
     public void updateWeeklySales(List<OrderSequence> sequences, DateType dateType) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<Integer> total = dateType.totalOrdersandSales(sequences);
+        System.out.println(total);
         this.totalOrders = total.get(0);
         this.totalSales = total.get(1);
         this.weeklySales = sequences.stream()

@@ -74,7 +74,12 @@ jobs:
           docker tag my-frontend kimdani/pos-front:latest
           docker push kimdani/pos-front:latest
 
-
+      - name: Verify Files
+        run: |
+          echo "Checking docker-compose.yml..."
+          ls -al ./docker-compose.yml
+          echo "Checking nginx.conf..."
+          ls -al ./frontend/nginx/nginx.conf
 
       - name: Verify nginx.conf File
         run: |
@@ -90,8 +95,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: |
-            docker-compose.yml
-            frontend/nginx/nginx.conf
+            ./docker-compose.yml
+            ./frontend/nginx/nginx.conf
           target: /home/ec2-user/
           overwrite: true
           debug: true

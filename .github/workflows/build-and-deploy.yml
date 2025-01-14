@@ -20,15 +20,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Verify Secrets and Environment Variables
+        run: |
+          echo "Database URL: $SPRING_DATASOURCE_URL"
+          echo "Database Username: $SPRING_DATASOURCE_USERNAME"
+
       # 2. Secret 파일 준비
       - name: Prepare Secret File
         run: |
           mkdir -p backend/src/main/resources
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
-
-      - name: Print Database URL
-        run: |
-          echo "Database URL: $SPRING_DATASOURCE_URL"
+          cat backend/src/main/resources/application.properties
 
       # 3. Spring Boot 백엔드 빌드
       - name: Build Backend
@@ -61,6 +63,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # 7. Docker 이미지 태그 및 푸시
       - name: Tag and Push Backend Docker Image
         run: |
           docker tag my-backend kimdani/pos-backend:latest
@@ -70,3 +73,30 @@ jobs:
         run: |
           docker tag my-frontend kimdani/pos-front:latest
           docker push kimdani/pos-front:latest
+      
+      
+
+      # 8. 로컬 파일(docker-compose.yml, nginx.conf) EC2로 복사
+      - name: Copy Docker Compose and Nginx Config to EC2
+        uses: appleboy/scp-action@v0.1.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: |
+            ./docker-compose.yml
+            ./nginx/nginx.conf
+          target: /home/ec2-user/
+
+      # 9. EC2에서 Docker Compose 실행
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d --remove-orphans

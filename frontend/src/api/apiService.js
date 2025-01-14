@@ -18,7 +18,7 @@ export const getMappingData = async (api) => {
 // POST 요청
 export const postMappingData = async (data) => {
     try {
-        // http://localhost:8080/api/post-endpoint 로 요청, post body는 null, params는 맵형식 
+        // http://localhost:8080/api/post-endpoint 로 요청, post body는 null, params는 맵형식
         const req = await axiosInstance.post('/post-endpoint', null, {params: data});
         return req.data;
     } catch (error){

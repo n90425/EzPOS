@@ -4,10 +4,13 @@ import "chart.js/auto";
 import TabBar from "./TabBar";
 import "../../css/salesummary/dashboard.css";
 import { getMappingData } from "../../api/apiService";
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Dashboard = ({ activeTab: initialTab = "today" }) => {
   const today = new Date();
-  const formattedDate = `${2024}-${today.getMonth()+1}-${today.getDate()}`
+  const formattedDate = `${2025}-${today.getMonth()+1}-${today.getDate()}`
   const selectedDay = formattedDate; // 오늘날짜 지정
 
   const [chartData, setChartData] = useState({ dates: [], weeklySales: [] });
@@ -37,8 +40,8 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
       try {
         setLoading(true);
         const dateType = getDateType(activeTab); // activeTab에 따라 dateType 설정
-        const data = await getMappingData(
-          `/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
+        const data =await axios.get(
+          `${BASE_URL}/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
         );
         setChartData({dates: data.dates || [], weeklySales: data.weeklySales|| []}); // salesData로 차트 데이터 설정
         setRevenueData({ totalSales: data.totalSales, totalOrders: data.totalOrders }); // revenueData로 매출 데이터 설정

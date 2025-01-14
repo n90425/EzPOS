@@ -21,9 +21,9 @@ services:
       - pos_system_network
 
   nginx:
-    image: nginx
+    image: nginx:latest
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /home/ec2-user/nginx.conf:/etc/nginx/nginx.conf
       - ./frontend/dist:/usr/share/nginx/html
     ports:
       - "80:80"

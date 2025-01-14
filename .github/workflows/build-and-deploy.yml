@@ -61,9 +61,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push Docker Images
+      - name: Tag and Push Backend Docker Image
         run: |
-          docker tag my-backend ${{ secrets.DOCKER_USERNAME }}/my-backend:latest
-          docker tag my-frontend ${{ secrets.DOCKER_USERNAME }}/my-frontend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-backend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-frontend:latest
+          docker tag my-backend kimdani/pos-backend:latest
+          docker push kimdani/pos-backend:latest
+
+      - name: Tag and Push Frontend Docker Image
+        run: |
+          docker tag my-frontend kimdani/pos-front:latest
+          docker push kimdani/pos-front:latest

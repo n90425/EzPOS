@@ -2,10 +2,10 @@
 FROM nginx:alpine
 
 # Nginx 설정 파일 복사
-COPY frontend/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Jenkins에서 빌드된 리액트 앱을 Nginx HTML 디렉터리로 복사
-COPY frontend/build /usr/share/nginx/html
+COPY build /usr/share/nginx/html
 
 # 포트 설정
 EXPOSE 80

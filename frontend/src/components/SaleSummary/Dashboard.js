@@ -45,7 +45,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
       try {
         setLoading(true);
         const dateType = getDateType(activeTab); // activeTab에 따라 dateType 설정
-        const data =await axios.get(
+        const data = await getMappingData(
           `${BASE_URL}/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
         );
         setChartData({dates: data.dates || [], weeklySales: data.weeklySales|| []}); // salesData로 차트 데이터 설정

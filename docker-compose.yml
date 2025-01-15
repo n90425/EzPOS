@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: kimdani/pos-backend:latest
     ports:
-      - "8081:8080"
+      - "8080:8080"
     networks:
       - pos_system_network
 
@@ -14,9 +14,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: kimdani/pos-front:latest
+    image: kimdani/pos-frontend:latest
     ports:
-      - "8082:80"
+      - "8081:80"
     networks:
       - pos_system_network
 

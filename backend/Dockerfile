@@ -5,9 +5,9 @@ FROM openjdk:17-alpine AS build
 WORKDIR /app
 
 # Maven Wrapper 및 pom.xml 복사
-COPY backend/mvnw .
-COPY backend/.mvn .mvn
-COPY backend/pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
 
 # Maven Wrapper 실행 권한 부여
 RUN chmod +x ./mvnw
@@ -16,7 +16,7 @@ RUN chmod +x ./mvnw
 RUN ./mvnw dependency:go-offline -B
 
 # 소스 코드 복사 및 빌드
-COPY backend/src ./src
+COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Runtime Stage

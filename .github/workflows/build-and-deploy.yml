@@ -82,7 +82,7 @@ jobs:
           source: |
             ./docker-compose.yml
             ./frontend/nginx/nginx.conf
-          target: /home/ec2-user/
+          target: ./home/ec2-user/
           overwrite: true
           debug: true
 

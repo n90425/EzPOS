@@ -53,8 +53,8 @@ jobs:
       # 5. Docker 이미지 빌드
       - name: Build Docker Images
         run: |
-          docker build -t kimdani/pos-backend -f ./backend/Dockerfile ./backend
-          docker build -t kimdani/pos-frontend -f ./frontend/Dockerfile ./frontend.
+          docker build -t kimdani/pos-backend -f backend/Dockerfile ./backend
+          docker build -t kimdani/pos-frontend -f frontend/Dockerfile ./frontend.
 
       # 6. Docker 이미지 배포 (예: Docker Hub)
       - name: Log in to Docker Hub

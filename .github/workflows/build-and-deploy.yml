@@ -66,13 +66,11 @@ jobs:
       # 7. Docker 이미지 태그 및 푸시
       - name: Tag and Push Backend Docker Image
         run: |
-          docker tag my-backend kimdani/pos-backend:latest
           docker push kimdani/pos-backend:latest
 
       - name: Tag and Push Frontend Docker Image
         run: |
-          docker tag my-frontend kimdani/pos-front:latest
-          docker push kimdani/pos-front:latest
+          docker push kimdani/pos-frontend:latest
 
 
       - name: Verify nginx.conf File

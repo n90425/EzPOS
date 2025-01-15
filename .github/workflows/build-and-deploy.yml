@@ -64,36 +64,48 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # 7. Docker 이미지 태그 및 푸시
-      - name: Push Docker Images
+      - name: Tag and Push Backend Docker Image
         run: |
           docker tag my-backend kimdani/pos-backend:latest
-          docker tag my-frontend kimdani/pos-frontend:latest
           docker push kimdani/pos-backend:latest
-          docker push kimdani/pos-frontend:latest
 
-      - name: Verify Files Before SCP
+      - name: Tag and Push Frontend Docker Image
+        run: |
+          docker tag my-frontend kimdani/pos-front:latest
+          docker push kimdani/pos-front:latest
+
+      - name: Verify Files
         run: |
           echo "Checking docker-compose.yml..."
-          ls -al ./docker-compose.yml || echo "docker-compose.yml not found!"
-      
+          ls -al ./docker-compose.yml
           echo "Checking nginx.conf..."
-          ls -al ./frontend/nginx/nginx.conf || echo "nginx.conf not found!"   
+          ls -al ./frontend/nginx/nginx.conf
 
-      - name: Fix File Permissions
+      - name: Verify nginx.conf File
         run: |
-          chmod 644 ./docker-compose.yml
-          chmod 644 ./frontend/nginx/nginx.conf
+          ls -al frontend/nginx/nginx.conf
+          cat frontend/nginx/nginx.conf
+            
 
       # 8. 로컬 파일(docker-compose.yml, nginx.conf) EC2로 복사
-      - name: Copy Files to EC2
+      - name: Copy Docker Compose to EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: |
-            ./docker-compose.yml
-            ./frontend/nginx/nginx.conf
+          source: ./docker-compose.yml
+          target: /home/ec2-user/
+          overwrite: true
+          debug: true
+
+      - name: Copy Nginx Config to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ./frontend/nginx/nginx.conf
           target: /home/ec2-user/
           overwrite: true
           debug: true

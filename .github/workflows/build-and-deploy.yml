@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SPRING_DATASOURCE_URL: ${{ secrets.DB_URL }}
+      SPRING_DATASOURCE_HOST: ${{ secrets.DB_HOST }}
+      SPRING_DATASOURCE_DBNAME: ${{ secrets.DB_NAME}}
       SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USERNAME }}
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
@@ -22,7 +23,7 @@ jobs:
 
       - name: Verify Secrets and Environment Variables
         run: |
-          echo "Database URL: $SPRING_DATASOURCE_URL"
+          echo "Database Host: $SPRING_DATASOURCE_HOST"
           echo "Database Username: $SPRING_DATASOURCE_USERNAME"
 
       # 2. Secret 파일 준비

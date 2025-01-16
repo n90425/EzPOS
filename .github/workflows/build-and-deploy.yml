@@ -24,9 +24,8 @@ jobs:
       # 2. Secret 파일 준비
       - name: Prepare Secret File
         run: |
-          echo "Checking current directory:"
-          pwd
-          ls -al
+          echo "Cleaning up old application.properties file..."
+          rm -f backend/src/main/resources/application.properties
           echo "Creating necessary directories..."
           mkdir -p backend/src/main/resources
           echo "Creating application.properties file..."

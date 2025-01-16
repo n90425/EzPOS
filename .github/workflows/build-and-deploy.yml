@@ -96,7 +96,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: .env
+          source: ./docker-compose.env
           target: /home/ec2-user/
           overwrite: true
           debug: true

@@ -14,6 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+
+      - name: Debug Secrets
+        run: |
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" | tr '\n' '#'
+
       # 2. Secret 파일 준비
       - name: Prepare Secret File
         run: |

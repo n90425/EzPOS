@@ -102,6 +102,13 @@ jobs:
             scp -i ~/.ssh/id_rsa frontend/nginx/nginx.conf ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/
             ls -al /home/ec2-user/
 
+      - name: Create .env file
+        run: |
+          echo "SPRING_DATASOURCE_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "SPRING_DATASOURCE_DBNAME=${{ secrets.DB_NAME }}" >> .env
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
       # 9. EC2에서 Docker Compose 실행
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v0.1.5
@@ -112,6 +119,7 @@ jobs:
           script: |
             set -x
             cd /home/ec2-user/
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d --remove-orphans
+            mv .env docker-compose.env
+            docker-compose --env-file docker-compose.env down
+            docker-compose --env-file docker-compose.env pull
+            docker-compose --env-file docker-compose.env up -d --remove-orphans

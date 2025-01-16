@@ -49,6 +49,19 @@ jobs:
           npm ci --silent
           CI=false npm run build --silent
 
+      # 프론트엔드 빌드 파일을 EC2로 복사
+      - name: Copy frontend build files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ./frontend/build/
+          target: /home/ec2-user/frontend/
+          overwrite: true
+          debug: true
+
+
       # 5. Docker 이미지 빌드
       - name: Build Docker Images
         run: |

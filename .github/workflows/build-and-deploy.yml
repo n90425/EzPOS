@@ -26,8 +26,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: ./application.properties
-          target: /home/ec2-user/backend/src/main/resources/application.properties
+          source: ./backend/src/main/resources/application.properties
+          target: /home/ec2-user/backend/src/main/resources
           overwrite: true
           debug: true
 

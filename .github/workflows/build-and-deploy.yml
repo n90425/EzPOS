@@ -85,10 +85,11 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "SPRING_DATASOURCE_HOST=${{ secrets.DB_HOST }}" > .env
-          echo "SPRING_DATASOURCE_DBNAME=${{ secrets.DB_NAME }}" >> .env
-          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          touch .env
+          echo "SPRING_DATASOURCE_HOST=${{ secrets.DB_HOST }}" > docker-compose.env
+          echo "SPRING_DATASOURCE_DBNAME=${{ secrets.DB_NAME }}" >> docker-compose.env
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> docker-compose.env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> docker-compose.env
 
       - name: Copy .env to EC2
         uses: appleboy/scp-action@master

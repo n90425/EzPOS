@@ -38,3 +38,4 @@ services:
 networks:
   pos_system_network:
     driver: bridge
+    name: pos_system_network

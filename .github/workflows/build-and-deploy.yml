@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "Checking current directory:"
           pwd
-          ls -al backend/src/main/resources
+          ls -al
           echo "Creating necessary directories..."
           mkdir -p backend/src/main/resources
           echo "Creating application.properties file..."

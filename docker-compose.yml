@@ -5,11 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: kimdani/pos-backend:latest
-    environment:
-      SPRING_DATASOURCE_HOST: ${SPRING_DATASOURCE_HOST}
-      SPRING_DATASOURCE_DBNAME: ${SPRING_DATASOURCE_DBNAME}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    env_file:
+      - /home/ec2-user/.env
     ports:
       - "8080:8080"
     networks:

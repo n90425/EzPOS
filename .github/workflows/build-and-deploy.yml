@@ -18,7 +18,7 @@ jobs:
       - name: Prepare Secret File
         run: |
           mkdir -p backend/src/main/resources
-          echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./backend/src/main/resources/application.properties
 
       - name: Copy application.properties to EC2
         uses: appleboy/scp-action@master
@@ -26,8 +26,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: backend/src/main/resources/application.properties
-          target: /home/ec2-user/backend/src/main/resources/
+          source: ./backend/src/main/resources/application.properties
+          target: /home/ec2-user/backend/src/main/resources/application.properties
           overwrite: true
 
       # 3. Spring Boot 백엔드 빌드
@@ -121,6 +121,7 @@ jobs:
           script: |
             set -x
             cd /home/ec2-user/
+            docker image prune -af
             docker-compose --env-file docker-compose.env down
             docker-compose --env-file docker-compose.env pull
             docker-compose --env-file docker-compose.env up -d --remove-orphans

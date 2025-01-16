@@ -11,7 +11,7 @@ jobs:
 
     env:
       SPRING_DATASOURCE_HOST: ${{ secrets.DB_HOST }}
-      SPRING_DATASOURCE_DBNAME: ${{ secrets.DB_NAME}}
+      SPRING_DATASOURCE_DBNAME: ${{ secrets.DB_NAME }}
       SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USERNAME }}
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
 

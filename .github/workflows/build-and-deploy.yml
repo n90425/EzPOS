@@ -14,24 +14,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-
-      - name: Debug Secrets
-        run: |
-          echo "Secrets Debug Start"
-          echo "${{ secrets.APPLICATION_PROPERTIES }}" | tr '\n' '#' || echo "Secrets not found!"
-          echo "Secrets Debug End"
-
       # 2. Secret 파일 준비
       - name: Prepare Secret File
         run: |
-          echo "Cleaning up old application.properties file..."
-          rm -f backend/src/main/resources/application.properties
-          echo "Creating necessary directories..."
           mkdir -p backend/src/main/resources
-          echo "Creating application.properties file..."
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
-          echo "Verifying file content:"
-          cat backend/src/main/resources/application.properties
+
+      - name: Copy application.properties to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: backend/src/main/resources/application.properties
+          target: /home/ec2-user/backend/src/main/resources/
+          overwrite: true
 
       # 3. Spring Boot 백엔드 빌드
       - name: Build Backend

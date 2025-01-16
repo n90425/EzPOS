@@ -24,17 +24,15 @@ jobs:
       # 2. Secret 파일 준비
       - name: Prepare Secret File
         run: |
-          echo "Current Directory:"
+          echo "Checking current directory:"
           pwd
+          ls-al backend/src/main/resources
           echo "Creating necessary directories..."
           mkdir -p backend/src/main/resources
-          echo "Navigating to resources directory..."
-          cd backend/src/main/resources
           echo "Creating application.properties file..."
-          echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./application.properties
-          echo "File created successfully:"
-          cat ./application.properties
-        shell: bash
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
+          echo "Verifying file content:"
+          cat backend/src/main/resources/application.properties
 
       # 3. Spring Boot 백엔드 빌드
       - name: Build Backend

@@ -17,13 +17,15 @@ jobs:
 
       - name: Debug Secrets
         run: |
-          echo "${{ secrets.APPLICATION_PROPERTIES }}" | tr '\n' '#'
+          echo "Secrets Debug Start"
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" | tr '\n' '#' || echo "Secrets not found!"
+          echo "Secrets Debug End"
 
       # 2. Secret 파일 준비
       - name: Prepare Secret File
         run: |
           mkdir -p backend/src/main/resources
-          echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
+          printf "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
           cat backend/src/main/resources/application.properties
 
       # 3. Spring Boot 백엔드 빌드

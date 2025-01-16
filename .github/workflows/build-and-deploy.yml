@@ -20,16 +20,16 @@ jobs:
           mkdir -p backend/src/main/resources
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
 
-      - name: Copy application.properties to EC2
-        uses: appleboy/scp-action@master
+      - name: Copy application.properties using SSH
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: ./backend/src/main/resources/application.properties
-          target: /home/ec2-user/backend/src/main/resources/application.properties
-          overwrite: true
-          debug: true
+          script: |
+            rm -rf /home/ec2-user/backend/src/main/resources/application.properties
+            mkdir -p /home/ec2-user/backend/src/main/resources
+            scp -i ~/.ssh/id_rsa ./backend/src/main/resources/application.properties ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/backend/src/main/resources/application.properties
 
       # 3. Spring Boot 백엔드 빌드
       - name: Build Backend

@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: kimdani/pos-backend:latest
     env_file:
-      - /home/ec2-user/.env
+      - /home/ec2-user/docker-compose.env
     ports:
       - "8080:8080"
     networks:

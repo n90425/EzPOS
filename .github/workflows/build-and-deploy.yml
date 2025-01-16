@@ -116,7 +116,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: .env
-          target: /home/ec2-user/.env
+          target: /home/ec2-user/docker-compose.env
           overwrite: true
           debug: true
 
@@ -131,7 +131,6 @@ jobs:
           script: |
             set -x
             cd /home/ec2-user/
-            mv .env docker-compose.env
             docker-compose --env-file docker-compose.env down
             docker-compose --env-file docker-compose.env pull
             docker-compose --env-file docker-compose.env up -d --remove-orphans

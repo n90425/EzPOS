@@ -85,7 +85,6 @@ jobs:
 
       - name: Create .env file
         run: |
-          touch .env
           echo "SPRING_DATASOURCE_HOST=${{ secrets.DB_HOST }}" > docker-compose.env
           echo "SPRING_DATASOURCE_DBNAME=${{ secrets.DB_NAME }}" >> docker-compose.env
           echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> docker-compose.env

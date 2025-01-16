@@ -29,6 +29,7 @@ jobs:
           source: ./backend/src/main/resources/application.properties
           target: /home/ec2-user/backend/src/main/resources/application.properties
           overwrite: true
+          debug: true
 
       # 3. Spring Boot 백엔드 빌드
       - name: Build Backend

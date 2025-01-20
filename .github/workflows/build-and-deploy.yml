@@ -106,9 +106,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            mkdir -p /home/ec2-user/frontend/nginx
-            rm -rf /home/ec2-user/frontend/nginx/nginx.conf
-            cp ./frontend/nginx/nginx.conf /home/ec2-user/frontend/nginx/nginx.conf
+            scp -i ~/.ssh/id_rsa frontend/nginx/nginx.conf ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/
             ls -al /home/ec2-user/
 
       - name: Create .env file

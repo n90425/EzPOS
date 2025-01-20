@@ -100,14 +100,16 @@ jobs:
           debug: true
 
       - name: Copy Nginx Config to EC2
-        uses: appleboy/scp-action@master
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: ./frontend/nginx/nginx.conf
-          target: /home/ec2-user/frontend/nginx/nginx.conf
-          overwrite: true
+          script: |
+            mkdir -p /home/ec2-user/frontend/nginx
+            rm -rf /home/ec2-user/frontend/nginx/nginx.conf
+            cp ./frontend/nginx/nginx.conf /home/ec2-user/frontend/nginx/nginx.conf
+            ls -al /home/ec2-user/
 
       - name: Create .env file
         run: |

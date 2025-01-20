@@ -106,7 +106,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: ./frontend/nginx/nginx.conf # GitHub Actions 실행 환경의 파일 경로
-          target: /home/ec2-user/frontend/nginx/ # EC2 내부의 목적지 경로
+          target: /home/ec2-user/ # EC2 내부의 목적지 경로
           overwrite: true
 
       - name: Create .env file

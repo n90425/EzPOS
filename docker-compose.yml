@@ -4,7 +4,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: ajs/pos-backend:latest
+    image: ahnjungseop/pos-backend:latest
     env_file:
       - /home/ec2-user/docker-compose.env
     ports:
@@ -16,7 +16,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: ajs/pos-frontend:latest
+    image: ahnjungseop/pos-frontend:latest
     ports:
       - "8081:80"
     networks:

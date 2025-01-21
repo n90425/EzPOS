@@ -24,6 +24,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
               <Route path="/shop/open" element={<Open />} /> {/*영업개시*/}
+              <Route path="/payment-history" element={<PaymentHistory/>}/> {/* 판매 내역역 */}
               <Route path="/order-history" element={<OrderHistory />} /> {/*테이블 ID에 따른 주문 페이지*/}
               <Route path="/order/:tableNo" element={<Order/>}/> {/* 주문내역 */}
               <Route path="/product-management" element={<ProductManagement />} />

@@ -4,11 +4,19 @@ import "chart.js/auto";
 import TabBar from "./TabBar";
 import "../../css/salesummary/dashboard.css";
 import { getMappingData } from "../../api/apiService";
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Dashboard = ({ activeTab: initialTab = "today" }) => {
   const today = new Date();
-  const formattedDate = `${2024}-${today.getMonth()+1}-${today.getDate()}`
-  const selectedDay = formattedDate; // 오늘날짜 지정
+  const year = today.getFullYear(); // 연도 추출
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // 월 추출 (2자리로 보정)
+  const day = String(today.getDate()).padStart(2, '0'); // 일 추출 (2자리로 보정)
+  const formattedDate = `${year}-${month}-${day}`; // 포맷팅
+  const selectedDay = formattedDate; // 오늘 날짜 지정
+
+
 
   const [chartData, setChartData] = useState({ dates: [], weeklySales: [] });
   const [revenueData, setRevenueData] = useState({ totalSales: 0, totalOrders: 0 });
@@ -38,7 +46,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
         setLoading(true);
         const dateType = getDateType(activeTab); // activeTab에 따라 dateType 설정
         const data = await getMappingData(
-          `/api/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
+          `${BASE_URL}/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
         );
         setChartData({dates: data.dates || [], weeklySales: data.weeklySales|| []}); // salesData로 차트 데이터 설정
         setRevenueData({ totalSales: data.totalSales, totalOrders: data.totalOrders }); // revenueData로 매출 데이터 설정

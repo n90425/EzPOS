@@ -16,7 +16,6 @@ const Order = () => {
   const { visibleCategories, fetchVisibleCategories } = useCategories();
   const { visibleItem, fetchVisibleItem } = useItem(); // 활성화된 메뉴(Custom Hook)
 
-
   // 선택된 카테고리 초기값 설정
   useEffect(() => {
     if (visibleCategories.length > 0) {

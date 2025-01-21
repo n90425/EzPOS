@@ -21,7 +21,7 @@ const PaymentPage = () => {
 
     // OrderDetail에서 전달한 데이터 받기
     const { orderDetails, totalAmount } = location.state || { orderDetails: [], totalAmount: 0 };
-    
+
 
     // 현금 결제 클릭 시 모달 열기
     const handleCashClick = () => {
@@ -32,13 +32,12 @@ const PaymentPage = () => {
         setCashModalOpen(false);
     };
 
-    console.log(orderNo);
 
     // 현금 영수증 발급 없이 결제 완료
     const skipCashReceipt = async () => {
         try {
             // const orderNo = await createOrGetOrder(); //주문번호 생성
-            
+
 
             const res = await axios.post(`${BASE_URL}/pay/cash-receipt`, {
                 orderNo,
@@ -60,7 +59,7 @@ const PaymentPage = () => {
     const handlePaymentComplete = async (receiptNumber, receiptType) => {
         try {
             // 서버에 현금 영수증 발급 요청
-            const response = await axios.post("http://localhost:8080/api/pay/cash-receipt", {
+            const response = await axios.post(`${BASE_URL}/pay/cash-receipt`, {
                 orderNo, 
                 receiptNumber,
                 receiptType,
@@ -85,7 +84,7 @@ const PaymentPage = () => {
     // 카드 결제 완료 처리
     const handleCardPayment = async (cardNumber, expiryDate, cvv) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/pay/card-payment", {
+            const response = await axios.post(`${BASE_URL}/pay/card-payment`, {
                 orderNo,
                 totalAmount: Math.round(totalAmount),
                 cardNumber,
@@ -128,18 +127,18 @@ const PaymentPage = () => {
 
                 {/* 현금 영수증 모달 */}
                 {isCashModalOpen && (
-                    <CashModal 
-                        onClose={closeModal} 
+                    <CashModal
+                        onClose={closeModal}
                         onSkip={skipCashReceipt}
-                        onPaymentComplete={handlePaymentComplete} 
+                        onPaymentComplete={handlePaymentComplete}
                     />
                 )}
 
                 {/* 카드결제 모달 */}
                 {isCardModalOpen && (
-                    <CardModal 
-                        onClose={() => setCardModalOpen(false)} 
-                        onPaymentComplete={handleCardPayment} 
+                    <CardModal
+                        onClose={() => setCardModalOpen(false)}
+                        onPaymentComplete={handleCardPayment}
                     />
                 )}
             </div>

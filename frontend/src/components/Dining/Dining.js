@@ -13,7 +13,6 @@ import useOrder from "../../hooks/useOrder";
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Dining 화면
-
 function Dining() {
     const {tables, fetchTables} = useContext(TableContext);
     const {orderDetails, setOrderDetails} = useOrderDetail();
@@ -27,7 +26,7 @@ function Dining() {
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
     // 테이블 합석 모달 상태
     const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
-    
+
     // useLocation으로 전달받은 상태
     const location = useLocation();
 
@@ -207,7 +206,7 @@ function Dining() {
                 <MergeTableModal
                     tables={tables}
                     onClose={() => setIsMergeModalOpen(false)}
-                    onMerge={handleTableMerge}    
+                    onMerge={handleTableMerge}
                 />
             )}
         </div>

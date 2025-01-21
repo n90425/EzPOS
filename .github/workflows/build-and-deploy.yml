@@ -29,7 +29,7 @@ jobs:
           script: |
             mkdir -p /home/ec2-user/backend/src/main/resources
             echo "${{ secrets.APPLICATION_PROPERTIES }}" > /home/ec2-user/backend/src/main/resources/application.properties
-            
+      
 
       # 3. Spring Boot 백엔드 빌드
       - name: Build Backend
@@ -62,27 +62,30 @@ jobs:
           debug: true
 
 
-      # 5. Docker 이미지 빌드
-      - name: Build Docker Images
-        run: |
-          docker build -t kimdani/pos-backend -f backend/Dockerfile ./backend
-          docker build -t kimdani/pos-frontend -f frontend/Dockerfile ./frontend
-
-      # 6. Docker 이미지 배포 (예: Docker Hub)
+      # 5. Docker 이미지 배포 (예: Docker Hub)
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+
+      # 6. Docker 이미지 빌드
+      - name: Build Docker Images
+        run: |
+          docker build -t ahnjungseop/pos-backend -f backend/Dockerfile ./backend
+          docker build -t ahnjungseop/pos-frontend -f frontend/Dockerfile ./frontend
+
+      
+
       # 7. Docker 이미지 태그 및 푸시
       - name: Tag and Push Backend Docker Image
         run: |
-          docker push kimdani/pos-backend:latest
+          docker push ahnjungseop/pos-backend:latest
 
       - name: Tag and Push Frontend Docker Image
         run: |
-          docker push kimdani/pos-frontend:latest
+          docker push ahnjungseop/pos-frontend:latest
 
       # 8. 로컬 파일(docker-compose.yml, nginx.conf) EC2로 복사
       - name: Copy Docker Compose to EC2
@@ -97,14 +100,14 @@ jobs:
           debug: true
 
       - name: Copy Nginx Config to EC2
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            scp -i ~/.ssh/id_rsa frontend/nginx/nginx.conf ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/
-            ls -al /home/ec2-user/
+          source: ./frontend/nginx/nginx.conf # GitHub Actions 실행 환경의 파일 경로
+          target: /home/ec2-user/ # EC2 내부의 목적지 경로
+          overwrite: true
 
       - name: Create .env file
         run: |

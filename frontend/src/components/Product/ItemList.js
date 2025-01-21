@@ -53,7 +53,7 @@ function ItemList({ items = [], categories = [], onDelete, onEdit, onToggleVisib
                                     <label className="switch">
                                         <input
                                             type="checkbox"
-                                            checked={item.isVisible || false}
+                                            checked={item.isVisible}
                                             onChange={() => onToggleVisibility(item.menuId, !item.isVisible)} // 상태 변경 핸들러
                                         />
                                         <span className="slider"></span>

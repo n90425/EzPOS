@@ -73,14 +73,15 @@ public enum DateType {
         }
         @Override
         public List<Integer> totalOrdersandSales(List<OrderSequence> sequences) {
-            LocalDate  startDay= sequences.stream()
-                    .map(order -> toLocalDate(order.getOpenDate()).minusDays(7))
+            LocalDate latestDay = sequences.stream()
+                    .map(order -> toLocalDate(order.getOpenDate()))
                     .max(LocalDate::compareTo)
                     .orElse(LocalDate.now());
+            LocalDate startDay = latestDay.minusDays(7);
             Integer[] total = sequences.stream()
                     .filter(order -> {
                         LocalDate orderDate = toLocalDate(order.getOpenDate());
-                        return orderDate.isAfter(startDay);
+                        return !orderDate.isBefore(startDay);
                     })
                     .reduce(new Integer[]{0, 0}, (acc, order) -> {
                         acc[0] += order.getTotalOrders(); // 총 주문

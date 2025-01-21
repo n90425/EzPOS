@@ -28,6 +28,5 @@ COPY --from=build /app/target/${JAR_FILE} app.jar
 
 # 포트 설정
 EXPOSE 8080
-
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "/app.jar"]

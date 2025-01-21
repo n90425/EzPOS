@@ -79,10 +79,9 @@ public class OrderSequenceController {
 
 
     @GetMapping("/order-sequence-info")
-    public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate searchDate, DateType dateType) {
+    public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate searchDate, @RequestParam DateType dateType) {
         LocalDateTime endDay = searchDate.atStartOfDay();
         return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(endDay, dateType));
     }
-
 
 }

@@ -97,6 +97,7 @@ const useCategory = () => {
     };
 
 
+     // 처음 마운트될 때만 카테고리 전체 데이터를 가져옴
     useEffect(() => {
         fetchCategories();
     }, []);

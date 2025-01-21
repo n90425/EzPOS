@@ -1,9 +1,11 @@
 import axios from 'axios'; // axios 라이브러리 사용하여 API호출
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080', // 백엔드 기본 URL
+    baseURL: BASE_URL, // 백엔드 기본 URL
     headers: {
-        'Content-Type': 'application/json', // JSON 형식의 데이터를 전송
+        'Content-Type': 'application/json',
     },
 });
 

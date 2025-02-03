@@ -29,8 +29,7 @@ export const useOrderDetail = () => {
     const addOrderDetail = async (menuId) => {
         try {
             // 주문번호가 없으면 새 주문 생성
-            let currentOrderNo = orderNo;
-            currentOrderNo = await createOrGetOrder();
+            let currentOrderNo = orderNo || await createOrGetOrder();
             setOrderNo(currentOrderNo);
             
             // 주문상세 추가
@@ -61,7 +60,7 @@ export const useOrderDetail = () => {
                 // 메뉴가 주문상세에 존재하지않을경우 새항목추가
                 return [...prev, newDetail]
             });
-            fetchOrderDetails(currentOrderNo);
+            await fetchOrderDetails(currentOrderNo);
         } catch (error) {
             console.error("주문 상세 추가 중 오류 발생: ", error);
         }

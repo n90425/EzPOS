@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -85,7 +86,7 @@ public class OrderController {
         try {
             /* 주문생성 또는 가져오기 */
             String orderNo = orderService.createOrGetOrder(tableNo);
-
+            System.out.println("orderNo==========="+orderNo);
             return ResponseEntity.ok(orderNo);
         } catch (RuntimeException e){
             logger.error("Error fail logger: {}", e.getMessage(), e);
@@ -98,8 +99,8 @@ public class OrderController {
     public ResponseEntity<String> readOrder(@PathVariable Integer tableNo){
         try {
             Optional<Order> order = orderService.getOrder(tableNo); // 서비스에서 주문을 가져옴
-            System.out.println("order=================="+order);
-            if (order.isEmpty()) {
+            if (order.equals(Optional.empty())) {
+                System.out.println("order.isEmpty()"+order.isEmpty());
                 // 주문이 없는 경우
                 return ResponseEntity.ok("해당 테이블 번호에 대한 주문이 없습니다.");
             }

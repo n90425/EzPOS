@@ -1,0 +1,8 @@
+.queryDiv {
+    display:flex;
+    justify-content: center;
+}
+
+.queryInput {
+    width: 20%;
+}

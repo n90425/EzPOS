@@ -1,18 +1,64 @@
-.payment-history {
-    width: 90%;
-    margin: 0 auto;
+.payment-history-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
     font-family: 'Arial', sans-serif;
     color: #333;
     margin-top: 30px;
 }
 
+/* 왼쪽 섹션 (테이블 영역) */
+.left-section {
+    flex: 2;
+    max-width: 66%;
+}
+
 .payment-his-table-container {
     overflow: auto; /* 스크롤 설정 */
     max-height: 720px; /* 필요에 따라 최대 높이 지정 */
-    border: 1px solid #ddd; /* 테두리  */
+    border: 1px solid #ddd; /* 테두리 */
     border-radius: 5px;
+    background-color: #fff; /* 테이블 배경색 */
 }
-.payment-history .filter-section {
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-table th {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.payment-table td {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.payment-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.payment-table tr:hover {
+    background-color: #eef; /* Hover 효과 */
+    cursor: pointer;
+}
+
+/* 선택된 행 강조 */
+.payment-table tr.selected {
+    background-color: #d1ecf1 !important; /* 선택된 행 강조 */
+    font-weight: bold;
+    color: #0c5460;
+}
+
+/* 필터 섹션 */
+.filter-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,14 +69,14 @@
     border-radius: 5px;
 }
 
-.payment-history .filter-section label {
+.filter-section label {
     font-size: 16px;
     color: #555;
     margin-right: 10px;
 }
 
-.payment-history .filter-section input[type="date"],
-.payment-history .filter-section select {
+.filter-section input[type="date"],
+.filter-section select {
     padding: 5px;
     font-size: 14px;
     border: 1px solid #ddd;
@@ -38,43 +84,70 @@
     margin: 0 5px;
 }
 
-.payment-history .filter-buttons {
+.filter-buttons {
     display: flex;
     gap: 10px;
 }
 
+.filter-buttons .search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-.payment-history .filter-buttons .search-button:hover {
+.filter-buttons .search-button:hover {
     background-color: #0056b3;
 }
 
-.payment-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.payment-history table tr {
-    border: 1px solid #ddd;
-}
-
-.payment-history table td {
-    padding: 10px;
-    font-size: 14px;
-    text-align: center;
-}
-
-.payment-history table th {
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.payment-history table tr:nth-child(even) {
+/* 오른쪽 섹션 (영수증 상세 영역) */
+.right-section {
+    flex: 1;
+    max-width: 33%;
     background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.payment-history table tr:hover {
-    background-color: #eef;
-    cursor: pointer;
+.right-section h2 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+.receipt {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.receipt p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.receipt p span {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 스크롤바 스타일 (선택 사항) */
+.payment-his-table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.payment-his-table-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.payment-his-table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
 }

@@ -56,13 +56,13 @@ export const useOrder = () => {
     // 테이블 번호로 주문 생성 또는 기존 주문 조회
     const createOrGetOrder = async () => {
         try {
-        const res = await axios.post(`${BASE_URL}/order/${tableNo}`);
-        setOrderNo(res.data);
-        console.log("ORDER NO: ", res.data);
-        return res.data;
+            const res = await axios.post(`${BASE_URL}/order/${tableNo}`);
+            setOrderNo(res.data);
+            console.log("ORDER NO: ", res.data);
+            return res.data;
         } catch (error) {
-        console.log(error.data);
-        console.error("주문 생성 또는 조회 중 오류 발생: ", error);
+            console.log(error.data);
+            console.error("주문 생성 또는 조회 중 오류 발생: ", error);
         }
     };
 

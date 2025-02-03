@@ -8,12 +8,6 @@
 
 }
 
-
-.category-tabs button:hover {
-    background-color: #f0f0f0;
-    color: #007bff;
-}
-
 /* 메뉴 리스트 */
 .menu-list {
     display: grid;
@@ -86,6 +80,8 @@
 
 /* 결제 버튼 */
 .order-footer {
+    display: flex;
+    justify-content: space-around;
     text-align: center;
     margin-top: auto;
     padding: 16px;
@@ -96,7 +92,8 @@
 .confirm-button {
     background-color: #3182F6;
     color: white;
-    padding: 20px 40px;
+    padding: 15px 10px;
+    width: 180px;
     font-size: 16px;
     font-weight: 600;
     border: none;
@@ -104,6 +101,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
     letter-spacing: 0.5px;
+    margin-left: 10px;
 }
 
 .confirm-button:hover {
@@ -132,6 +130,7 @@
     .confirm-button {
         padding: 10px 20px;
         font-size: 14px;
+        width: auto;
     }
 }
 
@@ -142,14 +141,18 @@
     background-color: #f8f9fa; /* 배경색 (선택 사항) */
     border-bottom: 2px solid #ddd; /* 구분선 (선택 사항) */
     box-sizing: border-box;
+    height: auto;
+    overflow: visible; /* 스크롤 잘림 방지 */
+    width: 100%
+;
 }
-
-.header-row .table-info {
-    flex: 1.2; /* order-detail-section과 동일한 flex 비율 */
-    text-align: right;
+.table-info {
     font-weight: bold;
     color: #6B7684; /* 텍스트 색상 */
     font-size: 17px;
     padding: 10px; /* 내부 여백 */
-    display: flex;
+
+    width: calc(40% - 10px); /* 부모 컨테이너 너비의 절반 */
+    box-sizing: border-box; /* 패딩 포함 */
 }
+

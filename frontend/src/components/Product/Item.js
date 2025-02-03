@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ItemHeader from './ItemHead';
 import ItemList from './ItemList';
 import ItemModal from './ItemModal';

@@ -51,6 +51,7 @@ public class OrderDetailService {
                 orderDetail.getMenuId()
         );
 
+
         /* 동일한 메뉴가 있을경우 Quantity 수량 증가 */
         if(existingOrderDetail != null){
             /* 수량 1증가 */
@@ -85,6 +86,26 @@ public class OrderDetailService {
         /* Order 테이블 업데이트 */
         updateOrder(orderDetail.getOrderNo());
         return saveDetail;
+    }
+
+    /* 주문상세 수량변경 */
+    @Transactional
+    public OrderDetail updateQuantity(String orderNo, Integer orderDetailNo, int quantity) {
+        OrderDetail existingOrderDetail = orderDetailRepo.findById(orderDetailNo)
+                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다: "+ orderNo)) ;
+
+
+        System.out.println("변경========="+orderNo);
+        System.out.println("변경========="+orderDetailNo);
+        System.out.println("변경========="+ quantity);
+
+        existingOrderDetail.setQuantity(quantity);
+        existingOrderDetail.setTotalAmount(quantity * existingOrderDetail.getUnitPrice());
+        updateOrder(orderNo);
+
+
+        System.out.println("existingOrderDetail======"+existingOrderDetail);
+        return orderDetailRepo.save(existingOrderDetail);
     }
 
     /* 주문 업데이트 */

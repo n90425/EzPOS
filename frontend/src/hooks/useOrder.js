@@ -41,6 +41,9 @@ export const useOrder = () => {
     const fetchOrder = async (tableNo) => {
         try {
             const res = await axios.get(`${BASE_URL}/order/${tableNo}`);
+            if(orderNo){
+                setOrderNo(orderNo);
+            }
             if(res.data) {
                 setOrderNo(res.data);
             }

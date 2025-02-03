@@ -14,11 +14,15 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
     const {orderDetails, setOrderDetails, fetchOrderDetails, addOrderDetail, delOrderDetail} = useOrderDetail(); // 주문 상세 데이터
-    const totalAmount = orderDetails.reduce((acc, item) => acc + item.quantity * item.unitPrice, 0);
+
     const [isPaymentPage, setIsPaymentPage] = useState(false); // 결제 페이지 여부
     const [updatedQuantities, setUpdatedQuantities] = useState({});
     const navigate = useNavigate();
 
+    const totalAmount = orderDetails.reduce((acc, item) => {
+        const quantity = updatedQuantities[item.ordDetailNo] || item.quantity;
+        return acc + quantity * item.unitPrice;
+    },0);
     // 주문번호가 변경되면 주문상세 데이터 가져오기
     useEffect(() => {
         
@@ -110,7 +114,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                                                 />
 
                                                 <div className="payment-price-container">
-                                                    <p>{(detail.unitPrice * detail.quantity).toLocaleString()}</p>
+                                                    <p>{(detail.unitPrice * (updatedQuantities[detail.ordDetailNo] || detail.quantity)).toLocaleString()}</p>
                                                 </div>
 
                                                 <button

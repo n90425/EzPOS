@@ -24,9 +24,8 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     Order findByOrderNo(String orderNo);
 
     /* 주문번호 생성 */
-    @Query(value = "SELECT MAX(o.orderNo) FROM `order` o WHERE o.orderNo LIKE :datePart FOR UPDATE", nativeQuery = true)
+    @Query("SELECT MAX(o.orderNo) from Order o WHERE o.orderNo LIKE :datePart")
     String findMaxOrderNo(@Param("datePart") String datePart);
-
 
     /* 기간조회 */
     List<Order> findAllByOrderTimeBetween(LocalDateTime startDate, LocalDateTime endDate);

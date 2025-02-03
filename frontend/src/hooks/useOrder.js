@@ -4,7 +4,7 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-export const useOrder = () => {
+const useOrder = () => {
     // 로컬 스토리지에 orderNo를 저장한다
     const [orderNo, setOrderNoState] = useState(() => {
         return localStorage.getItem("orderNo") || null;

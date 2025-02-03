@@ -41,6 +41,7 @@ public class OrderService {
     private static final Object lock = new Object();
 
     /* 주문번호 생성 */
+    @Transactional
     public String createOrderId(){
         /* 연월일 뽑아오기 */
         synchronized (lock){

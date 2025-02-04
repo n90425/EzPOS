@@ -28,7 +28,7 @@
 
 <br />
 
-[**🔗 배포된 웹 서비스로 바로가기 Click !**](#) 👈
+[**🔗 배포된 웹 서비스로 바로가기 Click !**](http://43.201.18.239/) 👈
 
 > 새 창 열기 방법 : CTRL+click (on Windows and Linux) | CMD+click (on MacOS)
 
@@ -53,7 +53,7 @@
 - ![AmazonRDS](https://img.shields.io/badge/-Amazon%20RDS-527FFF?&logo=amazonrds&logoColor=white)
 - ![AmazonEC2](https://img.shields.io/badge/-Amazon%20ec2-FF9900?&logo=AmazonEC2&logoColor=white)
 - ![Docker](https://img.shields.io/badge/-Docker-2496ED?&logo=Docker&logoColor=white)
-- ![Jenkins](https://img.shields.io/badge/-Jenkins-D24939?&logo=jenkins&logoColor=white)
+- ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
 
 **ETC**

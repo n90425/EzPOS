@@ -25,7 +25,7 @@ public class CateController {
     }
 
     /* 새로운카테고리 post mapping */
-    @PostMapping("/category")
+    @PostMapping("/catgeory")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         Category createdCategory  = categoryService.categoryInsert(category);
         return ResponseEntity.ok(createdCategory );

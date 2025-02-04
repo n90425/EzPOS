@@ -2,7 +2,6 @@
   display: flex;
   height: 100vh;
   background-color: #f9f9f9;
-  gap: 20px;
 }
 
 .menu-list-section {
@@ -13,39 +12,17 @@
 }
 
 .order-detail-section {
-  flex: 1; /* 우측 주문 상세: 2:1 비율 */
-  padding: 10px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: calc(40% - 10px); /* 부모 컨테이너 너비의 절반 */
+  box-sizing: border-box; /* 패딩 포함 */
 }
 
 .order-items {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 20px;
-}
-
-.order-item {
-  display: flex;
-  justify-content: space-between; /* 양 끝으로 정렬 */
-  align-items: flex-start; /* 상단 정렬 */
-  position: relative; /* X 버튼 배치를 위한 상대 위치 */
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-.order-item-info p {
-  margin: 0;
-}
-
-.total-amount {
-  font-weight: bold;
-  font-size: 1.2em;
-  text-align: right;
 }
 
 .checkout-button {
@@ -65,25 +42,28 @@
 
 
 .delete-button {
-  background: none;
-  border: none;
-  color: #ff4d4d;
-  font-size: 1.2rem;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin: 0 10px;
+  padding: 5px 10px;
+  color: #495057;
   cursor: pointer;
-  margin-left: 10px;
+  transition: background-color 0.3s;
+  width: 10%;
 }
 
-.delete-button {
-  position: absolute; /* 부모를 기준으로 절대 위치 */
-  top: 5px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: #ff4d4d;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
+
 
 .delete-button:hover {
-  color: #e60000;
+  background-color: #acb0b4;
+}
+
+
+.order-main {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
 }

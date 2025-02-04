@@ -1,10 +1,3 @@
-기본 스타일
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
 
 /* 전체 컨테이너 */
 .order-container {
@@ -12,13 +5,7 @@ body {
     flex-direction: column;
     height: calc(100vh - 70px);
     box-sizing: border-box;
-}
 
-
-
-.category-tabs button:hover {
-    background-color: #f0f0f0;
-    color: #007bff;
 }
 
 /* 메뉴 리스트 */
@@ -93,6 +80,8 @@ body {
 
 /* 결제 버튼 */
 .order-footer {
+    display: flex;
+    justify-content: space-around;
     text-align: center;
     margin-top: auto;
     padding: 16px;
@@ -103,12 +92,16 @@ body {
 .confirm-button {
     background-color: #3182F6;
     color: white;
-    padding: 20px 40px;
+    padding: 15px 10px;
+    width: 180px;
     font-size: 16px;
+    font-weight: 600;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
+    letter-spacing: 0.5px;
+    margin-left: 10px;
 }
 
 .confirm-button:hover {
@@ -137,6 +130,7 @@ body {
     .confirm-button {
         padding: 10px 20px;
         font-size: 14px;
+        width: auto;
     }
 }
 
@@ -144,18 +138,21 @@ body {
     display: flex;
     align-items: center; /* 세로 정렬 중앙 정렬 */
     justify-content: space-between; /* 좌우로 배치 */
-    gap: 20px; /* menu-list-section과 동일한 간격 */
     background-color: #f8f9fa; /* 배경색 (선택 사항) */
     border-bottom: 2px solid #ddd; /* 구분선 (선택 사항) */
     box-sizing: border-box;
+    height: auto;
+    overflow: visible; /* 스크롤 잘림 방지 */
+    width: 100%
+;
 }
-
-.header-row .table-info {
-    flex: 1; /* order-detail-section과 동일한 flex 비율 */
-    text-align: right;
+.table-info {
     font-weight: bold;
     color: #6B7684; /* 텍스트 색상 */
     font-size: 17px;
     padding: 10px; /* 내부 여백 */
-    display: flex;
+
+    width: calc(40% - 10px); /* 부모 컨테이너 너비의 절반 */
+    box-sizing: border-box; /* 패딩 포함 */
 }
+

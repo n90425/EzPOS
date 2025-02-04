@@ -52,12 +52,6 @@ function MoveTableModal({tables, onClose, onMove}) {
                                 onClick={()=> handleTableClick(table.tableNo)}
                         >
                             <div className="table-number">{`테이블 ${table.tableNo}`}</div>
-                                {/* {table.currentOrderNo && (
-                                    <div className="table-detail">
-                                        <p>{`주문번호: ${table.currentOrderNo}`}</p>
-                                        <p>{`${table.totalPrice}원`}</p>
-                                    </div>
-                                )} */}
                         </div>
                     ))}
                 </div>

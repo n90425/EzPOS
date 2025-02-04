@@ -1,23 +1,35 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
-import TabBar from "./TabBar";
+
 import Dashboard from "./Dashboard";
+import SalesCalendar from "./SalesCalender";
 import "../../css/salesummary/salesummary.css";
 export function SaleSummary() {
-  const [activeTab, setActiveTab] = useState("today");
+  // 현재 선택된 메뉴를 상태로 관리
+  const [selectedMenu, setSelectedMenu] = useState("salesSummary");
 
-  const revenueData = {
-    today: { sales: 120000, orders: 15 },
-    yesterday: { sales: 158000, orders: 12 },
-    week: { sales: 1730000, orders: 120 },
-    month: { sales: 320000000, orders: 450 },
+  // 상태에 따라 다른 컴포넌트를 렌더링
+  const renderContent = () => {
+      switch (selectedMenu) {
+          case "salesSummary":
+              return <Dashboard />;
+          case "salesCalendar":
+              return <SalesCalendar />;
+          case "productAnalysis":
+              return <div>상품 분석 컴포넌트</div>;
+          default:
+              return <Dashboard />;
+      }
   };
+
+
   return (
   <div>
-    <Sidebar />
+    <Sidebar onMenuSelect={setSelectedMenu} />
     <div className="main">
-      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
-      <Dashboard activeTab={activeTab} revenueData={revenueData} />
+    <div className="content">
+                {renderContent()}
+    </div>
     </div>
   </div>
 

@@ -1,0 +1,144 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 레포지토리 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Secret 파일 준비
+      - name: Prepare Secret File
+        run: |
+          mkdir -p backend/src/main/resources
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
+
+      - name: Copy application.properties using SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/backend/src/main/resources
+            echo "${{ secrets.APPLICATION_PROPERTIES }}" > /home/ec2-user/backend/src/main/resources/application.properties
+      
+
+      # 3. Spring Boot 백엔드 빌드
+      - name: Build Backend
+        run: |
+          cd backend
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+          ls target/*.jar || (echo "JAR 파일 생성 실패!" && exit 1)
+
+      # 4. React 프론트엔드 빌드
+      - name: Build Frontend
+        env:
+          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+        run: |
+          cd frontend
+          echo "REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL" > .env
+          npm ci --silent
+          CI=false npm run build --silent
+
+      # 프론트엔드 빌드 파일을 EC2로 복사
+      - name: Copy frontend build files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ./frontend/build/
+          target: /home/ec2-user/
+          overwrite: true
+          debug: true
+
+
+      # 5. Docker 이미지 배포 (예: Docker Hub)
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+      # 6. Docker 이미지 빌드
+      - name: Build Docker Images
+        run: |
+          docker build -t ahnjungseop/pos-backend -f backend/Dockerfile ./backend
+          docker build -t ahnjungseop/pos-frontend -f frontend/Dockerfile ./frontend
+
+      
+
+      # 7. Docker 이미지 태그 및 푸시
+      - name: Tag and Push Backend Docker Image
+        run: |
+          docker push ahnjungseop/pos-backend:latest
+
+      - name: Tag and Push Frontend Docker Image
+        run: |
+          docker push ahnjungseop/pos-frontend:latest
+
+      # 8. 로컬 파일(docker-compose.yml, nginx.conf) EC2로 복사
+      - name: Copy Docker Compose to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ./docker-compose.yml
+          target: /home/ec2-user/
+          overwrite: true
+          debug: true
+
+      - name: Copy Nginx Config to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ./frontend/nginx/nginx.conf # GitHub Actions 실행 환경의 파일 경로
+          target: /home/ec2-user/ # EC2 내부의 목적지 경로
+          overwrite: true
+
+      - name: Create .env file
+        run: |
+          echo "SPRING_DATASOURCE_HOST=${{ secrets.DB_HOST }}" > docker-compose.env
+          echo "SPRING_DATASOURCE_DBNAME=${{ secrets.DB_NAME }}" >> docker-compose.env
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> docker-compose.env
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> docker-compose.env
+
+      - name: Copy .env to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ./docker-compose.env
+          target: /home/ec2-user/
+          overwrite: true
+          debug: true
+
+
+      # 9. EC2에서 Docker Compose 실행
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -x
+            cd /home/ec2-user/
+            docker image prune -af
+            docker-compose --env-file docker-compose.env down
+            docker-compose --env-file docker-compose.env pull
+            docker-compose --env-file docker-compose.env up -d --remove-orphans

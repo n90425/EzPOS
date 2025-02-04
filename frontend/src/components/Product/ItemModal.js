@@ -122,7 +122,7 @@ function ItemModal({ isOpen, onClose, onSave, onUpdate, selectedItem, categories
                             placeholder="가격"
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group, itemModal-tax">
                         <label>세금</label>
                         <div className="radio-group">
                             <label>

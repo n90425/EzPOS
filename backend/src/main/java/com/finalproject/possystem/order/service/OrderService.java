@@ -27,20 +27,16 @@ public class OrderService {
     private OrderRepository orderRepo;
 
     @Autowired
-    private OrderDetailRepository orderDetailRepo;
-
-    @Autowired
     private DiningRepository diningRepo;
 
     @Autowired
     private DiningService diningService;
 
-    private JPAQueryFactory queryFactory;
-
 
     private static final Object lock = new Object();
 
     /* 주문번호 생성 */
+//    @Transactional
     public String createOrderId(){
         /* 연월일 뽑아오기 */
         synchronized (lock){
@@ -174,8 +170,4 @@ public class OrderService {
 
         return orderNo;
     }
-
-
-
-
 }

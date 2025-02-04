@@ -1,0 +1,17 @@
+# Node.js 관련 디렉터리
+frontend/node_modules
+
+# Maven 또는 Gradle 빌드 산출물
+backend/target
+
+# Git 관련 파일
+.git
+.gitignore
+
+# Jenkins 워크스페이스 로그 및 임시 파일
+/var/jenkins_home
+
+# 기타 캐시 파일
+*.log
+*.tmp
+*.swp

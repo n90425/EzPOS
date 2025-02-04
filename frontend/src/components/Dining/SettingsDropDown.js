@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef } from "react";
 import "./settingDropDown.css";
 import { useNavigate } from "react-router-dom";
 
-function SettingsDropDown({showAlert, onTableMove}){
+function SettingsDropDown({showAlert, onTableMove, onTableMerge}){
     // dropdown 상태추가
     const [isOpen, setIsOpen] = useState(false);
     // 드롭다운밖을 마우스클릭할경우 포커스 설정 상태추가
@@ -35,9 +35,6 @@ function SettingsDropDown({showAlert, onTableMove}){
         tableNavi("/editDining");
     }
 
-    const handleTableMerge = () => {
-        tableNavi("/tableMerge")
-    }
 
     // 매출요약을 눌렀을때 이동
     const handleSaleSummary= () => {
@@ -48,7 +45,7 @@ function SettingsDropDown({showAlert, onTableMove}){
         <div className="top-bar">
             <button className="top-bar-button" onClick={handleSaleSummary}>매출요약</button>
             <button className="top-bar-button" onClick={onTableMove}>자리이동</button>
-            <button className="top-bar-button" onClick={handleTableMerge}>합석</button>
+            <button className="top-bar-button" onClick={onTableMerge}>합석</button>
             <button className="top-bar-button">단체 손님 관리</button>
             <button className="top-bar-button">재출력</button>
             <div className="settings-container" ref={dropdownRef}>

@@ -1,0 +1,41 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql8-1948d76cd29-492055f5d668166f": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "possystem",
+			"save-password": true,
+			"configuration": {
+				"host": "database-1.cjqwewqg8nju.ap-northeast-2.rds.amazonaws.com",
+				"port": "3306",
+				"database": "possystem",
+				"url": "jdbc:mysql://database-1.cjqwewqg8nju.ap-northeast-2.rds.amazonaws.com:3306/possystem",
+				"configurationType": "MANUAL",
+				"home": "mysql_client",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"provider-properties": {
+					"@dbeaver-serverTimezone@": "Asia/Seoul"
+				},
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}

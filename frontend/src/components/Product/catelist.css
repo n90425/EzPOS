@@ -1,14 +1,6 @@
 .category-list {
-    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.category-list h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
-    color: #333;
 }
 
 .category-list ul {
@@ -20,8 +12,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #d2d2d2;
+    color: #474747;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.category-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #8B95A1;
+    border-bottom: 1px solid #d2d2d2;
     padding: 10px 0;
-    border-bottom: 1px solid #eaeaea;
 }
 
 .switch {

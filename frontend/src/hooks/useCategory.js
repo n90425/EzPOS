@@ -16,8 +16,6 @@ const useCategory = () => {
             setLoading(true);
             const res = await axios.get(`${BASE_URL}/category`);
             setCategories(res.data);
-            // console.log(formattedCategories);
-            console.log(res.data);
         } catch (err) {
             console.error("Failed to fetch categories: ", err);
             setError(err);
@@ -90,7 +88,6 @@ const useCategory = () => {
             setLoading(true);
             const res = await axios.get(`${BASE_URL}/category/visibility`);
             setVisibleCategories(res.data); // 활성화된 카테고리 설정
-            console.log("Fetched visible categories:", res.data);
         } catch (err) {
             console.error("Failed to fetch visible categories:", err);
             setError(err);
@@ -100,6 +97,7 @@ const useCategory = () => {
     };
 
 
+     // 처음 마운트될 때만 카테고리 전체 데이터를 가져옴
     useEffect(() => {
         fetchCategories();
     }, []);

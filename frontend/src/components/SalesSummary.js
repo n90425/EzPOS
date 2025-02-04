@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./main.css";
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const SalesSummary = () => {
     const [summary, setSummary] = useState({
         totalSales: 0,
@@ -16,7 +18,7 @@ const SalesSummary = () => {
     useEffect(() => {
         const fetchSummary = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/pay/today-summary");
+                const response = await axios.get(`${BASE_URL}/pay/today-summary`);
                 console.log("API 응답 데이터:", response.data);
                 setSummary(response.data);
             } catch (error) {

@@ -45,11 +45,13 @@ public class OrderDetailService {
         Order order = orderRepo.findById(orderDetail.getOrderNo())
                 .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을 수 없습니다: " + orderDetail.getOrderNo()));
 
+        order.setOrderNo(orderDetail.getOrderNo());
         /* 해당주문에 동일한 메뉴ID가 있는지 확인 */
         OrderDetail existingOrderDetail = orderDetailRepo.findByOrderNoAndMenuId(
                 orderDetail.getOrderNo(),
                 orderDetail.getMenuId()
         );
+
 
         /* 동일한 메뉴가 있을경우 Quantity 수량 증가 */
         if(existingOrderDetail != null){
@@ -57,6 +59,7 @@ public class OrderDetailService {
             existingOrderDetail.setQuantity(existingOrderDetail.getQuantity()+1);
             /* 주문금액 수정 = 수량 * 금액 */
             existingOrderDetail.setTotalAmount(existingOrderDetail.getQuantity()* existingOrderDetail.getUnitPrice());
+            updateOrder(orderDetail.getOrderNo());
             return orderDetailRepo.save(existingOrderDetail);
         }
 
@@ -76,6 +79,9 @@ public class OrderDetailService {
                 .orElseThrow(()-> new IllegalArgumentException("유효하지않은 메뉴입니다"));
         orderDetail.setUnitPrice(unitPrice);
 
+        // Order 설정
+        orderDetail.setOrder(order);
+
         /* 주문상세저장 */
         OrderDetail saveDetail = orderDetailRepo.save(orderDetail);
         /* Order 테이블 업데이트 */
@@ -83,15 +89,37 @@ public class OrderDetailService {
         return saveDetail;
     }
 
+    /* 주문상세 수량변경 */
+    @Transactional
+    public OrderDetail updateQuantity(String orderNo, Integer orderDetailNo, int quantity) {
+        OrderDetail existingOrderDetail = orderDetailRepo.findById(orderDetailNo)
+                .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다: "+ orderNo)) ;
+
+
+        System.out.println("변경========="+orderNo);
+        System.out.println("변경========="+orderDetailNo);
+        System.out.println("변경========="+ quantity);
+
+        existingOrderDetail.setQuantity(quantity);
+        existingOrderDetail.setTotalAmount(quantity * existingOrderDetail.getUnitPrice());
+        updateOrder(orderNo);
+
+
+        System.out.println("existingOrderDetail======"+existingOrderDetail);
+        return orderDetailRepo.save(existingOrderDetail);
+    }
+
     /* 주문 업데이트 */
     public void updateOrder(String orderNo){
         Double totalAmount = orderDetailRepo.calTotalAmount(orderNo);
+
         if(totalAmount==null)
             totalAmount=0.0;
         Double netAmount = totalAmount/1.1;
         Double vat = totalAmount - netAmount;
 
         Order ord = orderRepo.findById(orderNo).orElseThrow(()-> new RuntimeException("주문을 찾을수 없습니다"));
+
 
         ord.setOrderAmount(netAmount);
         ord.setOrderVat(vat);

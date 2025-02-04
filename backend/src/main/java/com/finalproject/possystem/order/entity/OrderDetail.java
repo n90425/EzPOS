@@ -18,7 +18,7 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ordDetailNo")
     private Integer ordDetailNo;
-    @Column(name = "orderNo", nullable = false)
+    @Column(name = "orderNo", nullable = false, insertable = false, updatable = false)
     private String orderNo;
     @Column(name = "menuId", nullable = false)
     private Integer menuId;
@@ -34,7 +34,7 @@ public class OrderDetail {
     private LocalDateTime itemOrderTime;
 
     @ManyToOne
-    @JoinColumn(name = "orderNo", referencedColumnName = "orderNo", insertable = false, updatable = false)
+    @JoinColumn(name = "orderNo", referencedColumnName = "orderNo", nullable = false)
     private Order order;
 
     /* 총금액 = 가격 * 수량 */

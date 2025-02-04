@@ -7,13 +7,6 @@
     margin-top: 30px;
 }
 
-/* 제목 스타일 */
-.order-title {
-    text-align: center;
-    font-size: 24px;
-    margin: 20px 0;
-    color: #333;
-}
 
 /* 필터 섹션 */
 .filter-section {
@@ -67,16 +60,24 @@
     background-color: #0056b3;
 }
 
+
+.order-his-table-container {
+    overflow: auto; /* 스크롤 설정 */
+    max-height: 720px; /* 필요에 따라 최대 높이 지정 */
+    border: 1px solid #ddd; /* 테두리  */
+    border-radius: 5px;
+}
+
 /* 테이블 스타일 */
 .order-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    text-align: center; /* 테이블 기본 텍스트 가운데 정렬 */
 }
 
 
 .order-table thead th {
+    position: sticky;
+    top: 0;
     background-color: #f1f1f1;
     border: 1px solid #ddd;
     padding: 10px;
@@ -85,6 +86,10 @@
 
 .order-table tbody tr {
     border: 1px solid #ddd;
+}
+
+.order-table tbody tr:hover {
+    cursor: pointer;
 }
 
 .order-table tbody td {
@@ -111,4 +116,11 @@
     font-size: 18px;
     color: #999;
     margin-top: 20px;
+}
+
+
+.order-his-title{
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 20px;
 }

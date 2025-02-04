@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import "./header.css"
+import { TableContext } from "./Dining/TableContext";
 
 const Header = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
     const location = useLocation();
     const navigate = useNavigate();
+    const {fetchTables} = useContext(TableContext);
 
     useEffect(() => {
         const timer = setInterval(()=> {
@@ -43,16 +47,28 @@ const Header = () => {
                 return "테이블 관리";
             case "/product-management":
                 return "상품관리";
+            case "/payment-history":
+                return "결제내역";
+            case "/pay":
+                return "결제";
         };
     }
 
+    useEffect(() => {
+        // 페이지 이동 시 테이블 데이터 새로고침
+        fetchTables();
+    }, [location.key]); // location.key가 변경될 때마다 실행
+
     return (
         <div className="header-container">
-            {location.pathname !== "/" && (
-                <button className="back-button" onClick={() => navigate(-1)}>
-                &lt;
-                </button>
-            )}
+            {
+                (location.pathname !== "/") && (
+                    <button className="back-button" 
+                    onClick={() => (location.pathname==="/pay" || location.pathname==="/dining") ? navigate("/") : navigate(-1)}>
+                        <FontAwesomeIcon icon={faChevronLeft}/>
+                    </button>
+                )
+            }
             <div className="header-content">
                 <h2>{getPageTitme()}</h2>
                 <div className="header-time">{formatTime(currentTime)}</div>

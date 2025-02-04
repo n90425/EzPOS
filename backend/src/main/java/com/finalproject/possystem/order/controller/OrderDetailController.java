@@ -17,11 +17,21 @@ public class OrderDetailController {
     @Autowired
     private OrderDetailService orderDetailService;
 
+    /* 주문상세 수량변경 */
+    @PostMapping("/order/{orderNo}/update")
+    public ResponseEntity<?> updatedQuantity (
+            @PathVariable String orderNo,
+            @RequestParam Integer orderDetailNo,
+            @RequestParam int quantity
+    ) {
+        OrderDetail updatedOrderDetail = orderDetailService.updateQuantity(orderNo, orderDetailNo, quantity);
+        return ResponseEntity.ok(updatedOrderDetail);
+    }
+
     /* 주문 상세 추가 */
     @PostMapping("/order/{orderNo}/ordDetail")
     public ResponseEntity<OrderDetail> addOrderDetail(@PathVariable String orderNo, @RequestBody OrderDetail orderDetail){
         orderDetail.setOrderNo(orderNo);
-        System.out.println(orderNo);
         OrderDetail newDetail = orderDetailService.addItemToOrder(orderDetail);
         return ResponseEntity.ok(newDetail);
     }
@@ -29,7 +39,6 @@ public class OrderDetailController {
     /* 주문 상세 삭제 */
     @PostMapping("/order/delete/ordDetail")
     public ResponseEntity<Void> deleteOrderDetail(@RequestBody Map<String, Object> payload) {
-        System.out.println(payload);
         Integer ordDetailNo = (Integer) payload.get("ordDetailNo");
         String orderNo = (String) payload.get("orderNo");
         Integer tableNo = (Integer) payload.get("tableNo");

@@ -25,13 +25,11 @@ public class OrderSequence {
     @Column(name= "isOpen", nullable = false)
     private Boolean isOpen; /* 영업상태 (열림/마감) */
 
-    @Column(name= "currentSequence", nullable = false)
-    private int currentSequence; /* 주문 시퀀스 번호 */
-
     @Column
     private int totalOrders; /* 총 주문수 */
 
     @Column
     private int totalSales; /* 총 매출액 */
 
+    
 }

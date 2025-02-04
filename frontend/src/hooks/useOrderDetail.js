@@ -11,10 +11,14 @@ export const useOrderDetail = () => {
     const { tableNo } = useParams();
 
     // 주문 상세 데이터 가져오기
-    const fetchOrderDetails = async (currentOrderNo) => {
-        
+    const fetchOrderDetails = async () => {
+        console.log("fetchOrderDetails===="+orderNo);
         try {
-            const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
+            if (!orderNo) {
+                const currentOrderNo = await createOrGetOrder();
+                setOrderNo(currentOrderNo);
+            }
+            const res = await axios.get(`${BASE_URL}/order/${orderNo}/ordDetail`);
             setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
             return res.data;
         } catch (error) {
@@ -24,14 +28,16 @@ export const useOrderDetail = () => {
 
     // 메뉴를 선택하면 주문과 주문 상세 추가
     const addOrderDetail = async (menuId) => {
+        console.log("addOrderDetail=-==="+orderNo)
         try {
-            // 주문번호가 없으면 새 주문 생성
-            let currentOrderNo = orderNo;
-            currentOrderNo = await createOrGetOrder();
-            setOrderNo(currentOrderNo);
             
+            // 주문번호가 없으면 새 주문 생성
+            if (!orderNo) {
+                const currentOrderNo = await createOrGetOrder(); // 주문이 없을 때만 생성
+                setOrderNo(currentOrderNo);
+            }
             // 주문상세 추가
-            const res = await axios.post(`${BASE_URL}/order/${currentOrderNo}/ordDetail`, {
+            const res = await axios.post(`${BASE_URL}/order/${orderNo}/ordDetail`, {
                 menuId,
                 quantity: 1,
             });
@@ -58,7 +64,7 @@ export const useOrderDetail = () => {
                 // 메뉴가 주문상세에 존재하지않을경우 새항목추가
                 return [...prev, newDetail]
             });
-            fetchOrderDetails(currentOrderNo);
+            await fetchOrderDetails();
         } catch (error) {
             console.error("주문 상세 추가 중 오류 발생: ", error);
         }

@@ -54,6 +54,7 @@
 - ![AmazonEC2](https://img.shields.io/badge/-Amazon%20ec2-FF9900?&logo=AmazonEC2&logoColor=white)
 - ![Docker](https://img.shields.io/badge/-Docker-2496ED?&logo=Docker&logoColor=white)
 - ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+- ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
 
 
 **ETC**

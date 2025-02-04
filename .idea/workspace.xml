@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Pay/paymentPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Pay/paymentPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Order/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Order/Order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrderDetail.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

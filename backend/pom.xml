@@ -135,6 +135,7 @@
 	            <configuration>
 	                <release>17</release>
 	                <compilerArgs>
+                        <arg>-parameters</arg>
 	                    <arg>--add-opens</arg>
 	                    <arg>java.base/java.lang=ALL-UNNAMED</arg>
 	                </compilerArgs>

@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Order/OrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Order/OrderDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrderDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Pay/paymentPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Pay/paymentPage.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -339,7 +333,8 @@
       <workItem from="1737695742255" duration="12974000" />
       <workItem from="1737865578746" duration="4033000" />
       <workItem from="1737893855032" duration="23834000" />
-      <workItem from="1738590758076" duration="5248000" />
+      <workItem from="1738590758076" duration="5824000" />
+      <workItem from="1738649891872" duration="1258000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

@@ -6,19 +6,17 @@ import useOrder from "./useOrder";
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const useOrderDetail = () => {
-    const { orderNo, setOrderNo, createOrGetOrder } = useOrder();
+    const { orderNo, setOrderNo, fetchOrder } = useOrder();
     const [orderDetails, setOrderDetails] = useState([]); // 주문 상세 데이터
     const { tableNo } = useParams();
 
     // 주문 상세 데이터 가져오기
     const fetchOrderDetails = async () => {
-        console.log("fetchOrderDetails===="+orderNo);
         try {
-            if (!orderNo) {
-                const currentOrderNo = await createOrGetOrder();
-                setOrderNo(currentOrderNo);
-            }
-            const res = await axios.get(`${BASE_URL}/order/${orderNo}/ordDetail`);
+            const currentOrderNo = await fetchOrder(tableNo);
+            setOrderNo(currentOrderNo);
+            console.log("currentOrderNo===="+currentOrderNo)
+            const res = await axios.get(`${BASE_URL}/order/${currentOrderNo}/ordDetail`);
             setOrderDetails(res.data); // 서버에서 가져온 주문 상세 데이터를 상태로 저장
             return res.data;
         } catch (error) {
@@ -28,16 +26,12 @@ export const useOrderDetail = () => {
 
     // 메뉴를 선택하면 주문과 주문 상세 추가
     const addOrderDetail = async (menuId) => {
-        console.log("addOrderDetail=-==="+orderNo)
         try {
-            
-            // 주문번호가 없으면 새 주문 생성
-            if (!orderNo) {
-                const currentOrderNo = await createOrGetOrder(); // 주문이 없을 때만 생성
-                setOrderNo(currentOrderNo);
-            }
+            const currentOrderNo = await fetchOrder(tableNo);
+            setOrderNo(currentOrderNo);
+            console.log("currentOrderNo===="+currentOrderNo)
             // 주문상세 추가
-            const res = await axios.post(`${BASE_URL}/order/${orderNo}/ordDetail`, {
+            const res = await axios.post(`${BASE_URL}/order/${currentOrderNo}/ordDetail`, {
                 menuId,
                 quantity: 1,
             });

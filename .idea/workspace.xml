@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Order/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Order/Order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrderDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Open/shopService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Open/shopService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,56 +58,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.CategoryRepositoryTest.countTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CategoryRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CategoryRepositoryTest.testCategoryInsert.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.countTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.deleteTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.insertTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.readTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.selectTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [test].executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.PosSystemApplication.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rlaek/OneDrive/문서/pos_system/.github&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.file-colors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.CategoryRepositoryTest.countTest.executor": "Run",
+    "JUnit.CategoryRepositoryTest.executor": "Run",
+    "JUnit.CategoryRepositoryTest.testCategoryInsert.executor": "Run",
+    "JUnit.OrderRepositoryTest.countTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.deleteTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.insertTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.readTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.selectTest.executor": "Run",
+    "Maven.POS-System [clean].executor": "Run",
+    "Maven.POS-System [compile].executor": "Run",
+    "Maven.POS-System [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.POS-System [test].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.PosSystemApplication.executor": "Run",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "dev",
+    "jdk.selected.JAVA_MODULE": "17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/rlaek/OneDrive/문서/pos_system/.github",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "inlay.hints",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\rlaek\OneDrive\문서\pos_system\frontend\nginx" />
@@ -336,6 +337,7 @@
       <workItem from="1737893855032" duration="23834000" />
       <workItem from="1738590758076" duration="5824000" />
       <workItem from="1738649891872" duration="1258000" />
+      <workItem from="1738733915148" duration="3798000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -352,6 +354,11 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="4a6cb236-841a-4abb-ba66-7d525de393fe" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Paths">
@@ -369,11 +376,23 @@
     </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="4a6cb236-841a-4abb-ba66-7d525de393fe">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
               <option name="FILTERS">
                 <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/dev" />
+                      </list>
+                    </value>
+                  </entry>
                   <entry key="structure">
                     <value>
                       <list>
@@ -382,11 +401,6 @@
                     </value>
                   </entry>
                 </map>
-              </option>
-              <option name="TEXT_FILTER_SETTINGS">
-                <TextFilterSettings>
-                  <option name="MATCH_CASE" value="true" />
-                </TextFilterSettings>
               </option>
             </State>
           </value>

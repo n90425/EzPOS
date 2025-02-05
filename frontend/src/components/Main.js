@@ -11,10 +11,6 @@ function Main() {
   const handleButtonClick = async (path) => {
     const actions = {
       "/shop/close": async () => {
-        if (!isOpen) {
-          alert("현재 영업 중이 아니어서 마감할 수 없습니다.")
-          return;
-        }
         const result = await handleClose(setIsOpen);
         alert(result);
         navigate("/");
@@ -64,7 +60,6 @@ function Main() {
               key={index}
               onClick={() => handleButtonClick(item.path)}
               className={`mainpage-menu-item ${item.color}`}
-              disabled={!isOpen && item.path === "/shop/close"} //isOpen에 따라 비활성화
             >
               {item.name}
             </button>

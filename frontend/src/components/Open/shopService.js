@@ -20,6 +20,7 @@ export const handleClose = async (setIsOpen) => {
     try {
         const res = await axios.post(`${BASE_URL}/shop/close`);
         setIsOpen(false);  // 열업상태를 닫힘으로 설정
+        console.log(res.data);
         return res.data;
     } catch (error) {
         console.error("영업 종료중 오류발생: ", error);

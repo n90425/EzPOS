@@ -13,7 +13,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="POS-System" options="-parameters --add-opens java.base/java.lang=ALL-UNNAMED" />
+      <module name="POS-System" options="-parameters -parameters --add-opens java.base/java.lang=ALL-UNNAMED" />
     </option>
   </component>
 </project>

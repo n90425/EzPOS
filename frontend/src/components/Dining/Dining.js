@@ -37,7 +37,6 @@ function Dining() {
         return response.data;
     };
 
-
     // 주문 상세 내역(orderDetails)과 메뉴 이름(menuNames)을 표시
     const renderTableDetails = ({ orderDetails, menuNames, totalAmount }) => {
         console.log(orderDetails);

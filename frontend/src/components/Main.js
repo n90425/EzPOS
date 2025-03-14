@@ -1,40 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleClose, handleStartOpen } from "./Open/shopService";
+import { fetchShopStatus, handleClose, handleStartOpen } from "./Open/shopService";
 import SalesSummary from "./SalesSummary"; // 추가한 SalesSummary 컴포넌트 임포트
 import "./main.css";
 
 function Main() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(null);
   const navigate = useNavigate(); // useNavigate 훅 사용
 
+  useEffect(()=> {
+    const getShopStatus = async () => {
+      const status = await fetchShopStatus();
+      setIsOpen(status);
+    };
+    getShopStatus();
+  }, []);
+
   const handleButtonClick = async (path) => {
-    const actions = {
-      "/shop/close": async () => {
-        const result = await handleClose(setIsOpen);
-        alert(result);
-        navigate("/");
-      },
-      "/shop/open": async () => {
+    if (path === "/shop/open") {  // 띄어쓰기 정리 및 정확한 비교
         const result = await handleStartOpen(setIsOpen);
         alert(result);
         navigate("/dining");
-      },
-    };
-
-    try {
-      if (actions[path]) {
-        await actions[path]();
-      } else if (path) {
+    } else if (path === "/shop/close") {  // == → === 변경
+        const result = await handleClose(setIsOpen);
+        alert(result);
+        navigate("/");
+    } else {
         navigate(path);
-      }
-    } catch (error) {
-      alert(error);
     }
-  };
+};
+  
 
   const menuItems = [
-    { name: '영업 개시', path: '/shop/open', color: "red" },
+    { name: isOpen ? '영업 종료':'영업 개시', path: isOpen?'/shop/close':'/shop/open', color: "red" },
     { name: '매출 요약', path: '/sales-summary', color: "blue" },
     { name: '판매 내역', path: '/payment-history', color: "blue" },
     { name: '영수증 반품', path: '/receipt-return', color: "blue" },

@@ -18,11 +18,11 @@ function Dining() {
     const {tables, fetchTables} = useContext(TableContext);
     const {orderDetails, setOrderDetails} = useOrderDetail();
     const { deleteOrder } = useOrder();
-    
+
     // Alert 상태
     const {alertMessage, isAlertVisible, showAlert} = useAlert();
 
-     // 테이블 이동 모달 상태
+    // 테이블 이동 모달 상태
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
     // 테이블 합석 모달 상태
     const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
@@ -36,6 +36,7 @@ function Dining() {
         const response = await axios.get(`${BASE_URL}/dining/${tableNo}/details`);
         return response.data;
     };
+
 
     // 주문 상세 내역(orderDetails)과 메뉴 이름(menuNames)을 표시
     const renderTableDetails = ({ orderDetails, menuNames, totalAmount }) => {
@@ -161,35 +162,35 @@ function Dining() {
                 <div className="table-list">
                     <SettingDropDown showAlert={showAlert} onTableMove={() => setIsMoveModalOpen(true)} onTableMerge={()=>setIsMergeModalOpen(true)}/>
                     {tables.map((table) => {
-                    const tableData  =orderDetails.find((data) => data.tableNo === table.tableNo) || {};
-                    const { orderDetails: details = [], menuNames = [], totalAmount = 0 } = tableData ;
-                    return (
-                        <div
-                            key={table.tableNo}
-                            className="table-item"
-                            style={{
-                                left: `${table.xPosition}px`,
-                                top: `${table.yPosition}px`,
-                                width: `${table.width}px`,
-                                height: `${table.height}px`,
-                                backgroundColor: table.status === "EMPTY" ? "white" : table.tableColor,
-                                color: table.status === "EMPTY" ? "gray" : "white",
-                                border: `2px solid ${table.tableColor}`,
-                                position: "absolute",
-                            }}
-                            onClick={() => handleOrderTable(table.tableNo)}
-                        >
-                            <div className="table-number">
-                                <p>테이블 {table.tableNo}</p>
-                                {table.status === "OCCUPIED" && renderTableDetails({
-                                    orderDetails: details,
-                                    menuNames,
-                                    totalAmount
-                                })}
+                        const tableData  =orderDetails.find((data) => data.tableNo === table.tableNo) || {};
+                        const { orderDetails: details = [], menuNames = [], totalAmount = 0 } = tableData ;
+                        return (
+                            <div
+                                key={table.tableNo}
+                                className="table-item"
+                                style={{
+                                    left: `${table.xPosition}px`,
+                                    top: `${table.yPosition}px`,
+                                    width: `${table.width}px`,
+                                    height: `${table.height}px`,
+                                    backgroundColor: table.status === "EMPTY" ? "white" : table.tableColor,
+                                    color: table.status === "EMPTY" ? "gray" : "white",
+                                    border: `2px solid ${table.tableColor}`,
+                                    position: "absolute",
+                                }}
+                                onClick={() => handleOrderTable(table.tableNo)}
+                            >
+                                <div className="table-number">
+                                    <p>테이블 {table.tableNo}</p>
+                                    {table.status === "OCCUPIED" && renderTableDetails({
+                                        orderDetails: details,
+                                        menuNames,
+                                        totalAmount
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
                 </div>
             )}
             {/* 테이블 이동 모달 */}

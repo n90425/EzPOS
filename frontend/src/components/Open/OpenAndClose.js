@@ -1,8 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { handleStartOpen, handleClose } from "./shopService";
-
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import { handleStartOpen, handleClose, fetchShopStatus } from "./shopService";
 
 
 function OpenAndClose() {
@@ -10,28 +7,15 @@ function OpenAndClose() {
     const [loading, setLoading] = useState(true);
 
     // 영업개시
-
-    // 현재 영업상태 확인
-    const fetchShopStatus = async () => {
-        try {
-            const res = await axios.post(`${BASE_URL}/shop/current`);
-            setIsOpen(res.data.isOpen); // 현재 영업상태를 가져온다
-        } catch (error) {
-            console.error("가게상태 확인중 오류발생: ", error);
-        } finally {
-            setLoading(false); // 로딩완료
-        }
-    }
-
-
-
     useEffect(()=> {
-        fetchShopStatus(); // 초기 로딩시 영업상태 확인
+        const getShopStatus = async () => {
+            const status = await fetchShopStatus();
+            setIsOpen(status);
+            setLoading(false);
+        }
+        getShopStatus(); // 초기 로딩시 영업상태 확인
     }, []);
 
-    if(loading){
-        return <div>로딩 중...</div> // 로딩상태
-    }
 
     return (
         <div>

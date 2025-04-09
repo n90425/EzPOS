@@ -5,6 +5,7 @@ import SettingDropDown  from "./SettingsDropDown";
 import MoveTableModal from "./MoveTableModal";
 import MergeTableModal from "./MergeTableModal";
 import { TableContext } from "./TableContext";
+import useAlert from "../../hooks/useAlert";
 import AlertBar from "./AlertBar";
 import axios from "axios";
 import useOrderDetail from "../../hooks/useOrderDetail";
@@ -19,8 +20,7 @@ function Dining() {
     const { deleteOrder } = useOrder();
     
     // Alert 상태
-    const [alertMessage, setAlertMessage] = useState("");
-    const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const {alertMessage, isAlertVisible, showAlert} = useAlert();
 
      // 테이블 이동 모달 상태
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
@@ -33,7 +33,6 @@ function Dining() {
 
     // 특정 테이블 번호(tableNo)에 연결된 주문 정보와 메뉴 이름을 가져온다
     const fetchTableDetails = async (tableNo) => {
-        
         const response = await axios.get(`${BASE_URL}/dining/${tableNo}/details`);
         return response.data;
     };
@@ -61,36 +60,36 @@ function Dining() {
     };
 
     useEffect(() => {
-        const fetchDetails = async () => {
-            try {
-                const updatedDetails = [];
-                for (let table of tables) {
-                    if (table.status === "OCCUPIED") {
-                        const response = await fetchTableDetails(table.tableNo);
-                        if (response) {
-                            const orderDetails = response.orderDetails || [];
-                            const menuNames = response.menuNames || [];
+        const fetchDetails = async() => {
+            try{
+                const req = tables.map(async (table) => {
+                    if(table.status === "OCCUPIED"){
+                        const res = await fetchTableDetails(table.tableNo);
+                        if(res) {
+                            const orderDetails = res.orderDetails || [];
+                            const menuNames = res.menuNames || [];
 
-                            if (orderDetails.length === 0){
+                            if(orderDetails.length===0) {
                                 await deleteOrder(table.tableNo);
-                                table.status = "EMPTY";
+                                return {...table, status: "EMPTY"};
                             } else {
-                                updatedDetails.push({
+                                return {
                                     tableNo: table.tableNo,
                                     orderDetails,
-                                    menuNames,
-                                });
+                                    menuNames
+                                };
                             }
                         }
                     }
-                }
-                setOrderDetails(updatedDetails); // 데이터를 배열로 저장
-            } catch (error) {
-                console.error("Error fetching table details:", error);
+                    return table;
+                });
+                const updatedDetails = await Promise.all(req);
+                setOrderDetails(updatedDetails);
+            } catch(error) {
+                console.error("Error fetching table details", error);
             }
         };
         fetchDetails();
-        
     }, [tables]);
 
     useEffect(() => {
@@ -101,13 +100,7 @@ function Dining() {
     }, [location.state]);
 
 
-    const showAlert = (message) => {
-        setAlertMessage(message);
-        setIsAlertVisible(true);
-        setTimeout(() => {
-            setIsAlertVisible(false);
-        }, 3000); // 3초후 메시지사라짐
-    };
+
 
     // 테이블 이동 완료 후 백엔드로 요청 보내기
     const handleTableMove = async (sourceTableNo, targetTableNo) => {

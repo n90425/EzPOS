@@ -1,6 +1,9 @@
 package com.finalproject.possystem.pay.controller;
 
+import com.finalproject.possystem.order.service.OrderService;
 import com.finalproject.possystem.pay.entity.*;
+import com.finalproject.possystem.order.entity.*;
+
 import com.finalproject.possystem.pay.service.PayService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +21,14 @@ import java.util.Map;
 public class PayController {
 
     private final PayService payService;
+    private final OrderService orderService;
 
-    public PayController(PayService payService) {
+    public PayController(PayService payService, OrderService orderService) {
         this.payService = payService;
+		this.orderService = orderService;
     }
 
+    //현금결제 처리
     @PostMapping("/cash-receipt")
     public ResponseEntity<CashReceiptResponse> handleCashPayment(@RequestBody CashReceiptRequest request) {
         CashReceiptResponse response = new CashReceiptResponse();
@@ -30,18 +36,18 @@ public class PayController {
         System.out.println("response:::::"+response);
 
         try {
+        	//영수증 없이 단순 현금처리
             if (request.getReceiptNumber() == null) {
                 System.out.println("Processing cash payment without receipt for orderNo: " + request.getOrderNo());
                 payService.processCashPayment(request.getOrderNo());
 
                 /* Order테이블 결제상태 변경 및 테이블해제 */
                 payService.orderPayComplete(request.getOrderNo());
-
                 response.setStatus("SUCCESS");
                 response.setMessage("현금 결제가 완료되었습니다. (영수증 발급 없음)");
                 return ResponseEntity.ok(response);
             }
-
+            //영수증 번호가 틀림
             if (request.getReceiptNumber().isEmpty()) {
                 response.setStatus("FAILURE");
                 response.setMessage("현금 영수증 번호가 유효하지 않습니다.");
@@ -49,6 +55,9 @@ public class PayController {
             }
 
             System.out.println("Processing cash receipt for orderNo: " + request.getOrderNo());
+            
+            //현금영수증 처리
+            //request의 데이터를 매개변수로 전달하고, 내부에서 savePayment 메서드를 호출함
             String receiptId = payService.processCashReceipt(
                     request.getOrderNo(),
                     request.getReceiptNumber(),
@@ -78,42 +87,33 @@ public class PayController {
         }
     }
 
-    //카드결제
-    @PostMapping("/card-payment")
-    public ResponseEntity<Map<String, String>> handleCardPayment(@RequestBody CardPaymentRequest request) {
-        try {
-            // 카드 결제 처리 (orderNo만 전달)
-            payService.processCardPayment(
-                    request.getOrderNo(),
-                    request.getCardNumber(),
-                    request.getExpiryDate(),
-                    request.getCvv()
-            );
 
-            /* Order테이블 결제상태 변경 및 테이블해제 */
-            payService.orderPayComplete(request.getOrderNo());
-
-            // 성공 응답 반환
-            Map<String, String> response = new HashMap<>();
-            response.put("status", "SUCCESS");
-            response.put("message", "카드 결제가 완료되었습니다.");
-            return ResponseEntity.ok(response);
-
+    
+    //토스결제
+    @PostMapping("/toss-payment")
+    public ResponseEntity<?> handelTossPayment(@RequestBody CardPaymentRequest request){
+    	try {
+            
+            //PayService 클래스의 메서드 호출(승인요청, 카드내역 저장, 주문상태 변경)
+            String result = payService.hanleTossPayment(request);
+            
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
-            // 잘못된 요청 처리
             return ResponseEntity.badRequest().body(Map.of(
-                    "status", "FAILURE",
-                    "message", e.getMessage()
+                "status", "FAILURE",
+                "message", e.getMessage()
             ));
         } catch (Exception e) {
-            // 서버 오류 처리
+        	e.printStackTrace();
             return ResponseEntity.internalServerError().body(Map.of(
-                    "status", "FAILURE",
-                    "message", "결제 처리 중 오류가 발생했습니다."
+                "status", "FAILURE",
+                "message", "Toss 결제 처리 중 오류가 발생했습니다."
             ));
         }
     }
 
+
+    //결제 내역 조회
     @GetMapping("/payhistory")
     public ResponseEntity<List<PaymentHistoryResponse>> getPaymentHistory(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
@@ -146,35 +146,3 @@ public class PayController {
 
 }
 
-
-
-
-//@PostMapping("/card-payment")
-//public ResponseEntity<Map<String, String>> handleCardPayment(@RequestBody CardPaymentRequest request) {
-//    try {
-//        payService.processCardPayment(
-//                request.getOrderNo(),
-//                request.getAmount(),
-//                request.getCardNumber(),
-//                request.getExpiryDate(),
-//                request.getCvv()
-//        );
-//
-//        Map<String, String> response = new HashMap<>();
-//        response.put("status", "SUCCESS");
-//        response.put("message", "카드 결제가 완료되었습니다.");
-//        return ResponseEntity.ok(response);
-//
-//    } catch (IllegalArgumentException e) {
-//        return ResponseEntity.badRequest().body(Map.of(
-//                "status", "FAILURE",
-//                "message", e.getMessage()
-//        ));
-//    } catch (Exception e) {
-//        return ResponseEntity.internalServerError().body(Map.of(
-//                "status", "FAILURE",
-//                "message", "결제 처리 중 오류가 발생했습니다."
-//        ));
-//    }
-//}
-//}

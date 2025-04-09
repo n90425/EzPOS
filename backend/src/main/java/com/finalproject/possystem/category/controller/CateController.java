@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class CateController {
-    @Autowired
+	@Autowired
     private CategoryService categoryService;
 
     /* 카테고리 최상위 목록 가져오기 */
@@ -25,7 +25,7 @@ public class CateController {
     }
 
     /* 새로운카테고리 post mapping */
-    @PostMapping("/catgeory")
+    @PostMapping("/category")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         Category createdCategory  = categoryService.categoryInsert(category);
         return ResponseEntity.ok(createdCategory );

@@ -10,4 +10,7 @@ public class CardPaymentRequest {
     private String cardNumber; // 카드 번호
     private String expiryDate; // 유효기간 (MM/YY)
     private String cvv;        // 카드 보안 코드
+    
+    private String paymentKey;
+    private int amount;
 }

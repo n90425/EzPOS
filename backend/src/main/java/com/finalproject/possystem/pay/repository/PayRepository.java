@@ -2,6 +2,7 @@ package com.finalproject.possystem.pay.repository;
 
 import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.pay.entity.Pay;
+import com.finalproject.possystem.pay.entity.PayId;
 //import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.pay.entity.PaymentHistoryResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 
 
 @Repository
-public interface PayRepository extends JpaRepository<Pay, byte[]> {
+public interface PayRepository extends JpaRepository<Pay, PayId> {
 
     // 결제 조회
     Pay findByPayNoAndPaySeqnum(byte[] payNo, int paySeqnum);

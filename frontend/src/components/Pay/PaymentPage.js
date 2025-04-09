@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CashModal from "./CashModal";
+import TossPay from "./TossPay";
 import CardModal from "./CardModal";
 import "./paymentPage.css"
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,7 +14,7 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const PaymentPage = () => {
     const [isCashModalOpen, setCashModalOpen] = useState(false);
-    const [isCardModalOpen, setCardModalOpen] = useState(false);
+    const [isTossModalOpen, setTossModalOpen] = useState(false);
 
     const { orderNo } = useOrder();
     const location = useLocation();
@@ -22,6 +23,8 @@ const PaymentPage = () => {
     // OrderDetail에서 전달한 데이터 받기
     const { orderDetails, totalAmount } = location.state || { orderDetails: [], totalAmount: 0 };
 
+    console.log("totalAmount", totalAmount)
+    console.log("orderDetails====", orderDetails)
 
     // 현금 결제 클릭 시 모달 열기
     const handleCashClick = () => {
@@ -78,7 +81,8 @@ const PaymentPage = () => {
 
      // 카드 결제 클릭 시 모달 열기
     const handleCardClick = () => {
-        setCardModalOpen(true);
+        setTossModalOpen(true);
+        console.log(isTossModalOpen);
     };
 
     // 카드 결제 완료 처리
@@ -92,7 +96,7 @@ const PaymentPage = () => {
                 cvv,
             });
             alert(response.data.message || "카드 결제가 완료되었습니다!");
-            setCardModalOpen(false);
+            setTossModalOpen(false);
             navigate("/dining", { state: { refreshTables: true }});
         } catch (error) {
             console.error("카드 결제 실패:", error.response?.data || error.message);
@@ -135,12 +139,13 @@ const PaymentPage = () => {
                 )}
 
                 {/* 카드결제 모달 */}
-                {isCardModalOpen && (
-                    <CardModal
-                        onClose={() => setCardModalOpen(false)}
-                        onPaymentComplete={handleCardPayment}
+                {isTossModalOpen && 
+                    <TossPay 
+                    onClose={() => setTossModalOpen(false)} 
+                    orderDetails={orderDetails} 
+                    totalAmount={totalAmount}
                     />
-                )}
+                }
             </div>
             <div className="payment-detail-section">
                 <div>

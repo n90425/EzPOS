@@ -106,6 +106,10 @@ public class OrderService {
     public List<Order> allOrder(){
         return orderRepo.findAll();
     }
+    
+    public Order findOrder(String orderNo) {
+    	return orderRepo.findByOrderNo(orderNo);
+    }
 
     /* 기간별 주문조회 */
     public List<Order> findOrderByDateRange(LocalDateTime startDate, LocalDateTime endDate){

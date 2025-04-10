@@ -37,7 +37,7 @@ public class PayService {
     private static final String URL = "https://api.tosspayments.com/v1/payments/confirm";
     
     
-    @Value("${SECRET_KEY}")
+    @Value("${secret.key}")
     private String tossSecretKey;
 
     public PayService(PayRepository payRepository, OrderRepository orderRepository, DiningRepository diningRepository) {

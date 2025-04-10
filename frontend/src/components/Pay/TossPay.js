@@ -4,7 +4,6 @@ import useOrder from "./../../hooks/useOrder"
 import { useNavigate, useLocation } from "react-router-dom";
 
 const TOSS_CE_KEY = process.env.REACT_APP_CLIENT_KEY;
-const TOSS_SC_KEY_ = process.env.REACT_APP_SECRET_KEY;
 
 //페이호출 메서드
 const TossPay = ({ onClose, orderDetails, totalAmount }) => {
@@ -58,7 +57,7 @@ const TossPay = ({ onClose, orderDetails, totalAmount }) => {
 
         fetchPayment();
         
-    },[TOSS_CE_KEY, TOSS_SC_KEY_, onClose, totalAmount, orderDetails])
+    },[TOSS_CE_KEY, onClose, totalAmount, orderDetails])
 
 };
     

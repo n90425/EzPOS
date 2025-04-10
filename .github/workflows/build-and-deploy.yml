@@ -19,6 +19,7 @@ jobs:
         run: |
           mkdir -p backend/src/main/resources
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > backend/src/main/resources/application.properties
+          echo "secret.key=${{ secrets.TOSS_SECRET_KEY }}" >> backend/src/main/resources/application.properties
 
       - name: Copy application.properties using SSH
         uses: appleboy/ssh-action@v0.1.5
@@ -43,9 +44,11 @@ jobs:
       - name: Build Frontend
         env:
           REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+          REACT_APP_CLIENT_KEY: ${{ secrets.TOSS_REACT_APP_CLIENT_KEY }}
         run: |
           cd frontend
           echo "REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL" > .env
+          echo "REACT_APP_CLIENT_KEY=$REACT_APP_CLIENT_KEY" >> .env
           npm ci --silent
           CI=false npm run build --silent
 

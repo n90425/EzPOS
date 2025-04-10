@@ -89,18 +89,10 @@ function Dining() {
                 console.error("Error fetching table details", error);
             }
         };
+
         fetchDetails();
-    }, [tables]);
-
-    useEffect(() => {
-        // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
-        if (location.state?.refreshTables) {
-            fetchTables();
-        }
-    }, [location.state]);
-
-
-
+        fetchTables()
+    }, [tables, location.state]);
 
     // 테이블 이동 완료 후 백엔드로 요청 보내기
     const handleTableMove = async (sourceTableNo, targetTableNo) => {

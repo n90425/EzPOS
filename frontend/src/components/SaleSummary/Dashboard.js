@@ -4,7 +4,7 @@ import "chart.js/auto";
 import TabBar from "./TabBar";
 import "../../css/salesummary/dashboard.css";
 import { getMappingData } from "../../api/apiService";
-import axios from "axios";
+
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 

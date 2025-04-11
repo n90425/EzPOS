@@ -90,14 +90,16 @@ function Dining() {
             }
         };
         fetchDetails();
-    }, [tables]);
+        fetchTables();
+    }, [tables, location.state]);
 
-    useEffect(() => {
-        // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
-        if (location.state?.refreshTables) {
-            fetchTables();
-        }
-    }, [location.state]);
+    // useEffect(() => {
+    //     // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
+    //     if (location.state?.refreshTables) {
+    //         console.log(location.state?.refreshTables);
+    //         fetchTables();
+    //     }
+    // }, []);
 
 
 

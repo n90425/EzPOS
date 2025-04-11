@@ -1,7 +1,6 @@
 import { ANONYMOUS, loadTossPayments} from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import useOrder from "./../../hooks/useOrder"
-import { useNavigate, useLocation } from "react-router-dom";
 
 const TOSS_CE_KEY = process.env.REACT_APP_CLIENT_KEY;
 
@@ -9,8 +8,6 @@ const TOSS_CE_KEY = process.env.REACT_APP_CLIENT_KEY;
 const TossPay = ({ onClose, orderDetails, totalAmount }) => {
 
     const {orderNo} = useOrder();
-    const location = useLocation();
-    const navigate = useNavigate()
 
     const [payment, setPayment] = useState(null);
     const [amount] = useState({

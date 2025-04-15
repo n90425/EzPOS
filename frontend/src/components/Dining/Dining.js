@@ -37,12 +37,17 @@ function Dining() {
         return response.data;
     };
 
+
     // 주문 상세 내역(orderDetails)과 메뉴 이름(menuNames)을 표시
-    const renderTableDetails = ({ orderDetails, menuNames }) => {
-        const totalAmount = orderDetails.reduce(
-            (acc, detail) => acc + detail.unitPrice * detail.quantity,
-            0
-        );
+    const renderTableDetails = ({ orderDetails, menuNames, totalAmount }) => {
+        console.log(orderDetails);
+        // const totalAmount = orderDetails.reduce(
+        //     (acc, detail) => acc + detail.unitPrice * detail.quantity,
+        //     0
+        // );
+
+        console.log("총 금액:", totalAmount);
+
         return (
             <div className="dining-order-details">
                 {orderDetails.map((detail, index) => (
@@ -53,7 +58,7 @@ function Dining() {
                 ))}
                 {/* 총 금액 표시 */}
                 <div className="total-price">
-                    {totalAmount.toLocaleString()}원
+                    {totalAmount?.toLocaleString()}원
                 </div>
             </div>
         );
@@ -68,6 +73,7 @@ function Dining() {
                         if(res) {
                             const orderDetails = res.orderDetails || [];
                             const menuNames = res.menuNames || [];
+                            const totalAmount = res.totalAmount;
 
                             if(orderDetails.length===0) {
                                 await deleteOrder(table.tableNo);
@@ -76,7 +82,8 @@ function Dining() {
                                 return {
                                     tableNo: table.tableNo,
                                     orderDetails,
-                                    menuNames
+                                    menuNames,
+                                    totalAmount
                                 };
                             }
                         }
@@ -156,7 +163,7 @@ function Dining() {
                     <SettingDropDown showAlert={showAlert} onTableMove={() => setIsMoveModalOpen(true)} onTableMerge={()=>setIsMergeModalOpen(true)}/>
                     {tables.map((table) => {
                     const tableData  =orderDetails.find((data) => data.tableNo === table.tableNo) || {};
-                    const { orderDetails: details = [], menuNames = [] } = tableData ;
+                    const { orderDetails: details = [], menuNames = [], totalAmount = 0 } = tableData ;
                     return (
                         <div
                             key={table.tableNo}
@@ -177,7 +184,8 @@ function Dining() {
                                 <p>테이블 {table.tableNo}</p>
                                 {table.status === "OCCUPIED" && renderTableDetails({
                                     orderDetails: details,
-                                    menuNames
+                                    menuNames,
+                                    totalAmount
                                 })}
                             </div>
                         </div>

@@ -13,6 +13,7 @@ const TossPay = ({ onClose, orderDetails, totalAmount }) => {
         const fetchPayment = async() => {
 
             try {
+                console.log(TOSS_CE_KEY);
                 const tossPayments = await loadTossPayments(TOSS_CE_KEY);
                 const payment = tossPayments.payment({ customerKey: ANONYMOUS });
                 // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------

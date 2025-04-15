@@ -25,40 +25,39 @@ export const useOrderDetail = () => {
     };
 
     // 메뉴를 선택하면 주문과 주문 상세 추가
-    const addOrderDetail = async (menuId) => {
+    const addOrderDetail = async (menuId, menuName, unitPrice) => {
         try {
-            const currentOrderNo = await fetchOrder(tableNo);
-            setOrderNo(currentOrderNo);
-            console.log("currentOrderNo===="+currentOrderNo)
-            // 주문상세 추가
-            const res = await axios.post(`${BASE_URL}/order/${currentOrderNo}/ordDetail`, {
-                menuId,
-                quantity: 1,
-            });
-            
-            const newDetail = res.data;
+            // 주문상세에 메뉴를 추가하는데 기존에 존재하는 데이터가 있는지 확인
+            const existingDetail = orderDetails.find((detail) => String(detail.menuId) === String(menuId));
 
-            // 주문상세업데이트
-            setOrderDetails((prev) => {
-                // 주문상세에 메뉴를 추가하는데 기존에 존재하는 데이터가 있는지 확인
-                const existingDetail = prev.find((detail) => detail.menuId === newDetail.menuId);
-
-                // 메뉴가 이미 주문상세에 존재할경우 수량과 총주문금액을 업데이트
-                if(existingDetail){
-                    return prev.map((detail) =>
-                        detail.menuId === newDetail.menuId
-                            ? {
-                                ...detail,
-                                quantity: detail.quantity+1,
-                                totalAmount: detail.unitPrice * (detail.quantity+1),
-                            }
-                            : detail
-                    );
+            // 메뉴가 이미 주문상세에 존재할경우 수량과 총주문금액을 업데이트
+            if(existingDetail){
+                setOrderDetails((prev) => 
+                        prev.map((detail) =>
+                            detail.menuId === menuId
+                                ? {
+                                    ...detail,
+                                    quantity: detail.quantity+1,
+                                    totalAmount: unitPrice * (detail.quantity+1),
+                                }
+                                : detail
+                            )    
+                );
+                return;
+            }
+            // 새로운 항목 추가
+            setOrderDetails((prev) => [
+                ...prev,
+                {
+                    menuId,
+                    menuName,
+                    unitPrice,
+                    quantity: 1,
+                    totalAmount: unitPrice,
                 }
-                // 메뉴가 주문상세에 존재하지않을경우 새항목추가
-                return [...prev, newDetail]
-            });
-            await fetchOrderDetails();
+            ]);
+            console.log("현재 orderDetails:", orderDetails);
+            console.log("추가하려는 메뉴 ID:", menuId);
         } catch (error) {
             console.error("주문 상세 추가 중 오류 발생: ", error);
         }

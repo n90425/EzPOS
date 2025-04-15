@@ -104,8 +104,6 @@ public class DiningController {
     @GetMapping("/dining/{tableNo}/details")
     public ResponseEntity<?> getTableOrderDetail(@PathVariable Integer tableNo) {
         Dining dining = diningRepo.findById(tableNo).orElse(null);
-        
-        System.out.println("dining===="+ dining);
 
         if (dining == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("테이블을 찾을수없습니다.");
@@ -124,10 +122,10 @@ public class DiningController {
         Order order = dining.getCurrentOrder();
 //        List<OrderDetail> orderDetails = orderDetailRepo.findTop3ByOrderNoOrderByOrdDetailNoAsc(order.getOrderNo());	//주문메뉴 3개만 가져옴
         List<OrderDetail> orderDetails = orderDetailRepo.findByOrderNo(order.getOrderNo());
-        
+
         Double totalAmount = orderDetailRepo.calTotalAmount(order.getOrderNo());
         System.out.println("totalAmount++++++++" + totalAmount);
-        
+
         List<String> menuNames = orderDetails.stream()
                 .map(detail -> {
                     // MenuRepo에서 menuId로 Menu를 조회하고 menuName을 반환

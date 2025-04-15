@@ -104,6 +104,7 @@ public class DiningController {
     @GetMapping("/dining/{tableNo}/details")
     public ResponseEntity<?> getTableOrderDetail(@PathVariable Integer tableNo) {
         Dining dining = diningRepo.findById(tableNo).orElse(null);
+        System.out.println("dining============="+dining);
 
         if (dining == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("테이블을 찾을수없습니다.");

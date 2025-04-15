@@ -37,6 +37,13 @@ public class OrderDetailService {
         updateOrder(orderNo);
     }
 
+    @Transactional
+    public void addItemsToOrder(String orderNo, List<OrderDetail> details){
+        for (OrderDetail detail : details) {
+            detail.setOrderNo(orderNo);
+            addItemToOrder(detail);
+        }
+    }
 
     /* orderDetail orderAddNo 추가주문 값증가, 총금액계산 생성 */
     @Transactional
@@ -53,10 +60,10 @@ public class OrderDetailService {
         );
 
 
-        /* 동일한 메뉴가 있을경우 Quantity 수량 증가 */
+        /* 동일한 메뉴가 있을경우 Quantity 수량 수정 */
         if(existingOrderDetail != null){
-            /* 수량 1증가 */
-            existingOrderDetail.setQuantity(existingOrderDetail.getQuantity()+1);
+            /* 수량업데이트 */
+            existingOrderDetail.setQuantity(orderDetail.getQuantity());
             /* 주문금액 수정 = 수량 * 금액 */
             existingOrderDetail.setTotalAmount(existingOrderDetail.getQuantity()* existingOrderDetail.getUnitPrice());
             updateOrder(orderDetail.getOrderNo());
@@ -138,6 +145,7 @@ public class OrderDetailService {
             Map<String, Object> map = new HashMap<>();
 
             map.put("ordDetailNo", orderDetail.getOrdDetailNo());
+            map.put("menuId", orderDetail.getMenuId());
             map.put("menuName", menuName);
             map.put("unitPrice", menuPrice);
             map.put("quantity", orderDetail.getQuantity());

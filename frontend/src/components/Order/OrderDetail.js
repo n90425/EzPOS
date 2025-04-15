@@ -51,23 +51,22 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
 
     const handleUpdateQuantity = async () => {
         try {
-            for (const orderDetailNo in updatedQuantities) {
-                const quantity = updatedQuantities[orderDetailNo];
-                await axios.post(`${BASE_URL}/order/${orderNo}/update`, null, {
-                    params: { orderDetailNo, quantity },
-                });
+            const updatedOrderITems = orderDetails.map((detail) => ({
+                menuId: detail.menuId,
+                quantity: updatedQuantities[detail.ordDetailNo] ?? detail.quantity
+            }))
 
-                setOrderDetails((prev) =>
-                    prev.map((detail) => 
-                        detail.ordDetailNo === parseInt(orderDetailNo, 10)
-                            ? {...detail, quantity } : detail
-                    )
-                )
-            }
-            
-            console.log(orderDetails);
+            console.log("Before orderDetails=====",orderDetails)
+            console.log("Before updatedQuantities====", updatedQuantities)
+
+            await axios.post(`${BASE_URL}/order/${orderNo}/ordDetails`, updatedOrderITems);
+
+            await fetchOrderDetails(orderNo);
+
+            console.log("After updatedQuantities====", updatedQuantities)
             // 상태 초기화
             setUpdatedQuantities({});
+            navigate(-1);
         } catch (error) {
             console.error("수량 업데이트 중 오류 발생:", error);
         }
@@ -88,7 +87,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                 <>
                     {/* 좌측: 메뉴 리스트 */}
                     <div className="menu-list-section">
-                        <MenuList menus={menus} onAddToOrder={addOrderDetail} />
+                        <MenuList menus={menus} onAddToOrder={(menu) => addOrderDetail(menu.menuId, menu.menuName, menu.menuPrice)} />
                     </div>
                     {/* 주문 상세 리스트 */}
                     <div className="order-detail-section">
@@ -97,8 +96,8 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                             <p>주문이 없습니다</p>
                         ) : (
                             <div className="order-items">
-                                {orderDetails.map((detail) => (
-                                    <div key={`${detail.orderNo}-${detail.ordDetailNo}`} className="payment-order-item">
+                                {orderDetails.map((detail, idx) => (
+                                    <div key={detail.ordDetailNo ?? `${detail.menuId}-${idx}`} className="payment-order-item">
 
 
                                         <div className="order-main">

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CashModal from "./CashModal";
 import TossPay from "./TossPay";
-import CardModal from "./CardModal";
 import "./paymentPage.css"
 import { useNavigate, useLocation } from "react-router-dom";
 import useOrder from "./../../hooks/useOrder"; // useOrder 훅

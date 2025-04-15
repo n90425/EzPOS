@@ -90,18 +90,15 @@ function Dining() {
             }
         };
         fetchDetails();
-        fetchTables();
-    }, [tables, location.state]);
+        console.log("tables============",tables);
+    }, [tables,tables.status]);
 
-    // useEffect(() => {
-    //     // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
-    //     if (location.state?.refreshTables) {
-    //         console.log(location.state?.refreshTables);
-    //         fetchTables();
-    //     }
-    // }, []);
-
-
+    useEffect(() => {
+        // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출
+        if (location.state?.refreshTables) {
+            fetchTables();
+        }
+    }, [location.state]);
 
 
     // 테이블 이동 완료 후 백엔드로 요청 보내기

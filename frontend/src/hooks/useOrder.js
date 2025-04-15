@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -14,6 +14,8 @@ const useOrder = () => {
         setOrderNoState(newOrderNo);
         localStorage.setItem("orderNo", newOrderNo);
     };
+
+    const navigate = useNavigate();
 
 
     const { tableNo } = useParams();
@@ -69,8 +71,8 @@ const useOrder = () => {
     // OrderDetail이 null 인 주문객체를 삭제하고, 주문과 Dining 테이블과의 연결을 끊는다
     const deleteOrder = async (tableNo) => {
         try {
-            const res = await axios.post(`${BASE_URL}/order/delete/${tableNo}`);
-            return res.data;
+            await axios.post(`${BASE_URL}/order/delete/${tableNo}`);
+            navigate("/dining", { state: { refreshTables: true } });
         } catch(error){
             console.error("빈 주문 삭제 중 오류발생", error);
         }

@@ -17,11 +17,11 @@ function Main() {
   }, []);
 
   const handleButtonClick = async (path) => {
-    if (path === "/shop/open") {  // 띄어쓰기 정리 및 정확한 비교
+    if (path === "/shop/open") {
         const result = await handleStartOpen(setIsOpen);
         alert(result);
         navigate("/dining");
-    } else if (path === "/shop/close") {  // == → === 변경
+    } else if (path === "/shop/close") {
         const result = await handleClose(setIsOpen);
         alert(result);
         navigate("/");

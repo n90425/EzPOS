@@ -40,14 +40,10 @@ function Dining() {
 
     // 주문 상세 내역(orderDetails)과 메뉴 이름(menuNames)을 표시
     const renderTableDetails = ({ orderDetails, menuNames, totalAmount }) => {
-        console.log(orderDetails);
         // const totalAmount = orderDetails.reduce(
         //     (acc, detail) => acc + detail.unitPrice * detail.quantity,
         //     0
         // );
-
-        console.log("총 금액:", totalAmount);
-
         return (
             <div className="dining-order-details">
                 {orderDetails.map((detail, index) => (

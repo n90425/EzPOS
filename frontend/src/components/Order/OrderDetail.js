@@ -13,7 +13,7 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
 const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
-    const {orderDetails, setOrderDetails, fetchOrderDetails, addOrderDetail, delOrderDetail} = useOrderDetail(); // 주문 상세 데이터
+    const {orderDetails, fetchOrderDetails, addOrderDetail, delOrderDetailFromState, delOrderDetailFromServer} = useOrderDetail(); // 주문 상세 데이터
 
     const [isPaymentPage, setIsPaymentPage] = useState(false); // 결제 페이지 여부
     const [updatedQuantities, setUpdatedQuantities] = useState({});
@@ -113,7 +113,9 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
 
                                                 <button
                                                     className="delete-button"
-                                                    onClick={() => delOrderDetail(detail.ordDetailNo)}
+                                                    onClick={() => {
+                                                        detail.ordDetailNo ? delOrderDetailFromServer(detail.ordDetailNo) : delOrderDetailFromState(detail.menuId)
+                                                    }}
                                                 ><FontAwesomeIcon icon={faXmark} size="1x"/></button>
                                             </div>
 

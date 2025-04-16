@@ -24,7 +24,7 @@ export const useOrderDetail = () => {
         }
     };
 
-    // 메뉴를 선택하면 주문과 주문 상세 추가
+    // 메뉴를 선택하면 주문 상세 추가
     const addOrderDetail = async (menuId, menuName, unitPrice) => {
         try {
             // 주문상세에 메뉴를 추가하는데 기존에 존재하는 데이터가 있는지 확인

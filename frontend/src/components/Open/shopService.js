@@ -34,7 +34,6 @@ export const fetchShopStatus = async () => {
             const res = await axios.get(`${BASE_URL}/shop/current`);
             return res.data.isOpen; // 현재 영업상태를 반환한다
         } catch (error) {
-            console.error("가게상태 확인중 오류발생: ", error);
             return false;
         }
     }

@@ -49,6 +49,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
 
     
 
+    // 주문 상세추가 && 수량변경 백단 통신
     const handleUpdateQuantity = async () => {
         try {
             const updatedOrderITems = orderDetails.map((detail) => ({
@@ -56,14 +57,10 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                 quantity: updatedQuantities[detail.ordDetailNo] ?? detail.quantity
             }))
 
-            console.log("Before orderDetails=====",orderDetails)
-            console.log("Before updatedQuantities====", updatedQuantities)
-
             await axios.post(`${BASE_URL}/order/${orderNo}/ordDetails`, updatedOrderITems);
 
             await fetchOrderDetails(orderNo);
 
-            console.log("After updatedQuantities====", updatedQuantities)
             // 상태 초기화
             setUpdatedQuantities({});
             navigate(-1);

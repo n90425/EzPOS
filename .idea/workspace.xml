@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderDetailRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderDetailRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/table/controller/DiningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/table/controller/DiningController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Dining/Dining.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dining/Dining.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Pay/TossPay.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Pay/TossPay.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +85,7 @@
     "Spring Boot.PosSystemApplication.executor": "Run",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "01034f26",
+    "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "17",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/rlaek/OneDrive/문서/pos_system/.github",

@@ -97,8 +97,7 @@ function Dining() {
             }
         };
         fetchDetails();
-        console.log("tables============",tables);
-    }, [tables,tables.status]);
+    }, [tables]);
 
     useEffect(() => {
         // location.state에서 전달받은 refreshTables가 true라면 fetchTables 호출

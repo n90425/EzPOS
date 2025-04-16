@@ -153,8 +153,8 @@ const PaymentPage = () => {
                         <div>주문내역</div>
                     </div>
                     <div className="payment-orderdetail">
-                        {orderDetails.map((detail) => (
-                            <div key={`${detail.orderNo}-${detail.ordDetailNo}`} className="payment-order-item">
+                        {orderDetails.map((detail, idx) => (
+                            <div key={detail.orDetailNo ? `${detail.orderNo}-${detail.ordDetailNo}` : `temp-${detail.menuId}-${idx}`} className="payment-order-item">
                                 <div className="payment-orderdetail-continer">
                                     <p>{detail.menuName}</p>
                                     <p><FontAwesomeIcon icon={faXmark} size="1x"/></p>

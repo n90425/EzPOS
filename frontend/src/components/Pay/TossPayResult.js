@@ -26,7 +26,6 @@ const TossPayResult = () => {
                     paymentKey,
                     amount,
                 })
-                console.log("서버 응답:", res.data);
 
                 // alert("결제가 완료되었습니다.");
                 navigate("/dining", { state: { refreshTables: true } });

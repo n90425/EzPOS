@@ -81,7 +81,6 @@ export const useItem = () => {
             setLoading(true);
             const res = await axios.get(`${BASE_URL}/menu/visibility`);
             setVisibleItem(res.data); // 활성화된 메뉴 설정
-            console.log("Fetched visible item:", res.data);
         } catch (err) {
             console.error("Failed to fetch visible item:", err);
             setError(err);

@@ -21,7 +21,7 @@ const TossPayResult = () => {
 
         const tossCardPayment = async () => {
             try {
-                const res = await axios.post(`${BASE_URL}/pay/toss-payment`, {
+                await axios.post(`${BASE_URL}/pay/toss-payment`, {
                     orderNo,
                     paymentKey,
                     amount,

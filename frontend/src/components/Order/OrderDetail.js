@@ -20,7 +20,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
     const navigate = useNavigate();
 
     const totalAmount = orderDetails.reduce((acc, item) => {
-        const quantity = updatedQuantities[item.ordDetailNo] || item.quantity;
+        const quantity = updatedQuantities[item.menuId] || item.quantity;
         return acc + quantity * item.unitPrice;
     },0);
     // 주문번호가 변경되면 주문상세 데이터 가져오기
@@ -40,10 +40,10 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
     }, [orderNo, tableNo]);
 
     // 수량변경시 상태에 저장
-    const quantityChange = (orderDetailNo, newQuantity) => {
+    const quantityChange = (menuId, newQuantity) => {
         setUpdatedQuantities((prev) => ({
             ...prev,
-            [orderDetailNo]: newQuantity,
+            [menuId]: newQuantity,
         }));
     }
 
@@ -54,7 +54,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
         try {
             const updatedOrderITems = orderDetails.map((detail) => ({
                 menuId: detail.menuId,
-                quantity: updatedQuantities[detail.ordDetailNo] ?? detail.quantity
+                quantity: updatedQuantities[detail.menuId] ?? detail.quantity
             }))
 
             await axios.post(`${BASE_URL}/order/${orderNo}/ordDetails`, updatedOrderITems);
@@ -103,8 +103,8 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
 
 
                                                 <QuantityInput
-                                                    quantity={updatedQuantities[detail.ordDetailNo] ?? detail.quantity}
-                                                    onClick={(newQuantity) => quantityChange(detail.ordDetailNo, newQuantity)}
+                                                    quantity={updatedQuantities[detail.menuId] ?? detail.quantity}
+                                                    onClick={(newQuantity) => quantityChange(detail.menuId, newQuantity)}
                                                 />
 
                                                 <div className="payment-price-container">

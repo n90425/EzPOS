@@ -7,6 +7,7 @@ export default function QuantityInput ({quantity, onClick}) {
     // 주문상세에서 수량변경 버튼클릭시 로직
     const handleChangeInput= (e) => {
         const newValue = parseInt(e.target.value, 10);
+        console.log(e.target);
         if (isNaN(newValue) || newValue < 1) return
         onClick(newValue); // 부모 컴포넌트로 새로운 값 전달
         // 8-3 5, 2-5 -3

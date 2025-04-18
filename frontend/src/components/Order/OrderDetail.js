@@ -64,14 +64,22 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
 
             // 상태 초기화
             setUpdatedQuantities({});
-            navigate(-1);
+            // navigate(-1);
         } catch (error) {
             console.error("수량 업데이트 중 오류 발생:", error);
         }
     };
 
+    // 주문버튼 클릭
+    const handleOrderClick = () => {
+        handleUpdateQuantity();
+        navigate(-1);
+    }
 
+
+    // 결제페이지 이동
     const handlePaymentClick = () => {
+        handleUpdateQuantity();
         setIsPaymentPage(true); //결제페이지로 전환
         navigate("/pay", { state: { orderDetails, totalAmount } }); // 상태 전달
     };
@@ -128,7 +136,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
                         )}
                         <div className="order-footer">
                             {/* 하단 주문 버튼 */}
-                            <button className="confirm-button" onClick={handleUpdateQuantity}>
+                            <button className="confirm-button" onClick={handleOrderClick}>
                                 주문
                             </button>
 

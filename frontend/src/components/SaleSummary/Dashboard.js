@@ -79,6 +79,8 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
     ],
   };
 
+  console.log(chartData);
+
   return (
     <div>
       <TabBar activeTab={activeTab} onTabChange={setActiveTab} />

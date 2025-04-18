@@ -1,7 +1,9 @@
 package com.finalproject.possystem.pay.service;
 
 import com.finalproject.possystem.order.entity.Order;
+import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.repository.OrderRepository;
+import com.finalproject.possystem.order.service.OrderSequenceService;
 import com.finalproject.possystem.pay.entity.CardPaymentRequest;
 import com.finalproject.possystem.pay.entity.Pay;
 import com.finalproject.possystem.pay.entity.PaymentHistoryResponse;
@@ -22,11 +24,7 @@ import com.finalproject.possystem.table.repository.DiningRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -34,16 +32,18 @@ public class PayService {
     private final PayRepository payRepository;
     private final OrderRepository orderRepository;
     private final DiningRepository diningRepository;
+    private final OrderSequenceService orderSequenceService;
     private static final String URL = "https://api.tosspayments.com/v1/payments/confirm";
     
     
     @Value("${secret.key}")
     private String tossSecretKey;
 
-    public PayService(PayRepository payRepository, OrderRepository orderRepository, DiningRepository diningRepository) {
+    public PayService(PayRepository payRepository, OrderRepository orderRepository, DiningRepository diningRepository, OrderSequenceService orderSequenceService) {
         this.payRepository = payRepository;
         this.orderRepository = orderRepository;
         this.diningRepository = diningRepository;
+        this.orderSequenceService = orderSequenceService;
     }
 
     // 현금 결제 처리 (영수증 없음)
@@ -119,12 +119,15 @@ public class PayService {
     			request.getExpiryDate(),
     			request.getCvv()
     	);
-    	
+
     	//주문상태 변경
     	orderPayComplete(request.getOrderNo());
-    	
+
+        /* 하루의 매출및 주문수를 OrderSequance에 update 하기위한 코드 */
+        Optional<OrderSequence> optional = orderSequenceService.getOrderSequenceToday();
+        /* 값이존재하면 updateSalesToday 메서드를 실행 */
+        optional.ifPresent(orderSequenceService::updateSalesToday);
     	return result;	//Toss응답 결과 리턴
-    	
     }
     
 

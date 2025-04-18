@@ -48,6 +48,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
         const data = await getMappingData(
           `${BASE_URL}/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
         );
+        console.log("data출력",data)
         setChartData({dates: data.dates || [], weeklySales: data.weeklySales|| []}); // salesData로 차트 데이터 설정
         setRevenueData({ totalSales: data.totalSales, totalOrders: data.totalOrders }); // revenueData로 매출 데이터 설정
       } catch (error) {

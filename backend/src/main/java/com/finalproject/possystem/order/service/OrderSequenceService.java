@@ -40,7 +40,6 @@ public class OrderSequenceService {
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     private OrderSequenceRepository orderSequenceRepo;
@@ -109,6 +108,16 @@ public class OrderSequenceService {
             throw new IllegalStateException("이미 영업이 종료되었습니다.");
         }
 
+        /* 영업상태를 종료로 변경 */
+        sequence.setIsOpen(false);
+
+        /* 하루의 매출과 주문수를 계산하기위한 메서드를 호출한다 */
+        updateSalesToday(sequence);
+    }
+
+
+    /* 하루의 매출과 주문수 계산 */
+    public void updateSalesToday(OrderSequence sequence){
         /* 마감시 하루치 결제 총금액 가져오기 */
         LocalDateTime startDate = LocalDate.now().atStartOfDay();
         LocalDateTime endDate = LocalDate.now().plusDays(1).atStartOfDay();
@@ -122,8 +131,6 @@ public class OrderSequenceService {
         receiptCount = receiptCount == null ? 0 : receiptCount;
         sequence.setTotalOrders(receiptCount);
 
-        /* 영업상태를 종료로 변경 */
-        sequence.setIsOpen(false);
         entityManager.merge(sequence);
     }
 

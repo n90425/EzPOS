@@ -154,7 +154,8 @@ const PaymentPage = () => {
                     </div>
                     <div className="payment-orderdetail">
                         {orderDetails.map((detail, idx) => (
-                            <div key={detail.orDetailNo ? `${detail.orderNo}-${detail.ordDetailNo}` : `temp-${detail.menuId}-${idx}`} className="payment-order-item">
+                            //ordDetailNo가 있으면 고유키로 사용하고, 없으면 임시 menuId-idx 조합으로 중복 방지
+                            <div key={detail.orDetailNo ? `${detail.orderNo}-${detail.ordDetailNo}` : `temp-${detail.menuId}-${idx}`} className="payment-order-item"> 
                                 <div className="payment-orderdetail-continer">
                                     <p>{detail.menuName}</p>
                                     <p><FontAwesomeIcon icon={faXmark} size="1x"/></p>

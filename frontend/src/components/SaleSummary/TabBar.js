@@ -12,13 +12,7 @@ const TabBar = ({ activeTab, onTabChange }) => {
           className={`tab ${activeTab === tab ? "active" : ""}`}
           onClick={() => onTabChange(tab)}
         >
-          {tab === "yesterday"
-            ? "어제"
-            : tab === "today"
-            ? "오늘"
-            : tab === "week"
-            ? "이번주"
-            : "이번달"}
+          {tab === "yesterday" ? "어제" : tab === "today" ? "오늘" : tab === "week" ? "이번주" : "이번달"}
         </button>
       ))}
     </div>

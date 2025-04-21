@@ -127,20 +127,110 @@ public class OrderSequenceService {
         entityManager.merge(sequence);
     }
 
+//    public OrderSequenceResponseDto getOrderDashInfo(LocalDateTime searchDate, DateType dateType) {
+//        LocalDateTime targetDate = DateType.resolveTargetDate(searchDate);
+//        if (dateType == DateType.YESTERDAY) {
+//            targetDate = targetDate.minusDays(1);
+//        }
+//        
+//     // 오늘 날짜
+//        LocalDate today = LocalDate.now();
+//        LocalDate monday = today.minusDays(today.getDayOfWeek().getValue() - 1);
+//        LocalDate sunday = monday.plusDays(6);
+//
+//        // 시간 포함
+//        LocalDateTime startDate = monday.atStartOfDay();
+//        LocalDateTime endDate = sunday.plusDays(1).atStartOfDay();
+//
+//        // 이번 주 전체 OrderSequence 조회
+//        List<OrderSequence> sequences = orderSequenceRepo.findOrderSequencesInWeek(startDate, endDate);
+//
+//        // ✅ 오늘 날짜에 해당하는 OrderSequence 추출 (없으면 첫 번째)
+//        OrderSequence baseSequence = sequences.stream()
+//                .filter(seq -> {
+//                    LocalDate seqDate = seq.getOpenDate().toInstant()
+//                        .atZone(ZoneId.systemDefault())
+//                        .toLocalDate();
+//                    return seqDate.equals(today);
+//                })
+//                .findFirst()
+//                .orElse(sequences.isEmpty() ? null : sequences.get(0));
+//
+//        // ✅ null 체크
+//        if (baseSequence == null) {
+//            throw new IllegalStateException("이번 주 OrderSequence 데이터가 없습니다.");
+//        }
+//
+//        // ✅ DTO 생성 및 주간 매출 반영
+//        OrderSequenceResponseDto responseDto = OrderSequenceResponseDto.from(baseSequence);
+//        responseDto.updateWeeklySales(sequences, DateType.WEEK);
+//
+//        return responseDto;
+
+    
     public OrderSequenceResponseDto getOrderDashInfo(LocalDateTime searchDate, DateType dateType) {
-        LocalDateTime targetDate = DateType.resolveTargetDate(searchDate);
-        if (dateType == DateType.YESTERDAY) {
-            targetDate = targetDate.minusDays(1);
+    	LocalDateTime targetDate = DateType.resolveTargetDate(searchDate);
+    	LocalDate localDate = targetDate.toLocalDate();
+    	
+    	LocalDate start;
+    	LocalDate end;
+    	
+    	switch (dateType) {
+	    	case YESTERDAY -> {
+	    		start = localDate;
+	    		end = localDate;
+	    	}
+	    	case DAY -> {
+	            start = localDate;
+	            end = localDate;
+	        }
+	        case WEEK -> {
+	            start = localDate.minusDays(localDate.getDayOfWeek().getValue() - 1); // 월요일
+	            end = start.plusDays(6); // 일요일
+	        }
+	        case MONTH -> {
+	            start = localDate.withDayOfMonth(1);
+	            end = localDate.withDayOfMonth(localDate.lengthOfMonth());
+	        }
+	        default -> {
+	            start = localDate;
+	            end = localDate;
+	        }
+    	}
+    	
+    	LocalDateTime startDate = start.atStartOfDay();
+    	LocalDateTime endDate = end.plusDays(1).atStartOfDay();
+    	
+    	List<OrderSequence> sequences = orderSequenceRepo.findOrderSequencesInWeek(startDate, endDate);
+    	
+    	
+    	// 기준이 되는 OrderSequence 하나 선택 (localDate 기준)
+        OrderSequence baseSequence = sequences.stream()
+            .filter(seq -> seq.getOpenDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().equals(localDate))
+            .findFirst()
+            .orElse(sequences.isEmpty() ? null : sequences.get(0));
+
+        if (baseSequence == null) {
+            throw new IllegalStateException("해당 범위에 OrderSequence 데이터가 없습니다.");
         }
 
-        // 대상 날짜로 OrderSequence 조회
-        OrderSequence sequence = orderSequenceRepo.findByOpenDate(targetDate)
-                .orElseThrow(() -> new IllegalStateException("영업이 시작되지 않았습니다. 영업을 시작하세요."));
-
-        LocalDateTime startDate = dateType.calculateStartDate(targetDate);
-        OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
-
-        orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType), dateType);
-        return orderSequenceResponseDto;
+        OrderSequenceResponseDto responseDto = OrderSequenceResponseDto.from(baseSequence);
+        responseDto.updateWeeklySales(sequences, dateType, start, end); // 시작~끝 범위 함께 넘김
+        return responseDto;
+        
     }
 }
+
+
+
+
+//// 대상 날짜로 OrderSequence 조회	황정하 코드
+//OrderSequence sequence = orderSequenceRepo.findByOpenDate(targetDate)
+//      .orElseThrow(() -> new IllegalStateException("영업이 시작되지 않았습니다. 영업을 시작하세요."));
+//
+//LocalDateTime startDate = dateType.calculateStartDate(targetDate);
+//OrderSequenceResponseDto orderSequenceResponseDto = OrderSequenceResponseDto.from(sequence);
+//
+//orderSequenceResponseDto.updateWeeklySales(orderSequenceRepo.findOrderSequencesByDateRange(startDate, targetDate, dateType), dateType);
+//return orderSequenceResponseDto;
+

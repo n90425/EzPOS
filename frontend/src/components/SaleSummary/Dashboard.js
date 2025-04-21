@@ -23,6 +23,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(initialTab);
 
+  
   // 탭에 따른 dateType 반환 함수
   const getDateType = (tab) => {
     switch (tab) {
@@ -39,17 +40,44 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
     }
   };
 
+  const getSearchDate = () => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+  
+    switch (activeTab) {
+      case "yesterday":
+        return yesterday.toISOString().split("T")[0];
+      case "today":
+      case "week":
+      case "month":
+      default:
+        return today.toISOString().split("T")[0];
+    }
+  };
+  
+
   // 데이터 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const dateType = getDateType(activeTab); // activeTab에 따라 dateType 설정
+        const dateType = getDateType(activeTab);
+        const searchDate = getSearchDate(); // ✅ 여기!
+    
         const data = await getMappingData(
-          `${BASE_URL}/shop/order-sequence-info?searchDate=${selectedDay}&dateType=${dateType}`
+          `${BASE_URL}/shop/order-sequence-info?searchDate=${searchDate}&dateType=${dateType}`
         );
-        setChartData({dates: data.dates || [], weeklySales: data.weeklySales|| []}); // salesData로 차트 데이터 설정
-        setRevenueData({ totalSales: data.totalSales, totalOrders: data.totalOrders }); // revenueData로 매출 데이터 설정
+    
+        setChartData({
+          dates: data.dates || [],
+          weeklySales: data.weeklySales || [],
+        });
+    
+        setRevenueData({
+          totalSales: data.totalSales,
+          totalOrders: data.totalOrders,
+        });
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
       } finally {
@@ -58,7 +86,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
     };
     
     fetchData();
-  }, [activeTab, selectedDay]); // activeTab 또는 selectedDay가 변경될 때 실행
+  }, [activeTab]); // activeTab가 변경될 때 실행
 
   // 선택된 날짜에 따라 색상을 변경하는 함수
   const getBackgroundColors = () => {
@@ -79,7 +107,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
     ],
   };
 
-  console.log(chartData);
+  console.log("chartData=====", chartData);
 
   return (
     <div>

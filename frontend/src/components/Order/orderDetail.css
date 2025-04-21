@@ -17,12 +17,17 @@
   flex-direction: column;
   width: calc(40% - 10px); /* 부모 컨테이너 너비의 절반 */
   box-sizing: border-box; /* 패딩 포함 */
+  height: 80%;
+  position: relative;
 }
 
 .order-items {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin-bottom: 20px;
+  height: 80%;
+  width: 100%;
+  padding-bottom: 50px;
 }
 
 .checkout-button {

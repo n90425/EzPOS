@@ -80,13 +80,15 @@
 
 /* 결제 버튼 */
 .order-footer {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    margin-top: auto;
+    position: fixed;
     padding: 16px;
     background-color: #ffffff;
     border-radius: 8px;
+    bottom: 0;
+    margin: auto;
+    width: 35%;
+    height: 50px;
+    text-align: center;
 }
 
 .confirm-button {

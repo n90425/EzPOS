@@ -26,5 +26,10 @@ public interface OrderSequenceRepository extends JpaRepository<OrderSequence, Da
     @Query("SELECT o FROM OrderSequence o WHERE o.openDate BETWEEN :startDate AND :endDate")
     List<OrderSequence> findByOpenDateBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
+    
+    
+    @Query("SELECT o FROM OrderSequence o WHERE o.openDate BETWEEN :startDate AND :endDate")
+    List<OrderSequence> findOrderSequencesInWeek(LocalDateTime startDate, LocalDateTime endDate);
+
 
 }

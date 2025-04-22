@@ -30,6 +30,24 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN"
+    }
+  ],
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="22a2c099-6617-492b-83b0-31b805852a08" />
+        <option name="url" value="https://github.com/n90425/EzPOS.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
@@ -355,7 +373,7 @@
       <workItem from="1744784610400" duration="6844000" />
       <workItem from="1744870365905" duration="4180000" />
       <workItem from="1744954735601" duration="12131000" />
-      <workItem from="1745216088150" duration="1342000" />
+      <workItem from="1745216088150" duration="2390000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

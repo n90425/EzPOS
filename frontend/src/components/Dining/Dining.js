@@ -73,7 +73,7 @@ function Dining() {
 
                             if(orderDetails.length===0) {
                                 await deleteOrder(table.tableNo);
-                                return {...table, status: "EMPTY"};
+                                fetchTables();
                             } else {
                                 return {
                                     tableNo: table.tableNo,

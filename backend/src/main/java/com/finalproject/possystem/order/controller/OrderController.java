@@ -118,11 +118,14 @@ public class OrderController {
     public ResponseEntity<?> deleteOrder(@PathVariable Integer tableNo){
         try {
             boolean isDeleted = orderService.delOrder(tableNo);
-            return ResponseEntity.ok(isDeleted);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            if (isDeleted) {
+                return ResponseEntity.ok("삭제 완료");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문 상세가 존재하여 삭제할 수 없습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류: " + e.getMessage());
         }
     }
-
 
 }

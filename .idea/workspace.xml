@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dining/Dining.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dining/Dining.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SaleSummary/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SaleSummary/Sidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -374,7 +379,7 @@
       <workItem from="1744870365905" duration="4180000" />
       <workItem from="1744954735601" duration="12131000" />
       <workItem from="1745216088150" duration="2390000" />
-      <workItem from="1745301599678" duration="3765000" />
+      <workItem from="1745301599678" duration="11048000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

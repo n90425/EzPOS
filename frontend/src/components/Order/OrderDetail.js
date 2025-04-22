@@ -21,7 +21,6 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
 
     const totalAmount = orderDetails.reduce((acc, item) => {
         const quantity = updatedQuantities[item.menuId] || item.quantity;
-        console.log(item);
         return acc + quantity * item.unitPrice;
     },0);
     // 주문번호가 변경되면 주문상세 데이터 가져오기

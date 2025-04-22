@@ -69,6 +69,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
           `${BASE_URL}/shop/order-sequence-info?searchDate=${searchDate}&dateType=${dateType}`
         );
     
+        console.log("data출력",data)
         setChartData({
           dates: data.dates || [],
           weeklySales: data.weeklySales || [],

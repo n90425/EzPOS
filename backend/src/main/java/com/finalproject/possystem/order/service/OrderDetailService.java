@@ -102,15 +102,9 @@ public class OrderDetailService {
         OrderDetail existingOrderDetail = orderDetailRepo.findById(orderDetailNo)
                 .orElseThrow(() -> new IllegalArgumentException("주문번호를 찾을수 없습니다: "+ orderNo)) ;
 
-
-        System.out.println("변경========="+orderNo);
-        System.out.println("변경========="+orderDetailNo);
-        System.out.println("변경========="+ quantity);
-
         existingOrderDetail.setQuantity(quantity);
         existingOrderDetail.setTotalAmount(quantity * existingOrderDetail.getUnitPrice());
         updateOrder(orderNo);
-
 
         System.out.println("existingOrderDetail======"+existingOrderDetail);
         return orderDetailRepo.save(existingOrderDetail);

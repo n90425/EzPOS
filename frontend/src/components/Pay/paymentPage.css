@@ -45,7 +45,6 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    margin-bottom: 10px;
     padding: 10px;
 }
 
@@ -87,11 +86,13 @@
     display: flex;
     align-items: center;
     white-space: nowrap;
-    text-align: center;
+    text-align: start;
+    width: 100%;
 }
 
 .payment-orderdetail-continer p {
-    width: 90px;
+    width: 100px;
+    flex:1;
 }
 
 .payment-price-container {

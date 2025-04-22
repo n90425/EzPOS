@@ -23,14 +23,15 @@ export function SaleSummary() {
 
 
     return (
-        <div>
-            <Sidebar onMenuSelect={setSelectedMenu} />
-            <div className="main">
-                <div className="content">
-                            {renderContent()}
-                </div>
-            </div>
+    <div>
+        <Sidebar onMenuSelect={setSelectedMenu} />
+        <div className="main">
+        <div className="content">
+                    {renderContent()}
         </div>
+        </div>
+    </div>
+
     );
 }
 

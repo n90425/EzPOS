@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderSequenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderSequenceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderSequenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderSequenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Order/OrderDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Order/OrderDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SaleSummary/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SaleSummary/Dashboard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -358,7 +354,8 @@
       <workItem from="1744697487275" duration="9713000" />
       <workItem from="1744784610400" duration="6844000" />
       <workItem from="1744870365905" duration="4180000" />
-      <workItem from="1744954735601" duration="400000" />
+      <workItem from="1744954735601" duration="12131000" />
+      <workItem from="1745216088150" duration="1342000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

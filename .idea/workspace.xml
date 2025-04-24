@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dining/Dining.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dining/Dining.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/PosSystemApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/PosSystemApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderSequenceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderSequenceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderSequenceRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderSequenceRepositoryCustomImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderSequenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderSequenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/css/salesummary/salesCalendar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/css/salesummary/salesCalendar.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -380,7 +383,8 @@
       <workItem from="1745301599678" duration="11559000" />
       <workItem from="1745392481326" duration="5436000" />
       <workItem from="1745461374553" duration="1125000" />
-      <workItem from="1745475784743" duration="2345000" />
+      <workItem from="1745475784743" duration="6166000" />
+      <workItem from="1745487118096" duration="211000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

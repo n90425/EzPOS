@@ -6,7 +6,6 @@ import com.finalproject.possystem.order.entity.Order;
 import com.finalproject.possystem.order.entity.OrderSequence;
 import com.finalproject.possystem.order.entity.QOrderSequence;
 import com.finalproject.possystem.order.repository.OrderSequenceRepository;
-import com.finalproject.possystem.order.repository.OrderSequenceRepositoryCustom;
 import com.finalproject.possystem.pay.repository.PayRepository;
 import com.finalproject.possystem.pay.service.PayService;
 import com.querydsl.jpa.impl.JPAQueryFactory;

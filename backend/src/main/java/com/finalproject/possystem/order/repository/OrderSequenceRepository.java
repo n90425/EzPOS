@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderSequenceRepository extends JpaRepository<OrderSequence, Date>, OrderSequenceRepositoryCustom {
+public interface OrderSequenceRepository extends JpaRepository<OrderSequence, Date> {
     @Query("SELECT o.totalOrders, o.totalSales FROM OrderSequence o WHERE DATE(o.openDate) = :orderDate")
     List<Integer> findCountAndSumByOrderDate(@Param("orderDate") Date orderDate);
 

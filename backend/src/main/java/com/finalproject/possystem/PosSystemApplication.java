@@ -15,14 +15,4 @@ public class PosSystemApplication {
         SpringApplication.run(PosSystemApplication.class, args);
     }
 
-    @GetMapping("/endpoint")
-    public String hello(){
-        return "api 작동중?";
-    }
-
-    @PostMapping("/post-endpoint")
-    public String postHello(@RequestParam Map<String, String> testData){
-        System.out.println(testData.get("data"));
-        return testData.get("data");
-    }
 }

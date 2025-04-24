@@ -62,35 +62,32 @@ function Dining() {
 
     useEffect(() => {
         const fetchDetails = async() => {
-            try{
-                const req = tables.map(async (table) => {
-                    if(table.status === "OCCUPIED"){
-                        const res = await fetchTableDetails(table.tableNo);
-                        if(res) {
-                            const orderDetails = res.orderDetails || [];
-                            const menuNames = res.menuNames || [];
-                            const totalAmount = res.totalAmount;
+            const req = tables.map(async (table) => {
+                if(table.status === "OCCUPIED"){
+                    const res = await fetchTableDetails(table.tableNo);
+                    if(res) {
+                        const orderDetails = res.orderDetails || [];
+                        const menuNames = res.menuNames || [];
+                        const totalAmount = res.totalAmount;
 
-                            if(orderDetails.length===0) {
-                                await deleteOrder(table.tableNo);
-                                fetchTables();
-                            } else {
-                                return {
-                                    tableNo: table.tableNo,
-                                    orderDetails,
-                                    menuNames,
-                                    totalAmount
-                                };
-                            }
+                        if(orderDetails.length===0) {
+                            await deleteOrder(table.tableNo);
+                            fetchTables();
+                        } else {
+                            return {
+                                tableNo: table.tableNo,
+                                orderDetails,
+                                menuNames,
+                                totalAmount
+                            };
                         }
                     }
-                    return table;
-                });
-                const updatedDetails = await Promise.all(req);
-                setOrderDetails(updatedDetails);
-            } catch(error) {
-                console.error("Error fetching table details", error);
-            }
+                    
+                }
+                return table;
+            });
+            const updatedDetails = await Promise.all(req);
+            setOrderDetails(updatedDetails);
         };
         fetchDetails();
     }, [tables]);

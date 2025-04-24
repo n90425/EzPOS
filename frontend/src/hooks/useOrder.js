@@ -73,14 +73,12 @@ const useOrder = () => {
         try {
             const res = await axios.post(`${BASE_URL}/order/delete/${tableNo}`);
             if(res.status===200){
-                console.log("삭제완료");
                 navigate("/dining", { state: { refreshTables: true } });
             }
         } catch(error){
             if(error.response?.status ===400){
                 console.warn("주문상세 존재, 삭제불가")
             }
-            console.error("빈 주문 삭제 중 오류발생", error);
         }
     }
 

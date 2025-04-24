@@ -63,7 +63,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
       try {
         setLoading(true);
         const dateType = getDateType(activeTab);
-        const searchDate = getSearchDate(); // ✅ 여기!
+        const searchDate = getSearchDate();
     
         const data = await getMappingData(
           `${BASE_URL}/shop/order-sequence-info?searchDate=${searchDate}&dateType=${dateType}`

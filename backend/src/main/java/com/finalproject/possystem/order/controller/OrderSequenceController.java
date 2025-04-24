@@ -69,11 +69,17 @@ public class OrderSequenceController {
 
     @GetMapping("/order-sequence-info")
     public ResponseEntity<OrderSequenceResponseDto> orderSequenceInfo(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate searchDate, @RequestParam DateType dateType) {
-        System.out.println("searchDate------"+searchDate);
-        System.out.println("dateType===="+dateType);
         LocalDateTime endDay = searchDate.atStartOfDay();
-        System.out.println("endDay = " + endDay);
         return ResponseEntity.ok(orderSequenceService.getOrderDashInfo(endDay, dateType));
     }
+    
+    @GetMapping("/calendar")
+    public ResponseEntity<List<OrderSequenceResponseDto>> getMonthlySales( @RequestParam int year, @RequestParam int month ){
+    	
+    	List<OrderSequenceResponseDto> sales = orderSequenceService.getMonthlySales(year, month);
+    	System.out.println("sales111 = " + sales);
+    	return ResponseEntity.ok(sales);
+    }
+    
 
 }

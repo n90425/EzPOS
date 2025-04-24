@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,24 +16,44 @@ import java.util.Map;
 
 @Getter
 public class OrderSequenceResponseDto {
-    Date OpenDate;
-    Boolean isOpen;
-    Integer totalOrders;
-    Integer totalSales;
-    List<Integer> weeklySales;
     
+	private List<String> Dates;         // x축 날짜 리스트
+    private List<Integer> weeklySales;  // y축 매출 리스트
+    
+    //영업여부
+    private boolean isOpen;
+    
+    //총 주문,매출
+    private Integer totalOrders;
+    private Integer totalSales;
+        
+    //오늘용 
     private Integer todaySales;
     private Integer todayOrders;
-    private List<String> Dates;
     
     
-    public OrderSequenceResponseDto(Date OpenDate, Boolean isOpen, Integer totalOrders, Integer totalSales){
-        this.OpenDate = OpenDate;
-        this.isOpen = isOpen;
+    //단일 날짜
+    private LocalDate date;
+    
+    
+    //생성자
+    public OrderSequenceResponseDto(Date openDate, Boolean isOpen, Integer totalOrders, Integer totalSales) {
+        this.date = openDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        this.isOpen = isOpen != null ? isOpen : false;
         this.totalOrders = totalOrders;
         this.totalSales = totalSales;
     }
+    
+    //생성자 (달력용)
+    public OrderSequenceResponseDto(LocalDate date, Integer totalSales, Integer totalOrders, Boolean isOpen) {
+        this.date = date;
+        this.totalSales = totalSales;
+        this.totalOrders = totalOrders;
+        this.isOpen = isOpen != null ? isOpen : false;
+    }
 
+    
+    //정적 생성자
     public static OrderSequenceResponseDto from(OrderSequence orderSequence) {
         return new OrderSequenceResponseDto(
                 orderSequence.getOpenDate(),
@@ -40,21 +61,19 @@ public class OrderSequenceResponseDto {
                 orderSequence.getTotalOrders(),
                 orderSequence.getTotalSales());
     }
-
-//    public void updateWeeklySales(List<OrderSequence> sequences, DateType dateType) {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        List<Integer> total = dateType.totalOrdersandSales(sequences);
-//        System.out.println(total);
-//        this.totalOrders = total.get(0);
-//        this.totalSales = total.get(1);
-//        this.weeklySales = sequences.stream()
-//                .map(OrderSequence::getTotalSales)
-//                .toList();
-//        this.Dates = sequences.stream()
-//                .map(orderSequence -> dateFormat.format(orderSequence.getOpenDate())) // Date → String 변환
-//                .collect(Collectors.toList());
-//    }
     
+    //날짜 범위 필터링 메서드
+    private List<OrderSequence> filterSequencesInRange(List<OrderSequence> sequences, LocalDate startDate, LocalDate endDate) {
+        return sequences.stream()
+            .filter(seq -> {
+                LocalDate seqDate = seq.getOpenDate().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                return !seqDate.isBefore(startDate) && !seqDate.isAfter(endDate);
+            })
+            .toList();
+    }
+
     
     public void updateWeeklySales(List<OrderSequence> sequences, DateType dateType, LocalDate startDate, LocalDate endDate) {
         Map<String, Integer> salesMap = new HashMap<>();
@@ -80,10 +99,11 @@ public class OrderSequenceResponseDto {
             current = current.plusDays(1);
         }
 
-        // 총합 매출/주문수 (DateType 기준으로 처리된 값)
-        List<Integer> total = dateType.totalOrdersandSales(sequences);
-        this.totalOrders = total.get(0);
-        this.totalSales = total.get(1);
+        // 총합 매출/주문수 (날짜 범위에 맞게 필터링 후 계산)
+        List<OrderSequence> filtered = filterSequencesInRange(sequences, startDate, endDate);
+        this.totalOrders = filtered.stream().mapToInt(OrderSequence::getTotalOrders).sum();
+        this.totalSales = filtered.stream().mapToInt(OrderSequence::getTotalSales).sum();
+        
 
         // 오늘 매출/주문수 (today 탭용)
         String todayStr = LocalDate.now().format(formatter);
@@ -91,6 +111,8 @@ public class OrderSequenceResponseDto {
         this.todayOrders = ordersMap.getOrDefault(todayStr, 0);
    
     }
+    
+    
 }
     
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Dashboard from "./Dashboard";
-import SalesCalendar from "./SalesCalender";
+import SalesCalendar from "./SalesCalendar";
 import "../../css/salesummary/salesummary.css";
 export function SaleSummary() {
   // 현재 선택된 메뉴를 상태로 관리

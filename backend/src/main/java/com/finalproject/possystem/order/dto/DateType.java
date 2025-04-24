@@ -77,9 +77,7 @@ public enum DateType {
                     .map(order -> toLocalDate(order.getOpenDate()))
                     .max(LocalDate::compareTo)
                     .orElse(LocalDate.now());
-            System.out.println("latestDay == " + latestDay);
             LocalDate startDay = latestDay.minusDays(7);
-            System.out.println("startDay == " + startDay);
             Integer[] total = sequences.stream()
                     .filter(order -> {
                         LocalDate orderDate = toLocalDate(order.getOpenDate());

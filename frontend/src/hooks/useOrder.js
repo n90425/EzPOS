@@ -71,10 +71,14 @@ const useOrder = () => {
     // OrderDetail이 null 인 주문객체를 삭제하고, 주문과 Dining 테이블과의 연결을 끊는다
     const deleteOrder = async (tableNo) => {
         try {
-            await axios.post(`${BASE_URL}/order/delete/${tableNo}`);
-            navigate("/dining", { state: { refreshTables: true } });
+            const res = await axios.post(`${BASE_URL}/order/delete/${tableNo}`);
+            if(res.status===200){
+                navigate("/dining", { state: { refreshTables: true } });
+            }
         } catch(error){
-            console.error("빈 주문 삭제 중 오류발생", error);
+            if(error.response?.status ===400){
+                console.warn("주문상세 존재, 삭제불가")
+            }
         }
     }
 

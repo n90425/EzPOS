@@ -2,6 +2,7 @@ package com.finalproject.possystem.order.service;
 
 
 import com.finalproject.possystem.order.entity.Order;
+import com.finalproject.possystem.order.entity.OrderDetail;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
@@ -31,6 +32,9 @@ public class OrderService {
 
     @Autowired
     private DiningService diningService;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepo;
 
 
     private static final Object lock = new Object();
@@ -75,13 +79,19 @@ public class OrderService {
 
     /* 주문이 존재하고 orderDetail이 비어있을경우 주문을 삭제 */
     @Transactional
-    public boolean delOrder(int tableNo){
+    public boolean delOrder(Integer tableNo){
         Optional<Order> optionalOrder  = orderRepo.findByTableNo(tableNo);
-
+        System.out.println("📦 주문 조회됨? " + optionalOrder.isPresent());
+        /* 주문이 있을경우 */
         if(optionalOrder.isPresent()){
             Order order = optionalOrder.get();
+            System.out.println("🧾 order: " + order);
+            System.out.println("order getClass()" + order.getClass());
+            List<OrderDetail> orderDetails = orderDetailRepo.findByOrderNo(order.getOrderNo());
+            System.out.println("🧾 상세 주문 수: " + orderDetails.size());
             /* 주문상세가 비어있는지 확인 */
-            if(order.getOrderDetails().isEmpty()){
+            if(orderDetails.isEmpty()){
+                System.out.println("🗑️ 주문 삭제 진행 (상세 없음)");
                 /* Dining 테이블에서 상태와 현재 주문을 연결해제 */
                 Dining dining = diningRepo.findById(tableNo).orElseThrow(()-> new RuntimeException("Dining not fount"));
 
@@ -91,8 +101,14 @@ public class OrderService {
                 /* 주문삭제 */
                 orderRepo.delete(order);
                 return true;
+            } else {
+                System.out.println("⛔ 삭제 안함 - 상세 주문 존재");
+                /* 상세가 남아있을경우 삭제 금지 */
+                return false;
             }
         }
+        System.out.println("❓ 주문 없음");
+        /* 주문자체가 없을경우 */
         return false;
     }
 

@@ -167,8 +167,11 @@ public class OrderSequenceService {
     	
     	LocalDateTime startDate = start.atStartOfDay();
     	LocalDateTime endDate = end.plusDays(1).atStartOfDay();
-    	
-    	List<OrderSequence> sequences = orderSequenceRepo.findOrderSequencesInWeek(startDate, endDate);
+
+        System.out.println("startDate == " + startDate);
+        System.out.println("endDate == " + endDate);
+
+        List<OrderSequence> sequences = orderSequenceRepo.findOrderSequencesInWeek(startDate, endDate);
     	
     	
     	// 기준이 되는 OrderSequence 하나 선택 (localDate 기준)

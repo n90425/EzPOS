@@ -4,6 +4,7 @@ import "chart.js/auto";
 import TabBar from "./TabBar";
 import "../../css/salesummary/dashboard.css";
 import { getMappingData } from "../../api/apiService";
+import { scales } from "chart.js/auto";
 
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -92,7 +93,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
   // 선택된 날짜에 따라 색상을 변경하는 함수
   const getBackgroundColors = () => {
     return chartData.dates.map((date) =>
-      date === selectedDay ? "blue" : "#4caf50"
+      date === selectedDay ? "#c4e2c0" : "#D7ECFB"
     );
   };
 
@@ -108,7 +109,23 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
     ],
   };
 
-  console.log("chartData=====", chartData);
+  const options = {
+    scales: {
+      x: {
+        beginAtZero: true,
+        scaleLineColor: 'red',
+        grid: {
+          color: 'transparent',
+        },
+      },
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'transparent',
+        },
+      }
+    }
+  }
 
   return (
     <div>
@@ -136,7 +153,7 @@ const Dashboard = ({ activeTab: initialTab = "today" }) => {
         {loading ? (
           <p>로딩 중...</p>
         ) : (
-          <Bar data={graphData} />
+          <Bar data={graphData} options={options}/>
         )}
       </div>
     </div>

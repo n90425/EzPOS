@@ -123,10 +123,7 @@ public class PayService {
     	//주문상태 변경
     	orderPayComplete(request.getOrderNo());
 
-        /* 하루의 매출및 주문수를 OrderSequance에 update 하기위한 코드 */
-        Optional<OrderSequence> optional = orderSequenceService.getOrderSequenceToday();
-        /* 값이존재하면 updateSalesToday 메서드를 실행 */
-        optional.ifPresent(orderSequenceService::updateSalesToday);
+
     	return result;	//Toss응답 결과 리턴
     }
     
@@ -186,6 +183,11 @@ public class PayService {
         }
         order.disconnectTable();
         orderRepository.save(order);
+
+        /* 하루의 매출및 주문수를 OrderSequance에 update 하기위한 코드 */
+        Optional<OrderSequence> optional = orderSequenceService.getOrderSequenceToday();
+        /* 값이존재하면 updateSalesToday 메서드를 실행 */
+        optional.ifPresent(orderSequenceService::updateSalesToday);
     }
 
     // 결제 내역 조회

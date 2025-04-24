@@ -115,14 +115,16 @@ public class OrderController {
 
     /* 주문 삭제 */
     @PostMapping("/order/delete/{tableNo}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Integer tableNo){
+    public boolean deleteOrder(@PathVariable Integer tableNo){
         try {
-            boolean isDeleted = orderService.delOrder(tableNo);
-            return ResponseEntity.ok(isDeleted);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            Optional<Order> order = orderService.getOrder(tableNo);
+            if(order.isEmpty()){
+                return false;
+            }
+            return orderService.delOrder(tableNo);
+        } catch (Exception e) {
+            return false;
         }
     }
-
 
 }

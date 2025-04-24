@@ -26,7 +26,7 @@ const OrderDetail = ({ orderNo, menus, tableNo, fetchOrder }) => {
     // 주문번호가 변경되면 주문상세 데이터 가져오기
     useEffect(() => {
         const loadData = async () => {
-            if(!tableNo || !orderNo) return;
+            if(!tableNo) return;
             try {
                 await fetchOrder(tableNo); // 테이블 데이터 가져오기
                 await fetchOrderDetails(orderNo); // 주문 상세 데이터 가져오기

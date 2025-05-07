@@ -267,6 +267,8 @@ public class DiningService {
                 newDetail.setMenuId(sourceDetail.getMenuId());
                 newDetail.setQuantity(sourceDetail.getQuantity());
                 newDetail.setUnitPrice(sourceDetail.getUnitPrice());
+                newDetail.setMenuName(sourceDetail.getMenuName());
+                newDetail.setStatus(sourceDetail.getStatus());
                 newDetail.setOrder(targetOrder);
                 /* orderAddNo의 최대값을 가져온다 */
                 int maxOrdAddNo = orderDetailRepo.findMaxOrdAddByOrderNo(targetOrder.getOrderNo()).orElse(0);

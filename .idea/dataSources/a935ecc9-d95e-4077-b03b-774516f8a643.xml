@@ -129,7 +129,7 @@
 |root||rdsadmin|localhost|grant option|G
 performance_schema|schema||mysql.session|localhost|SELECT|G
 sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
-      <ServerVersion>8.0.39</ServerVersion>
+      <ServerVersion>8.0.40</ServerVersion>
     </root>
     <collation id="2" parent="1" name="armscii8_general_ci">
       <Charset>armscii8</Charset>
@@ -1044,7 +1044,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="292" parent="1" name="possystem">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2025-03-28.07:38:28</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-05-07.05:58:30</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="293" parent="1" name="admin">
@@ -1216,7 +1216,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="330" parent="302" name="menuId">
-      <AutoIncrement>181</AutoIncrement>
+      <AutoIncrement>213</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1367,7 +1367,7 @@ menuId</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="362" parent="305" name="ordDetailNo">
-      <AutoIncrement>5909</AutoIncrement>
+      <AutoIncrement>6239</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1381,213 +1381,222 @@ menuId</ColNames>
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="365" parent="305" name="ordAddNo">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
+    <column id="365" parent="305" name="menuName">
+      <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="366" parent="305" name="unitPrice">
+    <column id="366" parent="305" name="ordAddNo">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="367" parent="305" name="quantity">
+    <column id="367" parent="305" name="unitPrice">
       <DasType>int|0s</DasType>
-      <DefaultExpression>1</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="368" parent="305" name="totalAmount">
+    <column id="368" parent="305" name="quantity">
+      <DasType>int|0s</DasType>
+      <DefaultExpression>1</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+    </column>
+    <column id="369" parent="305" name="totalAmount">
       <ColumnKind>generated-stored</ColumnKind>
       <DasType>int|0s</DasType>
       <DefaultExpression>(`unitPrice` * `quantity`)</DefaultExpression>
-      <Position>7</Position>
+      <Position>8</Position>
     </column>
-    <column id="369" parent="305" name="itemOrderTime">
+    <column id="370" parent="305" name="itemOrderTime">
       <DasType>datetime|0s</DasType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
-      <Position>8</Position>
+      <Position>9</Position>
     </column>
-    <foreign-key id="370" parent="305" name="fk_orderNo">
+    <column id="371" parent="305" name="status">
+      <DasType>varchar(20)|0s</DasType>
+      <DefaultExpression>&apos;NORMAL&apos;</DefaultExpression>
+      <Position>10</Position>
+    </column>
+    <foreign-key id="372" parent="305" name="fk_orderNo">
       <ColNames>orderNo</ColNames>
       <RefColNames>orderNo</RefColNames>
       <RefTableName>order</RefTableName>
     </foreign-key>
-    <foreign-key id="371" parent="305" name="fk_order_detail_menu_id">
+    <foreign-key id="373" parent="305" name="fk_order_detail_menu_id">
       <ColNames>menuId</ColNames>
       <OnDelete>set-null</OnDelete>
       <RefColNames>menuId</RefColNames>
       <RefTableName>menu</RefTableName>
     </foreign-key>
-    <index id="372" parent="305" name="ord_detail_no">
+    <index id="374" parent="305" name="ord_detail_no">
       <ColNames>ordDetailNo
 orderNo</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="373" parent="305" name="PRIMARY">
+    <index id="375" parent="305" name="PRIMARY">
       <ColNames>ordDetailNo</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="374" parent="305" name="fk_order_no">
+    <index id="376" parent="305" name="fk_order_no">
       <ColNames>orderNo</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="375" parent="305" name="fk_order_detail_menuId">
+    <index id="377" parent="305" name="fk_order_detail_menuId">
       <ColNames>menuId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="376" parent="305" name="PRIMARY">
+    <key id="378" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="377" parent="305" name="ord_detail_no">
+    <key id="379" parent="305" name="ord_detail_no">
       <UnderlyingIndexName>ord_detail_no</UnderlyingIndexName>
     </key>
-    <column id="378" parent="306" name="openDate">
+    <column id="380" parent="306" name="openDate">
       <DasType>timestamp|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="379" parent="306" name="isOpen">
+    <column id="381" parent="306" name="isOpen">
       <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="380" parent="306" name="totalOrders">
+    <column id="382" parent="306" name="totalOrders">
       <DasType>int|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <Position>3</Position>
     </column>
-    <column id="381" parent="306" name="totalSales">
+    <column id="383" parent="306" name="totalSales">
       <DasType>int|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <Position>4</Position>
     </column>
-    <index id="382" parent="306" name="PRIMARY">
+    <index id="384" parent="306" name="PRIMARY">
       <ColNames>openDate</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="383" parent="306" name="PRIMARY">
+    <key id="385" parent="306" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="384" parent="307" name="payNo">
+    <column id="386" parent="307" name="payNo">
       <DasType>binary(16)|0s</DasType>
       <DefaultExpression>(uuid_to_bin(uuid()))</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="385" parent="307" name="paySeqnum">
+    <column id="387" parent="307" name="paySeqnum">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="386" parent="307" name="orderNo">
+    <column id="388" parent="307" name="orderNo">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="387" parent="307" name="odPayAmt">
+    <column id="389" parent="307" name="odPayAmt">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="388" parent="307" name="payStatCd">
+    <column id="390" parent="307" name="payStatCd">
       <DasType>varchar(20)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="389" parent="307" name="payDt">
+    <column id="391" parent="307" name="payDt">
       <DasType>datetime|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="390" parent="307" name="payMethCd">
+    <column id="392" parent="307" name="payMethCd">
       <DasType>varchar(10)|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="391" parent="307" name="payAprvCd">
+    <column id="393" parent="307" name="payAprvCd">
       <DasType>varchar(20)|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="392" parent="307" name="payAprvNum">
+    <column id="394" parent="307" name="payAprvNum">
       <DasType>varchar(10)|0s</DasType>
       <Position>9</Position>
     </column>
-    <column id="393" parent="307" name="payAprvDt">
+    <column id="395" parent="307" name="payAprvDt">
       <DasType>datetime|0s</DasType>
       <Position>10</Position>
     </column>
-    <column id="394" parent="307" name="payRespCd">
+    <column id="396" parent="307" name="payRespCd">
       <DasType>varchar(10)|0s</DasType>
       <Position>11</Position>
     </column>
-    <column id="395" parent="307" name="payCancAmt">
+    <column id="397" parent="307" name="payCancAmt">
       <DasType>int|0s</DasType>
       <Position>12</Position>
     </column>
-    <column id="396" parent="307" name="payCancDt">
+    <column id="398" parent="307" name="payCancDt">
       <DasType>datetime|0s</DasType>
       <Position>13</Position>
     </column>
-    <column id="397" parent="307" name="transType">
+    <column id="399" parent="307" name="transType">
       <DasType>varchar(20)|0s</DasType>
       <Position>14</Position>
     </column>
-    <column id="398" parent="307" name="cardCo">
+    <column id="400" parent="307" name="cardCo">
       <DasType>varchar(20)|0s</DasType>
       <Position>15</Position>
     </column>
-    <column id="399" parent="307" name="mthInstlmt">
+    <column id="401" parent="307" name="mthInstlmt">
       <DasType>int|0s</DasType>
       <Position>16</Position>
     </column>
-    <column id="400" parent="307" name="cardNum">
+    <column id="402" parent="307" name="cardNum">
       <DasType>varchar(20)|0s</DasType>
       <Position>17</Position>
     </column>
-    <column id="401" parent="307" name="bankName">
+    <column id="403" parent="307" name="bankName">
       <DasType>varchar(20)|0s</DasType>
       <Position>18</Position>
     </column>
-    <column id="402" parent="307" name="cash_receipt_number">
+    <column id="404" parent="307" name="cash_receipt_number">
       <Comment>현금영수증 번호</Comment>
       <DasType>varchar(20)|0s</DasType>
       <Position>19</Position>
     </column>
-    <column id="403" parent="307" name="cash_receipt_type">
+    <column id="405" parent="307" name="cash_receipt_type">
       <Comment>현금영수증 유형</Comment>
       <DasType>enum(&apos;PHONE&apos;, &apos;BUSINESS&apos;)|0e</DasType>
       <Position>20</Position>
     </column>
-    <column id="404" parent="307" name="cash_receipt_status">
+    <column id="406" parent="307" name="cash_receipt_status">
       <Comment>현금영수증 상태</Comment>
       <DasType>enum(&apos;APPLIED&apos;, &apos;NOT_APPLIED&apos;)|0e</DasType>
       <DefaultExpression>&apos;NOT_APPLIED&apos;</DefaultExpression>
       <Position>21</Position>
     </column>
-    <foreign-key id="405" parent="307" name="fk_order_no_pay">
+    <foreign-key id="407" parent="307" name="fk_order_no_pay">
       <ColNames>orderNo</ColNames>
       <RefColNames>orderNo</RefColNames>
       <RefTableName>order</RefTableName>
     </foreign-key>
-    <index id="406" parent="307" name="PRIMARY">
+    <index id="408" parent="307" name="PRIMARY">
       <ColNames>payNo
 paySeqnum</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="407" parent="307" name="fk_order_no_pay">
+    <index id="409" parent="307" name="fk_order_no_pay">
       <ColNames>orderNo</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="408" parent="307" name="PRIMARY">
+    <key id="410" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

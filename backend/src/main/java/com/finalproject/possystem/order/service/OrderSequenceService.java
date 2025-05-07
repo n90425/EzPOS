@@ -163,7 +163,7 @@ public class OrderSequenceService {
 	            end = localDate;
 	        }
     	}
-    	
+
     	LocalDateTime startDate = start.atStartOfDay();
     	LocalDateTime endDate = end.plusDays(1).atStartOfDay();
 
@@ -186,7 +186,6 @@ public class OrderSequenceService {
         OrderSequenceResponseDto responseDto = OrderSequenceResponseDto.from(baseSequence);
         responseDto.updateWeeklySales(sequences, dateType, start, end); // 시작~끝 범위 함께 넘김
         return responseDto;
-        
     }
     
     

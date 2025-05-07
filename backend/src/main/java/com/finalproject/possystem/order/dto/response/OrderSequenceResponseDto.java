@@ -4,6 +4,9 @@ import com.finalproject.possystem.order.dto.DateType;
 import com.finalproject.possystem.order.entity.OrderSequence;
 import java.util.ArrayList;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.cglib.core.Local;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -13,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Setter
 @Getter
 public class OrderSequenceResponseDto {
     
@@ -33,7 +37,6 @@ public class OrderSequenceResponseDto {
     
     //단일 날짜
     private LocalDate date;
-    
     
     //생성자
     public OrderSequenceResponseDto(Date openDate, Boolean isOpen, Integer totalOrders, Integer totalSales) {

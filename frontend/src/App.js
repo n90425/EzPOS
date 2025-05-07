@@ -14,7 +14,7 @@ import Header from './components/Header.js';
 import Payment from "./components/Pay/PaymentPage.js";
 import PaymentHistory from "./components/Pay/PaymentHistory"; // 결제 내역 페이지
 import TossPayResult from './components/Pay/TossPayResult.js';
-
+import KitchenSocket from './components/Kitchen/KitchenSocket.js';
 
 function App() {
   return (
@@ -33,6 +33,7 @@ function App() {
               <Route path="/payment-history" element={<PaymentHistory/>}/> {/* 판매 내역 */}
               <Route path="/pay" element={<Payment/>}/> {/* 결제 */}
               <Route path="/success" element={<TossPayResult/>}/> {/* 결제 */}
+              <Route path="/kitchen" element={<KitchenSocket/>}/>{/* 주방 */}
             </Routes>
         </Router>
       </TableProvider>

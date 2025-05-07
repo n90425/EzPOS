@@ -45,11 +45,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     /* 특정날짜 이후조회 + 상태코드 (PAID, UNPAID)조회 */
     List<Order> findAllByOrderTimeAfterAndOrderPayStatus(LocalDateTime startDate, String status);
 
-
-
-
-    /* orderPayStatus 수정 */
-
     /* 선택주문 삭제 */
     int deleteByOrderNo(String orderNo);
 
@@ -59,5 +54,9 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     @Query(value = "SELECT * FROM `order` WHERE tableNo = :tableNo AND orderPayStatus='UNPAID' ORDER BY orderTime DESC LIMIT 1", nativeQuery = true)
     Optional<Order> findByTableNo(Integer tableNo);
 
-
+    /*  */
+    @Query("SELECT o FROM Order o " +
+            "JOIN FETCH o.orderDetails d " +
+            "WHERE o.orderNo = :orderNo")
+    Optional<Order> findByOrderNoWithDetails(@Param("orderNo") String orderNo);
 }

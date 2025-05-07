@@ -1,5 +1,6 @@
 package com.finalproject.possystem.order.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.possystem.menu.entity.Menu;
 import com.finalproject.possystem.menu.repository.MenuRepository;
 import com.finalproject.possystem.order.entity.Order;
@@ -7,10 +8,15 @@ import com.finalproject.possystem.order.entity.OrderDetail;
 import com.finalproject.possystem.order.repository.OrderDetailRepository;
 import com.finalproject.possystem.order.repository.OrderRepository;
 import com.finalproject.possystem.table.entity.Dining;
+import com.finalproject.possystem.websocket.KitchenWebSocketHandler;
+import com.finalproject.possystem.websocket.dto.KitchenOrderDto;
+import com.finalproject.possystem.websocket.dto.KitchenOrderItemDto;
+import com.finalproject.possystem.websocket.dto.OrderDetailStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +30,8 @@ public class OrderDetailService {
     private MenuRepository menuRepo;
     @Autowired
     private OrderRepository orderRepo;
+    @Autowired
+    private KitchenWebSocketHandler kitchenWebSocketHandler;
 
     /* 주문상세 삭제 */
     @Transactional
@@ -43,6 +51,12 @@ public class OrderDetailService {
             detail.setOrderNo(orderNo);
             addItemToOrder(detail);
         }
+
+        /* 주문객체를 다시 조회 */
+        Order updatedOrder = orderRepo.findByOrderNoWithDetails(orderNo)
+                .orElseThrow(() -> new RuntimeException("주문조회실패"));
+        /* 주방에 전송 */
+        notifyKitchen(updatedOrder);
     }
 
     /* orderDetail orderAddNo 추가주문 값증가, 총금액계산 생성 */
@@ -80,11 +94,15 @@ public class OrderDetailService {
             orderDetail.setQuantity(1);
         }
 
-        /* 메뉴id로 단가 가져오기 */
-        Integer unitPrice = menuRepo.findById(orderDetail.getMenuId())
-                .map(Menu::getMenuPrice)
+        /* 메뉴가져오기 */
+        Menu menu = menuRepo.findById(orderDetail.getMenuId())
                 .orElseThrow(()-> new IllegalArgumentException("유효하지않은 메뉴입니다"));
-        orderDetail.setUnitPrice(unitPrice);
+        orderDetail.setUnitPrice(menu.getMenuPrice());
+        orderDetail.setMenuName(menu.getMenuName());
+
+        if(orderDetail.getStatus()==null){
+            orderDetail.setStatus(OrderDetailStatus.NORMAL);
+        }
 
         // Order 설정
         orderDetail.setOrder(order);
@@ -93,6 +111,8 @@ public class OrderDetailService {
         OrderDetail saveDetail = orderDetailRepo.save(orderDetail);
         /* Order 테이블 업데이트 */
         updateOrder(orderDetail.getOrderNo());
+
+
         return saveDetail;
     }
 
@@ -146,6 +166,27 @@ public class OrderDetailService {
             map.put("totalAmount", orderDetail.getTotalAmount());
             return map;
         }).collect(Collectors.toList());
+    }
+
+    /* 주문을받아 주방으로 websocket 전송 */
+    public void notifyKitchen(Order order){
+        /* order 객체의 주문상세안의 메뉴명, 수량, 상태를 리스트로 변환 */
+        List<KitchenOrderItemDto> items = order.getOrderDetails().stream()
+                .map(d -> new KitchenOrderItemDto(d.getMenuName(), d.getQuantity(), d.getStatus()))
+                .toList();
+
+        /* 위 만든 데이터를 가지고 주방으로 보낼 DTO 객체를 생성 */
+        KitchenOrderDto dto = new KitchenOrderDto(order.getOrderNo(), order.getTableNo(), items);
+        try {
+            /* DTO -> JSON 문자열로 직렬화 */
+            /* websocket 메시지는 문자열이여야하니까 직렬화가 필요 */
+            String json = new ObjectMapper().writeValueAsString(dto);
+            System.out.println("WebSocket 전송 JSON: " + json);
+            /* websocket 세션에 JSON 메시지 전송 */
+            kitchenWebSocketHandler.sendMessageToAll(json);
+        } catch(IOException e){
+            throw new RuntimeException("주방알림전송실패", e);
+        }
     }
 
 

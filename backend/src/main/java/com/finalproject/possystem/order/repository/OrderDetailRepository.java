@@ -41,6 +41,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
                           @Param("tableNo") Integer tableNo);
 
     List<OrderDetail> findByOrderNo(String orderNo);
+
     
 //    List<OrderDetail> findTop3ByOrderNoOrderByOrdDetailNoAsc(String orderNo);	//주문한 메뉴 3개만 찾음
 

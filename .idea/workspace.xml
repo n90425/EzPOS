@@ -6,18 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="09de82bd-27d9-4fe3-8703-620fa7eebeed" name="변경" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a935ecc9-d95e-4077-b03b-774516f8a643.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a935ecc9-d95e-4077-b03b-774516f8a643.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/config/QueryDslConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/config/QueryDslConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/dto/response/OrderSequenceResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/dto/response/OrderSequenceResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/entity/OrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/entity/OrderDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/entity/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderDetailRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderDetailRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/repository/OrderRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderSequenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/order/service/OrderSequenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/table/service/DiningService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/finalproject/possystem/table/service/DiningService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useOrder.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,56 +80,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.CategoryRepositoryTest.countTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CategoryRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CategoryRepositoryTest.testCategoryInsert.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.countTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.deleteTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.insertTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.readTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrderRepositoryTest.selectTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.POS-System [test].executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.PosSystemApplication.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rlaek/OneDrive/문서/pos_system/.github&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.CategoryRepositoryTest.countTest.executor": "Run",
+    "JUnit.CategoryRepositoryTest.executor": "Run",
+    "JUnit.CategoryRepositoryTest.testCategoryInsert.executor": "Run",
+    "JUnit.OrderRepositoryTest.countTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.deleteTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.insertTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.readTest.executor": "Run",
+    "JUnit.OrderRepositoryTest.selectTest.executor": "Run",
+    "Maven.POS-System [clean].executor": "Run",
+    "Maven.POS-System [compile].executor": "Run",
+    "Maven.POS-System [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "Maven.POS-System [test].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.PosSystemApplication.executor": "Run",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/rlaek/OneDrive/문서/pos_system_update",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Java",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.finalproject.possystem.websocket.dto" />
@@ -400,7 +393,30 @@
       <workItem from="1745563703409" duration="8387000" />
       <workItem from="1745916102813" duration="843000" />
       <workItem from="1745993827316" duration="7149000" />
-      <workItem from="1746595398757" duration="12849000" />
+      <workItem from="1746595398757" duration="15800000" />
+      <workItem from="1746688595133" duration="596000" />
+      <workItem from="1746770023813" duration="596000" />
+      <workItem from="1747200408650" duration="362000" />
+      <workItem from="1749107555066" duration="604000" />
+      <workItem from="1749536339417" duration="3801000" />
+      <workItem from="1749625498781" duration="5843000" />
+      <workItem from="1749705134055" duration="5218000" />
+      <workItem from="1749718566662" duration="748000" />
+      <workItem from="1750056540650" duration="1268000" />
+      <workItem from="1750233920701" duration="4882000" />
+      <workItem from="1750661759141" duration="3177000" />
+      <workItem from="1750745156114" duration="6038000" />
+      <workItem from="1750919711312" duration="7763000" />
+      <workItem from="1751005084410" duration="703000" />
+      <workItem from="1751120909939" duration="1396000" />
+      <workItem from="1751264786815" duration="4091000" />
+      <workItem from="1751275351560" duration="1197000" />
+      <workItem from="1751354512792" duration="1990000" />
+      <workItem from="1751953455079" duration="3000000" />
+      <workItem from="1752044535907" duration="6777000" />
+      <workItem from="1752501414018" duration="792000" />
+      <workItem from="1754221036395" duration="726000" />
+      <workItem from="1756020445805" duration="672000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

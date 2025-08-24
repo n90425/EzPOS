@@ -136,10 +136,12 @@ public class OrderDetailService {
 
         if(totalAmount==null)
             totalAmount=0.0;
+
         Double netAmount = totalAmount/1.1;
         Double vat = totalAmount - netAmount;
 
-        Order ord = orderRepo.findById(orderNo).orElseThrow(()-> new RuntimeException("주문을 찾을수 없습니다"));
+        Order ord = orderRepo.findById(orderNo)
+                .orElseThrow(()-> new RuntimeException("주문을 찾을수 없습니다"));
 
 
         ord.setOrderAmount(netAmount);

@@ -22,7 +22,8 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     Optional<Integer> findMaxOrdAddByOrderNo(@Param("orderNo") String orderNo);
 
     /* orderAmount 주문합산 계산 */
-    @Query("SELECT SUM(d.totalAmount) FROM OrderDetail d WHERE d.orderNo=:orderNo")
+    @Query("SELECT SUM(d.totalAmount) FROM OrderDetail d " +
+            "WHERE d.orderNo=:orderNo AND d.status <> com.finalproject.possystem.websocket.dto.OrderDetailStatus.CANCEL")
     Double calTotalAmount(@Param("orderNo") String orderNo);
 
     /* orderNo가 일치하는 menuID를 조인하고 OrderDetail객체 전체와 menuname을 가져온다 */

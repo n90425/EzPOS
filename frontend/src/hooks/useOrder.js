@@ -73,7 +73,7 @@ const useOrder = () => {
         try {
             const res = await axios.post(`${BASE_URL}/order/delete/${tableNo}`);
             if(res.status===200){
-                navigate("/dining", { state: { refreshTables: true } });
+                navigate("/dining", { state: { refreshTables: true, tableNo: tableNo } });
             }
         } catch(error){
             if(error.response?.status ===400){
